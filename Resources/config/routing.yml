@@ -1,0 +1,4 @@
+con4gis_api_export:
+    path:     /api/runexport/{id}
+    defaults: { _controller: Con4gisExportBundle:Api:runExport }
+    methods:  [GET]

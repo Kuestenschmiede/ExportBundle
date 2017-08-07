@@ -1,0 +1,64 @@
+##
+# Services
+##
+services:
+
+
+    # RunExport
+    con4gis_export.onExportRunLoadData:
+        class: con4gis\exportBundle\classes\listener\ExportRunListener
+        tags:
+            - { name: kernel.event_listener, event: con4gis.export.run, method: onExportRunLoadData }
+
+    con4gis_export.onExportRunConvertData:
+        class: con4gis\exportBundle\classes\listener\ExportRunListener
+        tags:
+            - { name: kernel.event_listener, event: con4gis.export.run, method: onExportRunConvertData }
+
+    con4gis_export.onExportRunSaveData:
+        class: con4gis\exportBundle\classes\listener\ExportRunListener
+        tags:
+            - { name: kernel.event_listener, event: con4gis.export.run, method: onExportRunSaveData }
+
+    con4gis_export.onExportRunMailData:
+        class: con4gis\exportBundle\classes\listener\ExportRunListener
+        tags:
+            - { name: kernel.event_listener, event: con4gis.export.run, method: onExportRunMailData }
+
+
+    # Load Data
+    con4gis_export.onExportLoadGenFieldlist:
+        class: con4gis\exportBundle\classes\listener\ExportLoadDataListener
+        tags:
+            - { name: kernel.event_listener, event: con4gis.export.load.data, method: onExportLoadGenFieldlist }
+
+    con4gis_export.onExportLoadGenQuery:
+        class: con4gis\exportBundle\classes\listener\ExportLoadDataListener
+        tags:
+            - { name: kernel.event_listener, event: con4gis.export.load.data, method: onExportLoadGenQuery }
+
+    con4gis_export.onExportLoadExecuteQuery:
+        class: con4gis\exportBundle\classes\listener\ExportLoadDataListener
+        tags:
+            - { name: kernel.event_listener, event: con4gis.export.load.data, method: onExportLoadExecuteQuery }
+
+
+    # Convert Data
+    con4gis_export.onExportConvertGenCsv:
+        class: con4gis\exportBundle\classes\listener\ExportConvertDataListener
+        tags:
+            - { name: kernel.event_listener, event: con4gis.export.convert.data, method: onExportConvertGenCsv }
+
+
+    # Save Data
+    con4gis_export.onExportSaveData:
+        class: con4gis\exportBundle\classes\listener\ExportSaveDataListener
+        tags:
+            - { name: kernel.event_listener, event: con4gis.export.save.data, method: onExportSaveData }
+
+
+    # Mail Data
+    con4gis_export.onExportMailSendData:
+        class: con4gis\exportBundle\classes\listener\ExportMailDataListener
+        tags:
+            - { name: kernel.event_listener, event: con4gis.export.mail.data, method: onExportMailSendData }

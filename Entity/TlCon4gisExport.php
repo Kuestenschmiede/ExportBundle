@@ -6,17 +6,17 @@
  * @copyright Küstenschmiede GmbH Software & Design 2016 - 2017.
  * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\exportBundle\Entity;
+namespace con4gis\ExportBundle\Entity;
 
 use \Doctrine\ORM\Mapping as ORM;
-use con4gis\coreBundle\Entity\BaseEntity;
+use con4gis\CoreBundle\Entity\BaseEntity;
 
 /**
  * Class TlCon4gisExport
  *
  * @ORM\Entity
  * @ORM\Table(name="tl_con4gis_export")
- * @package con4gis\exportBundle\Entity
+ * @package con4gis\ExportBundle\Entity
  */
 class TlCon4gisExport extends BaseEntity
 {

@@ -7,17 +7,18 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\exportBundle\classes\contao\modules;
+namespace con4gis\ExportBundle\Classes\Contao\Modules;
 
-use con4gis\exportBundle\classes\events\ExportRunEvent;
+use con4gis\ExportBundle\Classes\Events\ExportRunEvent;
 use Contao\BackendTemplate;
 use Contao\Config;
 use Contao\FilesModel;
+use Contao\InsertTags;
 use Contao\System;
 
 /**
  * Class ModulExport
- * @package con4gis\exportBundle\classes\contao\modules
+ * @package con4gis\ExportBundle\Classes\Contao\Modules
  */
 class ModulExport
 {
@@ -143,7 +144,7 @@ class ModulExport
      */
     protected function getSettings()
     {
-        $respositoryName    = '\con4gis\exportBundle\Entity\TlCon4gisExport';
+        $respositoryName    = '\con4gis\ExportBundle\Entity\TlCon4gisExport';
         $respository        = $this->entityManager->getRepository($respositoryName);
         $exportSettings     = $respository->find($this->exportId);
         return $exportSettings;
@@ -171,7 +172,7 @@ class ModulExport
      */
     protected function parseFilename($exportSettings)
     {
-        $insertTag  = new \Contao\InsertTags();
+        $insertTag  = new InsertTags();
         $pattern    = $GLOBALS['con4gis']['export']['filename'];
         $pattern    = str_replace('{{export::title}}', $exportSettings->getTitle(), $pattern);
         $pattern    = str_replace('{{time}}', date('H.i'), $pattern);

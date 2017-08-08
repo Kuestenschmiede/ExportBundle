@@ -9,13 +9,14 @@
  * @copyright   e@sy Solutions IT 2017
  * @license     EULA
  */
-namespace con4gis\exportBundle\classes\contao\callbacks;
+namespace con4gis\ExportBundle\Classes\Contao\Callbacks;
 
+use Contao\Controller;
 use Contao\Image;
 
 /**
  * Class TlCon4gisExport
- * @package con4gis\exportBundle\classes\contao\callbacks
+ * @package con4gis\ExportBundle\Classes\Contao\Callbacks
  */
 class TlCon4gisExport
 {
@@ -52,7 +53,7 @@ class TlCon4gisExport
     ) {
 
         if ($this->testExport($arrRow)) {
-            $link   = '<a href="' . \Contao\Controller::addToUrl($href) . '&id=' . $arrRow['id'];
+            $link   = '<a href="' . Controller::addToUrl($href) . '&id=' . $arrRow['id'];
             $link  .= '" title="' . specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label);
             $link  .= '</a> ';
         } else {

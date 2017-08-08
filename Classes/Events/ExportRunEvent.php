@@ -7,22 +7,22 @@
  * @copyright Küstenschmiede GmbH Software & Design 2016 - 2017.
  * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\exportBundle\classes\events;
+namespace con4gis\ExportBundle\Classes\Events;
 
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class ExportMailDataEvent
- * @package con4gis\exportBundle\classes\events
+ * Class ExportRunEvent
+ * @package con4gis\ExportBundle\Classes\Events
  */
-class ExportMailDataEvent extends Event
+class ExportRunEvent extends Event
 {
 
 
     /**
      * Name des Events
      */
-    const NAME = 'con4gis.export.mail.data';
+    const NAME = 'con4gis.export.run';
 
 
     /**
@@ -61,7 +61,14 @@ class ExportMailDataEvent extends Event
 
 
     /**
-     * Ergebnis der Konvertierung.
+     * Ergebissarray der Db-Abfarge.
+     * @var array
+     */
+    protected $result = array();
+
+
+    /**
+     * Umwndlungsergebnis (CSV-String)
      * @var string
      */
     protected $returnstring = '';
@@ -175,6 +182,24 @@ class ExportMailDataEvent extends Event
     public function setCharset(string $charset)
     {
         $this->charset = $charset;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getResult(): array
+    {
+        return $this->result;
+    }
+
+
+    /**
+     * @param array $result
+     */
+    public function setResult(array $result)
+    {
+        $this->result = $result;
     }
 
 

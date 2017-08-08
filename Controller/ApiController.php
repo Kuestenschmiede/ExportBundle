@@ -7,15 +7,15 @@
  * @copyright Küstenschmiede GmbH Software & Design 2016 - 2017.
  * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\exportBundle\Controller;
+namespace con4gis\ExportBundle\Controller;
 
-use con4gis\exportBundle\classes\contao\modules\ModulExport;
+use con4gis\ExportBundle\Classes\Contao\Modules\ModulExport;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class ApiController
- * @package con4gis\exportBundle\Controller
+ * @package con4gis\ExportBundle\Controller
  */
 class ApiController extends Controller
 {

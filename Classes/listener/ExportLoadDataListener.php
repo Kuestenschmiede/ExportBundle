@@ -7,15 +7,15 @@
  * @copyright Küstenschmiede GmbH Software & Design 2016 - 2017.
  * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\exportBundle\classes\listener;
+namespace con4gis\ExportBundle\Classes\Listener;
 
 use Contao\Database;
-use con4gis\exportBundle\classes\events\ExportLoadDataEvent;
+use con4gis\ExportBundle\Classes\Events\ExportLoadDataEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class ExportLoadDataListener
- * @package con4gis\exportBundle\classes\listener
+ * @package con4gis\ExportBundle\Classes\Listener
  */
 class ExportLoadDataListener
 {

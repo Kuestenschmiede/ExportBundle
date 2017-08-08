@@ -111,8 +111,8 @@ $GLOBALS['TL_DCA'][$strName] = array
             (
                 'label'               => &$GLOBALS['TL_LANG'][$strName]['runexport'],
                 'href'                => 'key=runexport',
-                'icon'                => 'web/bundles/con4gisexport/eden/export.png',
-                'button_callback'     => array('\con4gis\exportBundle\classes\contao\callbacks\TlCon4gisExport', 'cbGenerateButton'),
+                'icon'                => 'web/bundles/con4gisexport/export.png',
+                'button_callback'     => array('\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbGenerateButton'),
                 'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['ExportConfirm'] . '\'))return false;Backend.getScrollOffset()"'
             )
 		)
@@ -168,7 +168,7 @@ $GLOBALS['TL_DCA'][$strName] = array
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['srctable'],
             'exclude'                 => true,
             'inputType'               => 'select',
-            'options_callback'        => array('\con4gis\coreBundle\classes\helper\DcaHelper', 'cbGetTables'),
+            'options_callback'        => array('\con4gis\CoreBundle\Classes\Helper\DcaHelper', 'cbGetTables'),
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'submitOnChange'=>true, 'includeBlankOption'=>true, 'chosen'=>true),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
@@ -185,7 +185,7 @@ $GLOBALS['TL_DCA'][$strName] = array
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['srcfields'],
             'exclude'                 => true,
             'inputType'               => 'checkboxWizard',
-            'options_callback'        => array('\con4gis\coreBundle\classes\helper\DcaHelper', 'cbGetFields'),
+            'options_callback'        => array('\con4gis\CoreBundle\Classes\Helper\DcaHelper', 'cbGetFields'),
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'multiple'=>true),
             'sql'                     => "text NOT NULL"
         ),

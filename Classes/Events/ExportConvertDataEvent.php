@@ -7,13 +7,13 @@
  * @copyright Küstenschmiede GmbH Software & Design 2016 - 2017.
  * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\exportBundle\classes\events;
+namespace con4gis\ExportBundle\Classes\Events;
 
 use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Class ExportConvertDataEvent
- * @package con4gis\exportBundle\classes\events
+ * @package con4gis\ExportBundle\Classes\Events
  */
 class ExportConvertDataEvent extends Event
 {

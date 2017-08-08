@@ -7,22 +7,22 @@
  * @copyright Küstenschmiede GmbH Software & Design 2016 - 2017.
  * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\exportBundle\classes\events;
+namespace con4gis\ExportBundle\Classes\Events;
 
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class ExportLoadDataEvent
- * @package con4gis\exportBundle\classes\events
+ * Class ExportSaveDataEvent
+ * @package con4gis\ExportBundle\Classes\Events
  */
-class ExportLoadDataEvent extends Event
+class ExportSaveDataEvent extends Event
 {
 
 
     /**
      * Name des Events
      */
-    const NAME = 'con4gis.export.load.data';
+    const NAME = 'con4gis.export.save.data';
 
 
     /**
@@ -33,22 +33,31 @@ class ExportLoadDataEvent extends Event
 
 
     /**
-     * Kommagetrennte Liste der Felder
-     * @var string
-     */
-    protected $fieldlist = '';
-
-
-    /**
-     * @var string
-     */
-    protected $query = '';
-
-
-    /**
+     * Language-Array
      * @var array
      */
-    protected $result = array();
+    protected $lang = array();
+
+
+    /**
+     * Ergebnis der Konvertierung.
+     * @var string
+     */
+    protected $returnstring = '';
+
+
+    /**
+     * Name der Verzeichnisses, in dem der Export gespeichert werden soll.
+     * @var string
+     */
+    protected $foldername = '';
+
+
+    /**
+     * Dateiname der Exportdatei
+     * @var string
+     */
+    protected $filename = '';
 
 
     /**
@@ -59,7 +68,7 @@ class ExportLoadDataEvent extends Event
 
 
     /**
-     * @return object
+     * @return null
      */
     public function getSettings()
     {
@@ -68,7 +77,7 @@ class ExportLoadDataEvent extends Event
 
 
     /**
-     * @param object $settings
+     * @param null $settings
      */
     public function setSettings($settings)
     {
@@ -77,56 +86,74 @@ class ExportLoadDataEvent extends Event
 
 
     /**
-     * @return string
-     */
-    public function getFieldlist(): string
-    {
-        return $this->fieldlist;
-    }
-
-
-    /**
-     * @param string $fieldlist
-     */
-    public function setFieldlist(string $fieldlist)
-    {
-        $this->fieldlist = $fieldlist;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getQuery(): string
-    {
-        return $this->query;
-    }
-
-
-    /**
-     * @param string $query
-     */
-    public function setQuery(string $query)
-    {
-        $this->query = $query;
-    }
-
-
-    /**
      * @return array
      */
-    public function getResult(): array
+    public function getLang(): array
     {
-        return $this->result;
+        return $this->lang;
     }
 
 
     /**
-     * @param array $result
+     * @param array $lang
      */
-    public function setResult(array $result)
+    public function setLang(array $lang)
     {
-        $this->result = $result;
+        $this->lang = $lang;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getReturnstring(): string
+    {
+        return $this->returnstring;
+    }
+
+
+    /**
+     * @param string $returnstring
+     */
+    public function setReturnstring(string $returnstring)
+    {
+        $this->returnstring = $returnstring;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFoldername(): string
+    {
+        return $this->foldername;
+    }
+
+
+    /**
+     * @param string $foldername
+     */
+    public function setFoldername(string $foldername)
+    {
+        $this->foldername = $foldername;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFilename(): string
+    {
+        return $this->filename;
+    }
+
+
+    /**
+     * @param string $filename
+     */
+    public function setFilename(string $filename)
+    {
+        $this->filename = $filename;
     }
 
 

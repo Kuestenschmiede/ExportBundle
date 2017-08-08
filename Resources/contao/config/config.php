@@ -57,7 +57,7 @@
 array_insert($GLOBALS['BE_MOD']['con4gis_administration'],9, array(
     'export' => array(
         'tables'        => array('tl_con4gis_export'),
-        'runexport'     => array('\con4gis\exportBundle\classes\contao\modules\ModulExport', 'runExport')
+        'runexport'     => array('\con4gis\ExportBundle\Classes\Contao\Modules\ModulExport', 'runExport')
     )
 ));
 

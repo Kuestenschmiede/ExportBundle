@@ -12,10 +12,10 @@ namespace con4gis\ExportBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class con4GisExportBundle
+ * Class con4gisExportBundle
  * @package con4gis\ExportBundle
  */
-class con4GisExportBundle extends Bundle
+class con4gisExportBundle extends Bundle
 {
 
 }

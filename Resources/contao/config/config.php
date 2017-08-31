@@ -22,10 +22,10 @@
  *
  *
  * con4gis
- * @version   2.0.0
+ * @version   php 7
  * @package   con4gis
  * @author    con4gis authors (see "authors.txt")
- * @copyright Küstenschmiede GmbH Software & Design 2016 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2017
  * @link      https://www.kuestenschmiede.de
  */
 /**
@@ -54,7 +54,7 @@
  * have to be set. Take a look at the system/modules/core/config/config.php
  * file to see how back end modules are configured.
  */
-array_insert($GLOBALS['BE_MOD']['con4gis_bricks'],9, array(
+array_insert($GLOBALS['BE_MOD']['con4gis_bricks'],6, array(
     'export' => array(
         'tables'        => array('tl_con4gis_export'),
         'runexport'     => array('\con4gis\ExportBundle\Classes\Contao\Modules\ModulExport', 'runExport')

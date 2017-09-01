@@ -1,28 +1,28 @@
 <?php
 /**
  * con4gis
- * @version   2.0.0
+ * @version   php 7
  * @package   con4gis
  * @author    con4gis authors (see "authors.txt")
- * @copyright Küstenschmiede GmbH Software & Design 2016 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2017
  * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\exportBundle\classes\events;
+namespace con4gis\ExportBundle\Classes\Events;
 
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class ExportSaveDataEvent
- * @package con4gis\exportBundle\classes\events
+ * Class ExportConvertDataEvent
+ * @package con4gis\ExportBundle\Classes\Events
  */
-class ExportSaveDataEvent extends Event
+class ExportConvertDataEvent extends Event
 {
 
 
     /**
      * Name des Events
      */
-    const NAME = 'con4gis.export.save.data';
+    const NAME = 'con4gis.export.convert.data';
 
 
     /**
@@ -33,10 +33,10 @@ class ExportSaveDataEvent extends Event
 
 
     /**
-     * Language-Array
+     * Ergebniss der Db-Abfrage
      * @var array
      */
-    protected $lang = array();
+    protected $result = array();
 
 
     /**
@@ -47,20 +47,6 @@ class ExportSaveDataEvent extends Event
 
 
     /**
-     * Name der Verzeichnisses, in dem der Export gespeichert werden soll.
-     * @var string
-     */
-    protected $foldername = '';
-
-
-    /**
-     * Dateiname der Exportdatei
-     * @var string
-     */
-    protected $filename = '';
-
-
-    /**
      * Array mit den geladenen Daten.
      * @var array
      */
@@ -68,7 +54,7 @@ class ExportSaveDataEvent extends Event
 
 
     /**
-     * @return null
+     * @return object
      */
     public function getSettings()
     {
@@ -77,7 +63,7 @@ class ExportSaveDataEvent extends Event
 
 
     /**
-     * @param null $settings
+     * @param object $settings
      */
     public function setSettings($settings)
     {
@@ -88,18 +74,18 @@ class ExportSaveDataEvent extends Event
     /**
      * @return array
      */
-    public function getLang(): array
+    public function getResult(): array
     {
-        return $this->lang;
+        return $this->result;
     }
 
 
     /**
-     * @param array $lang
+     * @param array $result
      */
-    public function setLang(array $lang)
+    public function setResult(array $result)
     {
-        $this->lang = $lang;
+        $this->result = $result;
     }
 
 
@@ -118,42 +104,6 @@ class ExportSaveDataEvent extends Event
     public function setReturnstring(string $returnstring)
     {
         $this->returnstring = $returnstring;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getFoldername(): string
-    {
-        return $this->foldername;
-    }
-
-
-    /**
-     * @param string $foldername
-     */
-    public function setFoldername(string $foldername)
-    {
-        $this->foldername = $foldername;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getFilename(): string
-    {
-        return $this->filename;
-    }
-
-
-    /**
-     * @param string $filename
-     */
-    public function setFilename(string $filename)
-    {
-        $this->filename = $filename;
     }
 
 

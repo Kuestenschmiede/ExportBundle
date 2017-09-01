@@ -1,21 +1,20 @@
 <?php
 /**
- * @package     con4gis
- * @filesource  TlCon4gisExport.php
- * @version     1.0.0
- * @since       27.04.17 - 17:53
- * @author      Patrick Froch <info@easySolutionsIT.de>
- * @link        http://easySolutionsIT.de
- * @copyright   e@sy Solutions IT 2017
- * @license     EULA
+ * con4gis
+ * @version   php 7
+ * @package   con4gis
+ * @author    con4gis authors (see "authors.txt")
+ * @copyright Küstenschmiede GmbH Software & Design 2017
+ * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\exportBundle\classes\contao\callbacks;
+namespace con4gis\ExportBundle\Classes\Contao\Callbacks;
 
+use Contao\Controller;
 use Contao\Image;
 
 /**
  * Class TlCon4gisExport
- * @package con4gis\exportBundle\classes\contao\callbacks
+ * @package con4gis\ExportBundle\Classes\Contao\Callbacks
  */
 class TlCon4gisExport
 {
@@ -52,7 +51,7 @@ class TlCon4gisExport
     ) {
 
         if ($this->testExport($arrRow)) {
-            $link   = '<a href="' . \Contao\Controller::addToUrl($href) . '&id=' . $arrRow['id'];
+            $link   = '<a href="' . Controller::addToUrl($href) . '&id=' . $arrRow['id'];
             $link  .= '" title="' . specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label);
             $link  .= '</a> ';
         } else {

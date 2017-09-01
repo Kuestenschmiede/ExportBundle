@@ -1,28 +1,28 @@
 <?php
 /**
  * con4gis
- * @version   2.0.0
+ * @version   php 7
  * @package   con4gis
  * @author    con4gis authors (see "authors.txt")
- * @copyright Küstenschmiede GmbH Software & Design 2016 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2017
  * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\exportBundle\classes\events;
+namespace con4gis\ExportBundle\Classes\Events;
 
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class ExportRunEvent
- * @package con4gis\exportBundle\classes\events
+ * Class ExportSaveDataEvent
+ * @package con4gis\ExportBundle\Classes\Events
  */
-class ExportRunEvent extends Event
+class ExportSaveDataEvent extends Event
 {
 
 
     /**
      * Name des Events
      */
-    const NAME = 'con4gis.export.run';
+    const NAME = 'con4gis.export.save.data';
 
 
     /**
@@ -40,35 +40,7 @@ class ExportRunEvent extends Event
 
 
     /**
-     * Webseitentitel
-     * @var string
-     */
-    protected $websitetile = '';
-
-
-    /**
-     * Absendemailadresse
-     * @var string
-     */
-    protected $adminmail = '';
-
-
-    /**
-     * Charset fur die Mail.
-     * @var string
-     */
-    protected $charset = 'utf8';
-
-
-    /**
-     * Ergebissarray der Db-Abfarge.
-     * @var array
-     */
-    protected $result = array();
-
-
-    /**
-     * Umwndlungsergebnis (CSV-String)
+     * Ergebnis der Konvertierung.
      * @var string
      */
     protected $returnstring = '';
@@ -128,78 +100,6 @@ class ExportRunEvent extends Event
     public function setLang(array $lang)
     {
         $this->lang = $lang;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getWebsitetile(): string
-    {
-        return $this->websitetile;
-    }
-
-
-    /**
-     * @param string $websitetile
-     */
-    public function setWebsitetile(string $websitetile)
-    {
-        $this->websitetile = $websitetile;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getAdminmail(): string
-    {
-        return $this->adminmail;
-    }
-
-
-    /**
-     * @param string $adminmail
-     */
-    public function setAdminmail(string $adminmail)
-    {
-        $this->adminmail = $adminmail;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getCharset(): string
-    {
-        return $this->charset;
-    }
-
-
-    /**
-     * @param string $charset
-     */
-    public function setCharset(string $charset)
-    {
-        $this->charset = $charset;
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getResult(): array
-    {
-        return $this->result;
-    }
-
-
-    /**
-     * @param array $result
-     */
-    public function setResult(array $result)
-    {
-        $this->result = $result;
     }
 
 

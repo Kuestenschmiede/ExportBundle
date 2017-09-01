@@ -1,19 +1,19 @@
 <?php
 /**
  * con4gis
- * @version   2.0.0
+ * @version   php 7
  * @package   con4gis
  * @author    con4gis authors (see "authors.txt")
- * @copyright Küstenschmiede GmbH Software & Design 2016 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2017
  * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\exportBundle\classes\events;
+namespace con4gis\ExportBundle\Classes\Events;
 
 use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Class ExportLoadDataEvent
- * @package con4gis\exportBundle\classes\events
+ * @package con4gis\ExportBundle\Classes\Events
  */
 class ExportLoadDataEvent extends Event
 {

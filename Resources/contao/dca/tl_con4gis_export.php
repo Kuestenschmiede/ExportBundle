@@ -22,10 +22,10 @@
  *
  *
  * con4gis
- * @version   2.0.0
+ * @version   php 7
  * @package   con4gis
  * @author    con4gis authors (see "authors.txt")
- * @copyright Küstenschmiede GmbH Software & Design 2016 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2017
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -111,8 +111,8 @@ $GLOBALS['TL_DCA'][$strName] = array
             (
                 'label'               => &$GLOBALS['TL_LANG'][$strName]['runexport'],
                 'href'                => 'key=runexport',
-                'icon'                => 'web/bundles/con4gisexport/eden/export.png',
-                'button_callback'     => array('\con4gis\exportBundle\classes\contao\callbacks\TlCon4gisExport', 'cbGenerateButton'),
+                'icon'                => 'web/bundles/con4gisexport/export.png',
+                'button_callback'     => array('\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbGenerateButton'),
                 'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['ExportConfirm'] . '\'))return false;Backend.getScrollOffset()"'
             )
 		)
@@ -158,6 +158,7 @@ $GLOBALS['TL_DCA'][$strName] = array
         'title' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['title'],
+            'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50', 'rgxp'=>'alnum', 'nospace'=>true, 'spaceToUnderscore'=>true),
@@ -166,15 +167,17 @@ $GLOBALS['TL_DCA'][$strName] = array
         'srctable' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['srctable'],
+            'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'select',
-            'options_callback'        => array('\con4gis\coreBundle\classes\helper\DcaHelper', 'cbGetTables'),
+            'options_callback'        => array('\con4gis\CoreBundle\Classes\Helper\DcaHelper', 'cbGetTables'),
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'submitOnChange'=>true, 'includeBlankOption'=>true, 'chosen'=>true),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'exportheadlines' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['exportheadlines'],
+            'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr m12'),
@@ -183,15 +186,17 @@ $GLOBALS['TL_DCA'][$strName] = array
         'srcfields' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['srcfields'],
+            'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'checkboxWizard',
-            'options_callback'        => array('\con4gis\coreBundle\classes\helper\DcaHelper', 'cbGetFields'),
+            'options_callback'        => array('\con4gis\CoreBundle\Classes\Helper\DcaHelper', 'cbGetFields'),
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'multiple'=>true),
             'sql'                     => "text NOT NULL"
         ),
         'sendpermail' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['sendpermail'],
+            'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr m12', 'submitOnChange'=>true),
@@ -200,6 +205,7 @@ $GLOBALS['TL_DCA'][$strName] = array
         'mailaddress' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['mailaddress'],
+            'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'rgxp'=>'email', 'maxlength'=>255, 'decodeEntities'=>true, 'tl_class'=>'w50'),
@@ -208,6 +214,7 @@ $GLOBALS['TL_DCA'][$strName] = array
         'saveexport' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['saveexport'],
+            'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr m12', 'submitOnChange'=>true),
@@ -216,6 +223,7 @@ $GLOBALS['TL_DCA'][$strName] = array
         'savefolder' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['savefolder'],
+            'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'fileTree',
             'eval'                    => array('fieldType'=>'radio', 'tl_class'=>'clr wizard'),
@@ -224,6 +232,7 @@ $GLOBALS['TL_DCA'][$strName] = array
         'filterstring' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['filterstring'],
+            'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'text',
             'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),

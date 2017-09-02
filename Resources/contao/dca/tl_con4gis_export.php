@@ -32,11 +32,11 @@
 /**
  * Set Tablename
  */
-$strName = 'tl_con4gis_export';
+$strName = 'tl_c4g_export';
 
 
 /**
- * Table tl_con4gis_export
+ * Table tl_c4g_export
  */
 $GLOBALS['TL_DCA'][$strName] = array
 (

@@ -12,13 +12,13 @@ use \Doctrine\ORM\Mapping as ORM;
 use con4gis\CoreBundle\Entity\BaseEntity;
 
 /**
- * Class TlCon4gisExport
+ * Class TlC4gExport
  *
  * @ORM\Entity
- * @ORM\Table(name="tl_con4gis_export")
+ * @ORM\Table(name="tl_c4g_export")
  * @package con4gis\ExportBundle\Entity
  */
-class TlCon4gisExport extends BaseEntity
+class TlC4gExport extends BaseEntity
 {
 
 

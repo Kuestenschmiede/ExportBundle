@@ -56,7 +56,7 @@
  */
 array_insert($GLOBALS['BE_MOD']['con4gis_bricks'],6, array(
     'export' => array(
-        'tables'        => array('tl_con4gis_export'),
+        'tables'        => array('tl_c4g_export'),
         'runexport'     => array('\con4gis\ExportBundle\Classes\Contao\Modules\ModulExport', 'runExport')
     )
 ));

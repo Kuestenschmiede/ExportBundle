@@ -29,7 +29,7 @@
 /**
  * Set Tablename
  */
-$strName = 'tl_con4gis_export';
+$strName = 'tl_c4g_export';
 
 
 /**

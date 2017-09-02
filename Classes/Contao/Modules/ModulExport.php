@@ -144,7 +144,7 @@ class ModulExport
      */
     protected function getSettings()
     {
-        $respositoryName    = '\con4gis\ExportBundle\Entity\TlCon4gisExport';
+        $respositoryName    = '\con4gis\ExportBundle\Entity\TlC4gExport';
         $respository        = $this->entityManager->getRepository($respositoryName);
         $exportSettings     = $respository->find($this->exportId);
         return $exportSettings;

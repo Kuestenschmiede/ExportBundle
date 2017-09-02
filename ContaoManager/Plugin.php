@@ -41,7 +41,6 @@ class Plugin implements RoutingPluginInterface, BundlePluginInterface,ConfigPlug
         return [
             BundleConfig::create(con4gisExportBundle::class)
                 ->setLoadAfter([con4gisCoreBundle::class])
-                ->setReplace(['Export']),
         ];
     }
 

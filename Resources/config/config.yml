@@ -3,4 +3,4 @@ doctrine:
         entity_managers:
             default:
                 mappings:
-                    EdenExportBundle: ~
+                    con4gisExportBundle: ~

@@ -13,8 +13,10 @@ use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Routing\RoutingPluginInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Contao\ManagerPlugin\Config\ConfigPluginInterface;
+use Symfony\Component\Config\Loader\LoaderInterface;
 
-class Plugin implements RoutingPluginInterface, BundlePluginInterface
+class Plugin implements RoutingPluginInterface, BundlePluginInterface,ConfigPluginInterface
 {
     /**
      * {@inheritdoc}
@@ -40,5 +42,16 @@ class Plugin implements RoutingPluginInterface, BundlePluginInterface
             BundleConfig::create(con4gisExportBundle::class)
                 ->setLoadAfter([con4gisCoreBundle::class])
         ];
+    }
+
+    /**
+     * Allows a plugin to load container configuration.
+     *
+     * @param LoaderInterface $loader
+     * @param array           $managerConfig
+     */
+    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig)
+    {
+        $loader->load('@con4gisExportBundle/Resources/config/config.yml');
     }
 }

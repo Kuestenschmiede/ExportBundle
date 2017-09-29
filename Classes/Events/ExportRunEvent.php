@@ -9,13 +9,13 @@
  */
 namespace con4gis\ExportBundle\Classes\Events;
 
-use Symfony\Component\EventDispatcher\Event;
+use con4gis\QueueBundle\Classes\Events\QueueEvent;
 
 /**
  * Class ExportRunEvent
  * @package con4gis\ExportBundle\Classes\Events
  */
-class ExportRunEvent extends Event
+class ExportRunEvent extends QueueEvent
 {
 
 

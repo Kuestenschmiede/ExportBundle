@@ -9,8 +9,10 @@
  */
 namespace con4gis\ExportBundle\Classes\Contao\Callbacks;
 
+use con4gis\QueueBundle\Classes\Queue\QueueManager;
 use Contao\Controller;
 use Contao\Image;
+use con4gis\ExportBundle\Classes\Helper\GetEventHelper;
 
 /**
  * Class TlCon4gisExport
@@ -107,5 +109,24 @@ class TlCon4gisExport
         }
 
         return true;
+    }
+
+
+    /**
+     * submit_callback: Speichert den Import in der Queue.
+     * @param $value
+     * @param $dc
+     * @return mixed
+     */
+    public function cbAddToQueue($value, $dc)
+    {
+        if ($value) {
+            $eventHelper    = new GetEventHelper();
+            $event          = $eventHelper->getExportEvent($dc->id);
+            $qm             = new QueueManager();
+            $qm->addToQueue($event);
+        }
+
+        return $value;
     }
 }

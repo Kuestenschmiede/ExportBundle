@@ -134,7 +134,7 @@ $GLOBALS['TL_DCA'][$strName] = array
 	'palettes' => array
 	(
 		'__selector__'                => array('saveexport', 'sendpermail'),
-		'default'                     => '{title_legend},title;{save_legend},saveexport;{mail_legend},sendpermail;{srctable_legend},srctable,exportheadlines;{srcfields_legend},srcfields;{filterstring_legend:hide},filterstring;'
+		'default'                     => '{title_legend},title;{save_legend},saveexport;{mail_legend},sendpermail;{srctable_legend},srctable,exportheadlines;{srcfields_legend},srcfields;{filterstring_legend:hide},filterstring;{usequeue_legend},usequeue;'
 	),
 
 	// Subpalettes
@@ -237,6 +237,15 @@ $GLOBALS['TL_DCA'][$strName] = array
             'inputType'               => 'text',
             'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
             'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'usequeue' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG'][$strName]['usequeue'],
+            'default'                 => '',
+            'exclude'                 => true,
+            'inputType'               => 'checkbox',
+            'save_callback'           => array(array('\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbAddToQueue')),
+            'eval'                    => array('tl_class'=>'w50')
         )
 	)
 );

@@ -15,6 +15,7 @@ use Contao\Config;
 use Contao\FilesModel;
 use Contao\InsertTags;
 use Contao\System;
+use esit\con4gis\ExportBundle\Classes\Helper\GetEventHelper;
 
 /**
  * Class ModulExport
@@ -35,6 +36,7 @@ class ModulExport
      * @var \Contao\BackendTemplate|null
      */
     protected $template = null;
+
 
     /**
      * Instanz von doctrine.orm.default_entity_manager
@@ -108,21 +110,11 @@ class ModulExport
      */
     public function runExport($parseTemplate = true)
     {
-        $exportSettings = $this->getSettings();
-        $filename       = $this->parseFilename($exportSettings);
-        $foldername     = $this->getPath($exportSettings);
-        $event          = new ExportRunEvent();
-
-        $this->getPath($exportSettings);
-        $event->setFilename($filename);
-        $event->setFolderName($foldername);
-        $event->setSettings($exportSettings);
-        $event->setLang($GLOBALS['TL_LANG']);
-        $event->setWebsitetile(Config::get('websiteTitle'));
-        $event->setAdminmail(Config::get('adminEmail'));
-        $event->setCharset(Config::get('characterSet'));
+        $eventHelper    = new GetEventHelper();
+        $event          = $eventHelper->getExportEvent($this->exportId);
         $this->dispatcher->dispatch($event::NAME, $event);
-        $content = $event->getData();
+        $content        = $event->getData();
+        $exportSettings = $event->getSettings();
 
         if ($parseTemplate) {
             // Ausgabe Backend
@@ -136,47 +128,5 @@ class ModulExport
         }
 
         return $output;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    protected function getSettings()
-    {
-        $respositoryName    = '\con4gis\ExportBundle\Entity\TlC4gExport';
-        $respository        = $this->entityManager->getRepository($respositoryName);
-        $exportSettings     = $respository->find($this->exportId);
-        return $exportSettings;
-    }
-
-
-    /**
-     * Setzt den Pfad für das Speichern des Exports.
-     * @param $exportSettings
-     * @return string
-     */
-    protected function getPath($exportSettings)
-    {
-        $savefolder = $exportSettings->getSavefolder();
-        $modleFiles = FilesModel::findByUuid((string)$savefolder);
-        $path       = $modleFiles->path;
-        return TL_ROOT . '/' . $path . '/';
-    }
-
-
-    /**
-     * Erstellt den Dateinamen für die Exportdatei.
-     * @param $exportSettings
-     * @return string
-     */
-    protected function parseFilename($exportSettings)
-    {
-        $insertTag  = new InsertTags();
-        $pattern    = $GLOBALS['con4gis']['export']['filename'];
-        $pattern    = str_replace('{{export::title}}', $exportSettings->getTitle(), $pattern);
-        $pattern    = str_replace('{{time}}', date('H.i'), $pattern);
-        $filename   = $insertTag->replace($pattern);
-        return $filename;
     }
 }

@@ -50,6 +50,7 @@ $GLOBALS['TL_LANG'][$strName]['saveexport']     = array('Export speichern', 'Bit
 $GLOBALS['TL_LANG'][$strName]['savefolder']     = array('Speicherort', 'Bitte wählen Sie den Speicherort aus.');
 $GLOBALS['TL_LANG'][$strName]['filterstring']   = array('Bedingungen', 'Geben Sie hier zusätzliche Bedingungen ein, die an die WHERE-Klausel des generierten SQL-Statements angehängt werden sollen.');
 $GLOBALS['TL_LANG'][$strName]['exportheadlines']= array('Spaltennamen exportieren', 'Bitte wählen Sie, ob die Spaltenüberschrieften in der ersten Spalte der Exportdatei stehen sollen.');
+$GLOBALS['TL_LANG'][$strName]['usequeue']       = array('Abarbeitung über Warteschlange', 'Auftrag über Warteschlange abarbeiten.');
 
 
 /**
@@ -61,6 +62,7 @@ $GLOBALS['TL_LANG'][$strName]['srcfields_legend']       = 'Felder';
 $GLOBALS['TL_LANG'][$strName]['mail_legend']            = 'Maileinstellungen';
 $GLOBALS['TL_LANG'][$strName]['save_legend']            = 'Speicherort';
 $GLOBALS['TL_LANG'][$strName]['filterstring_legend']    = 'Experteneinstellungen';
+$GLOBALS['TL_LANG'][$strName]['usequeue_legend']        = 'Einstellungen für die Warteschlange';
 
 
 /**

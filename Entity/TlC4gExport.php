@@ -102,6 +102,13 @@ class TlC4gExport extends BaseEntity
 
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=1)
+     */
+    protected $usequeue = '';
+
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -299,5 +306,23 @@ class TlC4gExport extends BaseEntity
     public function setFilterstring(string $filterstring)
     {
         $this->filterstring = $filterstring;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getUsequeue(): string
+    {
+        return $this->usequeue;
+    }
+
+
+    /**
+     * @param string $usequeue
+     */
+    public function setUsequeue(string $usequeue)
+    {
+        $this->usequeue = $usequeue;
     }
 }

@@ -124,7 +124,7 @@ class TlCon4gisExport
             $eventHelper    = new GetEventHelper();
             $event          = $eventHelper->getExportEvent($dc->id);
             $qm             = new QueueManager();
-            $qm->addToQueue($event);
+            $qm->addToQueue($event, 1024, 'export', 'tl_con4gis_export', $dc->id);
         }
 
         return $value;

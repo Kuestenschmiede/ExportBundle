@@ -13,6 +13,7 @@ use con4gis\QueueBundle\Classes\Queue\QueueManager;
 use Contao\Controller;
 use Contao\Image;
 use con4gis\ExportBundle\Classes\Helper\GetEventHelper;
+use Contao\Input;
 
 /**
  * Class TlCon4gisExport
@@ -124,10 +125,14 @@ class TlCon4gisExport
             $eventHelper    = new GetEventHelper();
             $event          = $eventHelper->getExportEvent($dc->id);
             $qm             = new QueueManager();
+            $interval       = '';
+            $intervalcount  = 1;
 
-            $interval       = '';   #@todo Wie auf Intervall zugreifen??? Ist ein anderes Feld!!!
-            $intervalcount  = '';   #@todo Wie auf $intervalcount zugreifen??? Ist ein anderes Feld!!!
-            $intervaltorun  = $intervalcount;
+            if (Input::post('useinterval')) {
+                $interval      = Input::post('intervalkind');
+                $intervalcount = Input::post('intervalcount');
+                $intervaltorun = $intervalcount;
+            }
 
             $metaData   = array(
                 'srcmodule'     => 'export',

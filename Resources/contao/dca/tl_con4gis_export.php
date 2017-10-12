@@ -133,15 +133,16 @@ $GLOBALS['TL_DCA'][$strName] = array
 	// Palettes
 	'palettes' => array
 	(
-		'__selector__'                => array('saveexport', 'sendpermail'),
-		'default'                     => '{title_legend},title;{save_legend},saveexport;{mail_legend},sendpermail;{srctable_legend},srctable,exportheadlines;{srcfields_legend},srcfields;{filterstring_legend:hide},filterstring;{usequeue_legend},usequeue;'
+		'__selector__'                => array('saveexport', 'sendpermail','useinterval'),
+		'default'                     => '{title_legend},title;{save_legend},saveexport;{mail_legend},sendpermail;{srctable_legend},srctable,exportheadlines;{srcfields_legend},srcfields;{filterstring_legend:hide},filterstring;{usequeue_legend},usequeue,useinterval;'
 	),
 
 	// Subpalettes
 	'subpalettes' => array
 	(
-		'sendpermail'                 => 'mailaddress',
-        'saveexport'                  => 'savefolder'
+		'sendpermail'                 => 'mailaddress;',
+        'saveexport'                  => 'savefolder;',
+        'useinterval'                 => 'intervalkind,intervalcount;'
 	),
 
 	// Fields
@@ -245,7 +246,33 @@ $GLOBALS['TL_DCA'][$strName] = array
             'exclude'                 => true,
             'inputType'               => 'checkbox',
             'save_callback'           => array(array('\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbAddToQueue')),
-            'eval'                    => array('tl_class'=>'w50')
+            'eval'                    => array('tl_class'=>'w50', 'submitOnChange'=>true)
+        ),
+        'useinterval' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG'][$strName]['useinterval'],
+            'default'                 => '',
+            'exclude'                 => true,
+            'inputType'               => 'checkbox',
+            'eval'                    => array('tl_class'=>'w50', 'submitOnChange'=>true)
+        ),
+        'intervalkind' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG'][$strName]['intervalkind'],
+            'default'                 => '',
+            'exclude'                 => true,
+            'inputType'               => 'select',
+            'options'                 => array('hourly', 'daily', 'weekly', 'monthly', 'yearly'),
+            'reference'               => $GLOBALS['TL_LANG'][$strName]['intervalkind_ref'],
+            'eval'                    => array('tl_class'=>'w50', 'includeBlankOption'=>true, 'chosen'=>true)
+        ),
+        'intervalcount' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG'][$strName]['intervalcount'],
+            'default'                 => '',
+            'exclude'                 => true,
+            'inputType'               => 'text',
+            'eval'                    => array('tl_class'=>'w50', 'rgxp'=>'natural')
         )
 	)
 );

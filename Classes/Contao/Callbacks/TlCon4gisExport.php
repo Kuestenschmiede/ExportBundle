@@ -124,7 +124,21 @@ class TlCon4gisExport
             $eventHelper    = new GetEventHelper();
             $event          = $eventHelper->getExportEvent($dc->id);
             $qm             = new QueueManager();
-            $qm->addToQueue($event, 1024, 'export', 'tl_con4gis_export', $dc->id);
+
+            $interval       = '';   #@todo Wie auf Intervall zugreifen??? Ist ein anderes Feld!!!
+            $intervalcount  = '';   #@todo Wie auf $intervalcount zugreifen??? Ist ein anderes Feld!!!
+            $intervaltorun  = $intervalcount;
+
+            $metaData   = array(
+                'srcmodule'     => 'export',
+                'srctable'      => 'tl_con4gis_export',
+                'srcid'         => $dc->id,
+                'intervalkind'  => $interval,
+                'intervalcount' => $intervalcount,
+                'intervaltorun' => $intervaltorun
+            );
+
+            $qm->addToQueue($event, 1024, $metaData);
         }
 
         return $value;

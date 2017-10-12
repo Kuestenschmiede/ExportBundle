@@ -109,6 +109,30 @@ class TlCon4gisExport extends BaseEntity
 
 
     /**
+     * Verarbeitungsintervall in der Queue benutzen
+     * @var string
+     * @ORM\Column(type="string", length=1)
+     */
+    protected $useinterval = '';
+
+
+    /**
+     * Verarbeitungsintervall in der Queue
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $intervalkind = '';
+
+
+    /**
+     * Verarbeitungsanzahl in der Queue
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $intervalcount = '';
+
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -324,5 +348,59 @@ class TlCon4gisExport extends BaseEntity
     public function setUsequeue(string $usequeue)
     {
         $this->usequeue = $usequeue;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getUseinterval(): string
+    {
+        return $this->useinterval;
+    }
+
+
+    /**
+     * @param string $useinterval
+     */
+    public function setUseinterval(string $useinterval)
+    {
+        $this->useinterval = $useinterval;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getIntervalkind(): string
+    {
+        return $this->intervalkind;
+    }
+
+
+    /**
+     * @param string $intervalkind
+     */
+    public function setIntervalkind(string $intervalkind)
+    {
+        $this->intervalkind = $intervalkind;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getIntervalcount(): string
+    {
+        return $this->intervalcount;
+    }
+
+
+    /**
+     * @param string $intervalcount
+     */
+    public function setIntervalcount(string $intervalcount)
+    {
+        $this->intervalcount = $intervalcount;
     }
 }

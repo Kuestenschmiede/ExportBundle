@@ -23,6 +23,7 @@ class TlCon4gisExport extends BaseEntity
 
 
     /**
+     * Id
      * @var int
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -32,6 +33,7 @@ class TlCon4gisExport extends BaseEntity
 
 
     /**
+     * Timestamp
      * @var int
      * @ORM\Column(type="integer")
      */
@@ -39,6 +41,7 @@ class TlCon4gisExport extends BaseEntity
 
 
     /**
+     * Titel der Exportkonfiguration
      * @var string
      * @ORM\Column(type="string")
      */
@@ -46,6 +49,7 @@ class TlCon4gisExport extends BaseEntity
 
 
     /**
+     * Exportdatei speichern
      * @var string
      * @ORM\Column(type="string", length=1)
      */
@@ -53,6 +57,7 @@ class TlCon4gisExport extends BaseEntity
 
 
     /**
+     * Speicherort für die Exportdatei
      * @var resource
      * @ORM\Column(type="blob")
      */
@@ -60,6 +65,7 @@ class TlCon4gisExport extends BaseEntity
 
 
     /**
+     * Export per Mail versenden
      * @var string
      * @ORM\Column(type="string", length=1)
      */
@@ -67,6 +73,7 @@ class TlCon4gisExport extends BaseEntity
 
 
     /**
+     * Empfängeradressen, für die Exportdatei
      * @var string
      * @ORM\Column(type="string")
      */
@@ -74,6 +81,7 @@ class TlCon4gisExport extends BaseEntity
 
 
     /**
+     * Tabelle, derem Datensätze exportiert werden sollen.
      * @var string
      * @ORM\Column(type="string")
      */
@@ -81,6 +89,7 @@ class TlCon4gisExport extends BaseEntity
 
 
     /**
+     * Kopfzeile mit Feldnamen exportieren.
      * @var string
      * @ORM\Column(type="string", length=1)
      */
@@ -88,6 +97,7 @@ class TlCon4gisExport extends BaseEntity
 
 
     /**
+     * Felder, die exportiert werden sollen.
      * @var string
      * @ORM\Column(type="array")
      */
@@ -95,6 +105,7 @@ class TlCon4gisExport extends BaseEntity
 
 
     /**
+     * String um nur bestimmte Datensätze zu exportieren
      * @var string
      * @ORM\Column(type="string")
      */
@@ -102,6 +113,7 @@ class TlCon4gisExport extends BaseEntity
 
 
     /**
+     * Abarbeitung über die Warteschlange
      * @var string
      * @ORM\Column(type="string", length=1)
      */

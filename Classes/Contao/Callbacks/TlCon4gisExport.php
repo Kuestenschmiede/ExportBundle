@@ -126,12 +126,11 @@ class TlCon4gisExport
             $event          = $eventHelper->getExportEvent($dc->id);
             $qm             = new QueueManager();
             $interval       = '';
-            $intervalcount  = 1;
+            $intervalcount  = '';
 
             if (Input::post('useinterval')) {
                 $interval      = Input::post('intervalkind');
                 $intervalcount = Input::post('intervalcount');
-                $intervaltorun = $intervalcount;
             }
 
             $metaData   = array(
@@ -139,9 +138,12 @@ class TlCon4gisExport
                 'srctable'      => 'tl_con4gis_export',
                 'srcid'         => $dc->id,
                 'intervalkind'  => $interval,
-                'intervalcount' => $intervalcount,
-                'intervaltorun' => $intervaltorun
+                'intervalcount' => $intervalcount
             );
+
+            if ($intervalcount) {
+                $metaData['intervaltorun'] = $intervalcount;
+            }
 
             $qm->addToQueue($event, 1024, $metaData);
         }

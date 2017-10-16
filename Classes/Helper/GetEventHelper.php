@@ -75,7 +75,7 @@ class GetEventHelper
      */
     protected function getSettings($id)
     {
-        $respositoryName    = '\con4gis\ExportBundle\Entity\TlCon4gisExport';
+        $respositoryName    = '\con4gis\ExportBundle\Entity\TlC4gExport';
         $respository        = $this->entityManager->getRepository($respositoryName);
         $exportSettings     = $respository->find($id);
 

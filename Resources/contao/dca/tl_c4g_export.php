@@ -197,7 +197,7 @@ $GLOBALS['TL_DCA'][$strName] = array
         'sendpermail' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['sendpermail'],
-            #'default'                 => '',
+            'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr m12', 'submitOnChange'=>true),

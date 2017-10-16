@@ -50,6 +50,10 @@ $GLOBALS['TL_LANG'][$strName]['saveexport']     = array('Export speichern', 'Bit
 $GLOBALS['TL_LANG'][$strName]['savefolder']     = array('Speicherort', 'Bitte wählen Sie den Speicherort aus.');
 $GLOBALS['TL_LANG'][$strName]['filterstring']   = array('Bedingungen', 'Geben Sie hier zusätzliche Bedingungen ein, die an die WHERE-Klausel des generierten SQL-Statements angehängt werden sollen.');
 $GLOBALS['TL_LANG'][$strName]['exportheadlines']= array('Spaltennamen exportieren', 'Bitte wählen Sie, ob die Spaltenüberschrieften in der ersten Spalte der Exportdatei stehen sollen.');
+$GLOBALS['TL_LANG'][$strName]['usequeue']       = array('Abarbeitung über Warteschlange', 'Auftrag über Warteschlange abarbeiten.');
+$GLOBALS['TL_LANG'][$strName]['useinterval']    = array('Intervallausführung', 'Bitt wählen Sie aus, ober der Auftrag in einem bestimmten Intervall wiederholt ausgeführt werden soll.');
+$GLOBALS['TL_LANG'][$strName]['intervalkind']   = array('Intervall', 'Bitt legen Sie das Intervall fest, in dem der Auftrag wiederholt werden soll.');
+$GLOBALS['TL_LANG'][$strName]['intervalcount']  = array('Maximale Anzahl der Ausführungen', 'Bitt legen Sie fest, ob der Auftrag nach einer bestimmten Anzahl von Ausführungen beendet sein soll. Für unendliche Ausführung bitte leer lassen.');
 
 
 /**
@@ -61,12 +65,13 @@ $GLOBALS['TL_LANG'][$strName]['srcfields_legend']       = 'Felder';
 $GLOBALS['TL_LANG'][$strName]['mail_legend']            = 'Maileinstellungen';
 $GLOBALS['TL_LANG'][$strName]['save_legend']            = 'Speicherort';
 $GLOBALS['TL_LANG'][$strName]['filterstring_legend']    = 'Experteneinstellungen';
+$GLOBALS['TL_LANG'][$strName]['usequeue_legend']        = 'Einstellungen für die Warteschlange';
 
 
 /**
  * Reference
  */
-#$GLOBALS['TL_LANG'][$strName]['']   = array();
+$GLOBALS['TL_LANG'][$strName]['intervalkind_ref']       = array('hourly' => 'stündlich', 'daily' => 'täglich', 'weekly' => 'wöchentlich', 'monthly' => 'monatlich', 'yearly' => 'jährlich');
 
 
 /**

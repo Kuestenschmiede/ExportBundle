@@ -54,10 +54,27 @@ class ExportLoadDataListener
         EventDispatcherInterface $dispatcher
     ) {
         $settings   = $event->getSettings();
+        $table      = $settings->getSrctable();
         $srcFields  = $settings->getSrcfields();
         $fields     = deserialize($srcFields, true);
-        $fieldlist  = implode(',', $fields);
-        $event->setFieldlist($fieldlist);
+
+        if (count($fields)) {
+            $saveFields = [];
+
+            // Sicherstellen, dass noch alle ausgewählten Felder in der Tabelle existieren!
+            foreach ($fields as $field) {
+                if ($this->database->fieldExists($field, $table)) {
+                    $saveFields[] = $field;
+                }
+            }
+
+            $fieldlist = implode(',', $saveFields);
+            $event->setFieldlist($fieldlist);
+
+            // Ab jetzt nur noch die existierenden Felder verwenden!
+            $settings->setSrcfields($saveFields);
+            $event->setSettings($settings);
+        }
     }
 
 

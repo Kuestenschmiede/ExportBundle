@@ -9,8 +9,11 @@
  */
 namespace con4gis\ExportBundle\Classes\Contao\Callbacks;
 
+use con4gis\QueueBundle\Classes\Queue\QueueManager;
 use Contao\Controller;
 use Contao\Image;
+use con4gis\ExportBundle\Classes\Helper\GetEventHelper;
+use Contao\Input;
 
 /**
  * Class TlCon4gisExport
@@ -107,5 +110,44 @@ class TlCon4gisExport
         }
 
         return true;
+    }
+
+
+    /**
+     * submit_callback: Speichert den Import in der Queue.
+     * @param $value
+     * @param $dc
+     * @return mixed
+     */
+    public function cbAddToQueue($value, $dc)
+    {
+        if ($value) {
+            $eventHelper    = new GetEventHelper();
+            $event          = $eventHelper->getExportEvent($dc->id);
+            $qm             = new QueueManager();
+            $interval       = '';
+            $intervalcount  = '';
+
+            if (Input::post('useinterval')) {
+                $interval      = Input::post('intervalkind');
+                $intervalcount = Input::post('intervalcount');
+            }
+
+            $metaData   = array(
+                'srcmodule'     => 'export',
+                'srctable'      => 'tl_c4g_export',
+                'srcid'         => $dc->id,
+                'intervalkind'  => $interval,
+                'intervalcount' => $intervalcount
+            );
+
+            if ($intervalcount) {
+                $metaData['intervaltorun'] = $intervalcount;
+            }
+
+            $qm->addToQueue($event, 1024, $metaData);
+        }
+
+        return $value;
     }
 }

@@ -135,7 +135,7 @@ class TlCon4gisExport
 
             $metaData   = array(
                 'srcmodule'     => 'export',
-                'srctable'      => 'tl_con4gis_export',
+                'srctable'      => 'tl_c4g_export',
                 'srcid'         => $dc->id,
                 'intervalkind'  => $interval,
                 'intervalcount' => $intervalcount

@@ -140,7 +140,7 @@ $GLOBALS['TL_DCA'][$strName] = array
 	// Subpalettes
 	'subpalettes' => array
 	(
-		'sendpermail'                 => 'mailaddress;',
+		'sendpermail'                 => 'mailaddress',
         'saveexport'                  => 'savefolder',
         'useinterval'                 => 'intervalkind,intervalcount',
 	),

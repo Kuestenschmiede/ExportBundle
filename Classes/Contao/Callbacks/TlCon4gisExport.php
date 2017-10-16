@@ -13,6 +13,7 @@ use con4gis\QueueBundle\Classes\Queue\QueueManager;
 use Contao\Controller;
 use Contao\Image;
 use con4gis\ExportBundle\Classes\Helper\GetEventHelper;
+use Contao\Input;
 
 /**
  * Class TlCon4gisExport
@@ -124,7 +125,27 @@ class TlCon4gisExport
             $eventHelper    = new GetEventHelper();
             $event          = $eventHelper->getExportEvent($dc->id);
             $qm             = new QueueManager();
-            $qm->addToQueue($event, 1024, 'export', 'tl_con4gis_export', $dc->id);
+            $interval       = '';
+            $intervalcount  = '';
+
+            if (Input::post('useinterval')) {
+                $interval      = Input::post('intervalkind');
+                $intervalcount = Input::post('intervalcount');
+            }
+
+            $metaData   = array(
+                'srcmodule'     => 'export',
+                'srctable'      => 'tl_con4gis_export',
+                'srcid'         => $dc->id,
+                'intervalkind'  => $interval,
+                'intervalcount' => $intervalcount
+            );
+
+            if ($intervalcount) {
+                $metaData['intervaltorun'] = $intervalcount;
+            }
+
+            $qm->addToQueue($event, 1024, $metaData);
         }
 
         return $value;

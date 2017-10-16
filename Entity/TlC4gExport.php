@@ -23,6 +23,7 @@ class TlC4gExport extends BaseEntity
 
 
     /**
+     * Id
      * @var int
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -32,6 +33,7 @@ class TlC4gExport extends BaseEntity
 
 
     /**
+     * Timestamp
      * @var int
      * @ORM\Column(type="integer")
      */
@@ -39,6 +41,7 @@ class TlC4gExport extends BaseEntity
 
 
     /**
+     * Titel der Exportkonfiguration
      * @var string
      * @ORM\Column(type="string")
      */
@@ -46,6 +49,7 @@ class TlC4gExport extends BaseEntity
 
 
     /**
+     * Exportdatei speichern
      * @var string
      * @ORM\Column(type="string", length=1)
      */
@@ -53,6 +57,7 @@ class TlC4gExport extends BaseEntity
 
 
     /**
+     * Speicherort für die Exportdatei
      * @var resource
      * @ORM\Column(type="blob")
      */
@@ -60,6 +65,7 @@ class TlC4gExport extends BaseEntity
 
 
     /**
+     * Export per Mail versenden
      * @var string
      * @ORM\Column(type="string", length=1)
      */
@@ -67,6 +73,7 @@ class TlC4gExport extends BaseEntity
 
 
     /**
+     * Empfängeradressen, für die Exportdatei
      * @var string
      * @ORM\Column(type="string")
      */
@@ -74,6 +81,7 @@ class TlC4gExport extends BaseEntity
 
 
     /**
+     * Tabelle, derem Datensätze exportiert werden sollen.
      * @var string
      * @ORM\Column(type="string")
      */
@@ -81,6 +89,7 @@ class TlC4gExport extends BaseEntity
 
 
     /**
+     * Kopfzeile mit Feldnamen exportieren.
      * @var string
      * @ORM\Column(type="string", length=1)
      */
@@ -88,6 +97,7 @@ class TlC4gExport extends BaseEntity
 
 
     /**
+     * Felder, die exportiert werden sollen.
      * @var string
      * @ORM\Column(type="array")
      */
@@ -95,6 +105,7 @@ class TlC4gExport extends BaseEntity
 
 
     /**
+     * String um nur bestimmte Datensätze zu exportieren
      * @var string
      * @ORM\Column(type="string")
      */
@@ -102,10 +113,35 @@ class TlC4gExport extends BaseEntity
 
 
     /**
+     * Abarbeitung über die Warteschlange
      * @var string
      * @ORM\Column(type="string", length=1)
      */
     protected $usequeue = '';
+
+
+    /**
+     * Verarbeitungsintervall in der Queue benutzen
+     * @var string
+     * @ORM\Column(type="string", length=1)
+     */
+    protected $useinterval = '';
+
+
+    /**
+     * Verarbeitungsintervall in der Queue
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $intervalkind = '';
+
+
+    /**
+     * Verarbeitungsanzahl in der Queue
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $intervalcount = '';
 
 
     /**
@@ -324,5 +360,59 @@ class TlC4gExport extends BaseEntity
     public function setUsequeue(string $usequeue)
     {
         $this->usequeue = $usequeue;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getUseinterval(): string
+    {
+        return $this->useinterval;
+    }
+
+
+    /**
+     * @param string $useinterval
+     */
+    public function setUseinterval(string $useinterval)
+    {
+        $this->useinterval = $useinterval;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getIntervalkind(): string
+    {
+        return $this->intervalkind;
+    }
+
+
+    /**
+     * @param string $intervalkind
+     */
+    public function setIntervalkind(string $intervalkind)
+    {
+        $this->intervalkind = $intervalkind;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getIntervalcount(): string
+    {
+        return $this->intervalcount;
+    }
+
+
+    /**
+     * @param string $intervalcount
+     */
+    public function setIntervalcount(string $intervalcount)
+    {
+        $this->intervalcount = $intervalcount;
     }
 }

@@ -53,5 +53,6 @@ class Plugin implements RoutingPluginInterface, BundlePluginInterface,ConfigPlug
     public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig)
     {
         $loader->load('@con4gisExportBundle/Resources/config/config.yml');
+        $loader->load('@con4gisExportBundle/Resources/config/services.yml');
     }
 }

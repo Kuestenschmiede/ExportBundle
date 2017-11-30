@@ -15,7 +15,7 @@ use Contao\Config;
 use Contao\FilesModel;
 use Contao\InsertTags;
 use Contao\System;
-use esit\con4gis\ExportBundle\Classes\Helper\GetEventHelper;
+use con4gis\ExportBundle\Classes\Helper\GetEventHelper;
 
 /**
  * Class ModulExport

@@ -3,7 +3,7 @@
   "type": "contao-bundle",
   "description": "Contao bundle for creating generic exports.",
   "keywords": ["con4gis", "export", "contao", "c4g", "ExportBundle", "csv"],
-  "license": "LGPL-3.0+",
+  "license": "LGPL-3.0-or-later",
   "authors": [
     {
       "name": "Kuestenschmiede GmbH Software & Design",
@@ -22,7 +22,7 @@
   },
   "require": {
     "contao/core-bundle": "^4.4",
-    "con4gis/core": "~2.2"
+    "con4gis/core": "^2.3"
   },
   "conflict": {
     "contao/core": "*",

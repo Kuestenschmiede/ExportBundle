@@ -31,8 +31,8 @@
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD']['export']    = array('Data Export', 'Manage Export Settings');
-$GLOBALS['TL_LANG']['MOD']['runexport'] = array('Data Export', 'Manage Export Settings');
+$GLOBALS['TL_LANG']['MOD']['export']    = array('Export: Data Export', 'Manage Export Settings');
+$GLOBALS['TL_LANG']['MOD']['runexport'] = array('Export: Data Export', 'Manage Export Settings');
 
 
 /**

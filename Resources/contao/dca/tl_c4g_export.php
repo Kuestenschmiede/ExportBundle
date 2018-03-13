@@ -246,7 +246,8 @@ $GLOBALS['TL_DCA'][$strName] = array
             'exclude'                 => true,
             'inputType'               => 'checkbox',
             'save_callback'           => array(array('\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbAddToQueue')),
-            'eval'                    => array('tl_class'=>'w50', 'submitOnChange'=>true)
+            'eval'                    => array('tl_class'=>'w50', 'submitOnChange'=>true),
+            'sql'                     => "char(1) NOT NULL default ''"
         ),
         'useinterval' => array
         (
@@ -254,7 +255,8 @@ $GLOBALS['TL_DCA'][$strName] = array
             'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class'=>'w50', 'submitOnChange'=>true)
+            'eval'                    => array('tl_class'=>'w50', 'submitOnChange'=>true),
+            'sql'                     => "char(1) NOT NULL default ''"
         ),
         'intervalkind' => array
         (
@@ -264,7 +266,8 @@ $GLOBALS['TL_DCA'][$strName] = array
             'inputType'               => 'select',
             'options'                 => array('hourly', 'daily', 'weekly', 'monthly', 'yearly'),
             'reference'               => $GLOBALS['TL_LANG'][$strName]['intervalkind_ref'],
-            'eval'                    => array('tl_class'=>'w50', 'includeBlankOption'=>true, 'chosen'=>true)
+            'eval'                    => array('tl_class'=>'w50', 'includeBlankOption'=>true, 'chosen'=>true),
+            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'intervalcount' => array
         (
@@ -272,7 +275,8 @@ $GLOBALS['TL_DCA'][$strName] = array
             'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'text',
-            'eval'                    => array('tl_class'=>'w50', 'rgxp'=>'natural')
+            'eval'                    => array('tl_class'=>'w50', 'rgxp'=>'natural'),
+            'sql'                     => "varchar(255) NOT NULL default ''"
         )
 	)
 );

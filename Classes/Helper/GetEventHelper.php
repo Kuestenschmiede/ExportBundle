@@ -104,12 +104,11 @@ class GetEventHelper
      */
     protected function parseFilename($exportSettings)
     {
-        $insertTag  = new InsertTags();
         $pattern    = $GLOBALS['con4gis']['export']['filename'];
         $pattern    = str_replace('{{export::title}}', $exportSettings->getTitle(), $pattern);
         $pattern    = str_replace('{{time}}', date('H.i'), $pattern);
-        $filename   = $insertTag->replace($pattern);
-
+        // replace manual instead of inserttag, because it creates an esi tag into the filename
+        $filename   = str_replace('{{date}}', date('d.m.Y'), $pattern);
         return $filename;
     }
 }

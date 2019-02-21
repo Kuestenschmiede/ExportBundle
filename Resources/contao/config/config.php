@@ -31,12 +31,13 @@
 
 $GLOBALS['con4gis']['export']['installed'] = true;
 
-array_insert($GLOBALS['BE_MOD']['con4gis_bricks'],4, array(
+$GLOBALS['BE_MOD']['con4gis'] = array_merge($GLOBALS['BE_MOD']['con4gis'], array(
     'export' => array(
         'tables'        => array('tl_c4g_export'),
         'runexport'     => array('\con4gis\ExportBundle\Classes\Contao\Modules\ModulExport', 'runExport')
     )
 ));
+
 
 /**
  * EXPORT-SETTINGS

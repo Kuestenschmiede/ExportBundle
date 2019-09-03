@@ -12,6 +12,7 @@
  */
 namespace con4gis\ExportBundle\Classes\Helper;
 
+use con4gis\ExportBundle\Classes\Events\ExportRunEvent;
 use Contao\Config;
 use Contao\FilesModel;
 use Contao\InsertTags;
@@ -44,7 +45,6 @@ class GetEventHelper
 
 
     /**
-     * Erzeugt das Event für den Export.
      * @param $exportId
      * @return ExportRunEvent
      */
@@ -53,7 +53,7 @@ class GetEventHelper
         $exportSettings = $this->getSettings($exportId);
         $filename       = $this->parseFilename($exportSettings);
         $foldername     = $this->getPath($exportSettings);
-        $event          = new \con4gis\ExportBundle\Classes\Events\ExportRunEvent();
+        $event          = new ExportRunEvent();
 
         $this->getPath($exportSettings);
         $event->setFilename($filename);

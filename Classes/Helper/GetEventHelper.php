@@ -60,9 +60,9 @@ class GetEventHelper
         $event->setFolderName($foldername);
         $event->setSettings($exportSettings);
         $event->setLang($GLOBALS['TL_LANG']);
-        $event->setWebsitetile(Config::get('websiteTitle'));
-        $event->setAdminmail(Config::get('adminEmail'));
-        $event->setCharset(Config::get('characterSet'));
+        $event->setWebsitetile(strval(Config::get('websiteTitle')));
+        $event->setAdminmail(strval(Config::get('adminEmail')));
+        $event->setCharset(strval(Config::get('characterSet')));
 
         return $event;
     }

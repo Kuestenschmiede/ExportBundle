@@ -14,6 +14,7 @@ namespace con4gis\ExportBundle\Classes\Listener;
 
 use Contao\Database;
 use con4gis\ExportBundle\Classes\Events\ExportLoadDataEvent;
+use Contao\StringUtil;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -59,7 +60,7 @@ class ExportLoadDataListener
         $settings   = $event->getSettings();
         $table      = $settings->getSrctable();
         $srcFields  = $settings->getSrcfields();
-        $fields     = deserialize($srcFields, true);
+        $fields     = StringUtil::deserialize($srcFields, true);
 
         if (count($fields)) {
             $saveFields = [];

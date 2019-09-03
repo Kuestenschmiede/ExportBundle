@@ -220,7 +220,7 @@ $GLOBALS['TL_DCA'][$strName] = array
             'default'                 => '',
             'exclude'                 => true,
             'inputType'               => 'text',
-            'eval'                    => array('maxlength'=>255, 'tl_class'=>'w50'),
+            'eval'                    => array('maxlength'=>255),
             'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'usequeue' => array

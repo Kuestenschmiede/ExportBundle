@@ -15,6 +15,7 @@ namespace con4gis\ExportBundle\Classes\Listener;
 use Contao\Database;
 use con4gis\ExportBundle\Classes\Events\ExportLoadDataEvent;
 use Contao\StringUtil;
+use Contao\System;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -23,31 +24,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ExportLoadDataListener
 {
-
-
     /**
-     * Instanz von \Contao\Database
-     * @var \Contao\Database|null
-     */
-    protected $database = null;
-
-
-    /**
-     * ExportRunListener constructor.
-     * @param null $database
-     */
-    public function __construct($database = null)
-    {
-        if ($database !== null) {
-            $this->database = $database;
-        } else {
-            $this->database = Database::getInstance();
-        }
-    }
-
-
-    /**
-     * Führt den Export aus.
      * @param ExportLoadDataEvent      $event
      * @param                          $eventName
      * @param EventDispatcherInterface $dispatcher
@@ -57,25 +34,30 @@ class ExportLoadDataListener
         $eventName,
         EventDispatcherInterface $dispatcher
     ) {
-        $settings   = $event->getSettings();
-        $table      = $settings->getSrctable();
-        $srcFields  = $settings->getSrcfields();
-        $fields     = StringUtil::deserialize($srcFields, true);
+        $settings = $event->getSettings();
+        $table = $settings->getSrctable();
+        $srcFields = $settings->getSrcfields();
+        $fields = StringUtil::deserialize($srcFields, true);
 
-        if (count($fields)) {
+        $entityManager = System::getContainer()->get('doctrine')->getManager($settings->getSrcdb());
+        $columns = $entityManager->getConnection()->getSchemaManager()->listTableColumns($table);
+
+        if (count($fields) >= 1) {
             $saveFields = [];
 
-            // Sicherstellen, dass noch alle ausgewählten Felder in der Tabelle existieren!
+            // Make sure the fields still exist in the table
             foreach ($fields as $field) {
-                if ($this->database->fieldExists($field, $table)) {
-                    $saveFields[] = $field;
+                foreach ($columns as $column) {
+                    if ($field === $column->getName()) {
+                        $saveFields[] = $field;
+                    }
                 }
             }
 
             $fieldlist = implode(',', $saveFields);
             $event->setFieldlist($fieldlist);
 
-            // Ab jetzt nur noch die existierenden Felder verwenden!
+            // Save the changed field list in the settings
             $settings->setSrcfields($saveFields);
             $event->setSettings($settings);
         }
@@ -135,11 +117,14 @@ class ExportLoadDataListener
         $eventName,
         EventDispatcherInterface $dispatcher
     ) {
-        $query      = $event->getQuery();
-        $result     = $this->database->execute($query);
+        $query = $event->getQuery();
+        $entityManager = System::getContainer()->get('doctrine')->getManager($event->getSettings()->getSrcdb());
+        $statement = $entityManager->getConnection()->prepare($query);
+        $statement->execute();
+        $result = $statement->fetchAll();
 
-        if ($result->numRows) {
-            $event->setResult($result->fetchAllAssoc());
+        if (count($result) >= 1) {
+            $event->setResult($result);
         }
     }
 }

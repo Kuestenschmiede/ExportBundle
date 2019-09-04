@@ -21,36 +21,20 @@ use Contao\System;
 class GetEventHelper
 {
     /**
-     * Instanz von doctrine.orm.default_entity_manager
-     * @var null|object
+     * GetEventHelper constructor.
      */
-    protected $entityManager = null;
-
-
-    /**
-     * ModulExport constructor.
-     * @param null $em
-     * @param null $dispatcher
-     */
-    public function __construct($em = null, $dispatcher = null)
+    public function __construct()
     {
-        if (($em !== null)) {
-            $this->entityManager = $em;
-        } else {
-            $this->entityManager = System::getContainer()->get('doctrine.orm.default_entity_manager');
-        }
-
         System::loadLanguageFile('default');
     }
 
 
     /**
-     * @param $exportId
+     * @param $exportSettings
      * @return ExportRunEvent
      */
-    public function getExportEvent($exportId)
+    public function getExportEvent($exportSettings)
     {
-        $exportSettings = $this->getSettings($exportId);
         $filename       = $this->parseFilename($exportSettings);
         $foldername     = $this->getPath($exportSettings);
         $event          = new ExportRunEvent();

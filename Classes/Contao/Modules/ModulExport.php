@@ -63,30 +63,17 @@ class ModulExport
 
 
     /**
-     * ModulExport constructor.
-     * @param null $em
-     * @param null $dispatcher
+     * ModulExport constructor
      */
-    public function __construct($em = null, $dispatcher = null)
+    public function __construct()
     {
-        if (($em !== null)) {
-            $this->entityManager = $em;
-        } else {
-            $this->entityManager = System::getContainer()->get('doctrine.orm.default_entity_manager');
-        }
-
-        if ($dispatcher !== null) {
-            $this->dispatcher = $dispatcher;
-        } else {
-            $this->dispatcher = System::getContainer()->get('event_dispatcher');
-        }
+        $this->dispatcher = System::getContainer()->get('event_dispatcher');
 
         System::loadLanguageFile('default');
         $this->template = new BackendTemplate($this->templateName);
         $this->exportId = (isset($_GET ['id'])) ? $_GET['id'] : 0;
         // Contao funktioniert nicht: \Contao\Environment::get('id');
     }
-
 
     /**
      * @return int
@@ -105,7 +92,6 @@ class ModulExport
         $this->exportId = $exportId;
     }
 
-
     /**
      * Generate the module
      * @param bool $parseTemplate
@@ -113,11 +99,14 @@ class ModulExport
      */
     public function runExport($parseTemplate = true)
     {
-        $eventHelper    = new GetEventHelper();
-        $event          = $eventHelper->getExportEvent($this->exportId);
+        $respositoryName = '\con4gis\ExportBundle\Entity\TlC4gExport';
+        $respository = System::getContainer()->get('doctrine')->getManager('default')->getRepository($respositoryName);
+        $exportSettings = $respository->find($this->exportId);
+
+        $eventHelper = new GetEventHelper();
+        $event = $eventHelper->getExportEvent($exportSettings);
         $this->dispatcher->dispatch($event::NAME, $event);
-        $content        = $event->getData();
-        $exportSettings = $event->getSettings();
+        $content = $event->getData();
 
         if ($parseTemplate) {
             // Ausgabe Backend

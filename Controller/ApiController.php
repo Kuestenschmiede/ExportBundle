@@ -13,14 +13,14 @@
 namespace con4gis\ExportBundle\Controller;
 
 use con4gis\ExportBundle\Classes\Contao\Modules\ModulExport;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class ApiController
  * @package con4gis\ExportBundle\Controller
  */
-class ApiController extends Controller
+class ApiController extends AbstractController
 {
 
 

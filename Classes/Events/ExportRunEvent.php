@@ -39,7 +39,7 @@ class ExportRunEvent extends QueueEvent
      * Language-Array
      * @var array
      */
-    protected $lang = array();
+    protected $lang = [];
 
 
     /**
@@ -67,7 +67,7 @@ class ExportRunEvent extends QueueEvent
      * Ergebissarray der Db-Abfarge.
      * @var array
      */
-    protected $result = array();
+    protected $result = [];
 
 
     /**

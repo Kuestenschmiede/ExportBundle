@@ -51,14 +51,14 @@ class ExportLoadDataEvent extends Event
     /**
      * @var array
      */
-    protected $result = array();
+    protected $result = [];
 
 
     /**
      * Array mit den geladenen Daten.
      * @var array
      */
-    protected $data = array();
+    protected $data = [];
 
 
     /**

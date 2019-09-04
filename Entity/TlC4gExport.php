@@ -12,6 +12,7 @@
  */
 namespace con4gis\ExportBundle\Entity;
 
+use Contao\StringUtil;
 use \Doctrine\ORM\Mapping as ORM;
 use con4gis\CoreBundle\Entity\BaseEntity;
 
@@ -83,6 +84,13 @@ class TlC4gExport extends BaseEntity
      */
     protected $mailaddress = '';
 
+
+    /**
+     * Tabelle, derem Datensätze exportiert werden sollen.
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $srcdb = '';
 
     /**
      * Tabelle, derem Datensätze exportiert werden sollen.
@@ -276,6 +284,23 @@ class TlC4gExport extends BaseEntity
     /**
      * @return string
      */
+    public function getSrcdb(): string
+    {
+        return $this->srcdb;
+    }
+
+
+    /**
+     * @param string $srctable
+     */
+    public function setSrcdb(string $srcdb)
+    {
+        $this->srcdb = $srcdb;
+    }
+
+    /**
+     * @return string
+     */
     public function getSrctable(): string
     {
         return $this->srctable;
@@ -315,7 +340,7 @@ class TlC4gExport extends BaseEntity
     public function getSrcfields(): array
     {
         if ($this->srcfields) {
-            return deserialize($this->srcfields, true);
+            return StringUtil::deserialize($this->srcfields, true);
         }
 
         return [];

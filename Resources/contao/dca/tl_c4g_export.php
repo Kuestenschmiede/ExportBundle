@@ -15,6 +15,9 @@
 /**
  * Set Tablename
  */
+
+use con4gis\CoreBundle\Classes\Helper\DcaHelper;
+
 $strName = 'tl_c4g_export';
 
 
@@ -118,7 +121,14 @@ $GLOBALS['TL_DCA'][$strName] = array
 	'palettes' => array
 	(
 		'__selector__'                => array('saveexport', 'sendpermail','useinterval'),
-		'default'                     => '{title_legend},title;{save_legend},saveexport;{mail_legend},sendpermail;{srctable_legend},srctable,exportheadlines;{srcfields_legend},srcfields;{filterstring_legend:hide},filterstring;{usequeue_legend},usequeue,useinterval;'
+		'default'                     => '{title_legend},title;'.
+            '{save_legend},saveexport;'.
+            '{mail_legend},sendpermail;'.
+            '{srcdb_legend},srcdb;'.
+            '{srctable_legend},srctable,exportheadlines;'.
+            '{srcfields_legend},srcfields;'.
+            '{filterstring_legend:hide},filterstring;'.
+            '{usequeue_legend},usequeue,useinterval;'
 	),
 
 	// Subpalettes
@@ -132,135 +142,166 @@ $GLOBALS['TL_DCA'][$strName] = array
 	// Fields
 	'fields' => array
 	(
-		'id' => array
-		(
-			'sql'                     => "int(10) unsigned NOT NULL auto_increment"
-		),
-		'tstamp' => array
-		(
-			'sql'                     => "int(10) unsigned NOT NULL default '0'"
-		),
         'title' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['title'],
             'default'                 => '',
-            'exclude'                 => true,
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50', 'rgxp'=>'alnum', 'nospace'=>false, 'spaceToUnderscore'=>true),
-            'sql'                     => "varchar(255) NOT NULL default ''"
+        ),
+        'srcdb' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG'][$strName]['srcdb'],
+            'default'                 => 'default',
+            'inputType'               => 'select',
+            'options_callback'        => array('tl_c4g_export', 'getDatabaseOptions'),
+            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'submitOnChange'=>true, 'includeBlankOption'=>false, 'chosen'=>false),
         ),
         'srctable' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['srctable'],
             'default'                 => '',
-            'exclude'                 => true,
             'inputType'               => 'select',
-            'options_callback'        => array('\con4gis\CoreBundle\Classes\Helper\DcaHelper', 'cbGetTables'),
+            'options_callback'        => array('tl_c4g_export', 'getTableOptions'),
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'submitOnChange'=>true, 'includeBlankOption'=>true, 'chosen'=>true),
-            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'exportheadlines' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['exportheadlines'],
             'default'                 => '',
-            'exclude'                 => true,
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr m12'),
-            'sql'                     => "char(1) NOT NULL default ''"
         ),
         'srcfields' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['srcfields'],
             'default'                 => '',
-            'exclude'                 => true,
             'inputType'               => 'checkboxWizard',
-            'options_callback'        => array('\con4gis\CoreBundle\Classes\Helper\DcaHelper', 'cbGetFields'),
+            'options_callback'        => array('tl_c4g_export', 'getTableFieldOptions'),
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'multiple'=>true),
-            'sql'                     => "text NOT NULL"
         ),
         'sendpermail' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['sendpermail'],
             'default'                 => '',
-            'exclude'                 => true,
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr m12', 'submitOnChange'=>true),
-            'sql'                     => "char(1) NOT NULL default ''"
         ),
         'mailaddress' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['mailaddress'],
             'default'                 => '',
-            'exclude'                 => true,
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'rgxp'=>'email', 'maxlength'=>255, 'decodeEntities'=>true, 'tl_class'=>'w50'),
-            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'saveexport' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['saveexport'],
             'default'                 => '',
-            'exclude'                 => true,
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr m12', 'submitOnChange'=>true),
-            'sql'                     => "char(1) NOT NULL default ''"
         ),
         'savefolder' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['savefolder'],
             'default'                 => '',
-            'exclude'                 => true,
             'inputType'               => 'fileTree',
             'eval'                    => array('fieldType'=>'radio', 'tl_class'=>'clr wizard'),
-            'sql'                     => "blob NULL"
         ),
         'filterstring' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['filterstring'],
             'default'                 => '',
-            'exclude'                 => true,
             'inputType'               => 'text',
             'eval'                    => array('maxlength'=>255),
-            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'usequeue' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['usequeue'],
             'default'                 => '',
-            'exclude'                 => true,
             'inputType'               => 'checkbox',
             'save_callback'           => array(array('\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbAddToQueue')),
             'eval'                    => array('tl_class'=>'w50', 'submitOnChange'=>true),
-            'sql'                     => "char(1) NOT NULL default ''"
         ),
         'useinterval' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['useinterval'],
             'default'                 => '',
-            'exclude'                 => true,
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'w50', 'submitOnChange'=>true),
-            'sql'                     => "char(1) NOT NULL default ''"
         ),
         'intervalkind' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['intervalkind'],
             'default'                 => '',
-            'exclude'                 => true,
             'inputType'               => 'select',
             'options'                 => array('hourly', 'daily', 'weekly', 'monthly', 'yearly'),
             'reference'               => $GLOBALS['TL_LANG'][$strName]['intervalkind_ref'],
             'eval'                    => array('tl_class'=>'w50', 'includeBlankOption'=>true, 'chosen'=>true),
-            'sql'                     => "varchar(255) NOT NULL default ''"
         ),
         'intervalcount' => array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['intervalcount'],
             'default'                 => '',
-            'exclude'                 => true,
             'inputType'               => 'text',
             'eval'                    => array('tl_class'=>'w50', 'rgxp'=>'natural'),
-            'sql'                     => "varchar(255) NOT NULL default ''"
         )
 	)
 );
+
+class tl_c4g_export extends \Backend
+{
+    public function getDatabaseOptions(DataContainer $dc) {
+        $options = ['default' => $GLOBALS['TL_LANG']['tl_c4g_export']['contaodb']];
+        foreach ($GLOBALS['con4gis']['export']['databases'] as $key => $value) {
+            $options[$key] = $value;
+        }
+        return $options;
+    }
+
+    public function getTableOptions(DataContainer $dc) {
+        if ($dc->activeRecord->srcdb === 'default') {
+            $tables = $this->getContainer()->get('doctrine')->getManager('default')->getConnection()->getSchemaManager()->listTables();
+            $tablesFormatted = [];
+            foreach ($tables as $table) {
+                $tablesFormatted[$table->getName()] = $table->getName();
+            }
+            return $tablesFormatted;
+
+        } elseif ($dc->activeRecord->srcdb !== '') {
+            $tables = $this->getContainer()->get('doctrine')->getManager($dc->activeRecord->srcdb)->getConnection()->getSchemaManager()->listTables();
+            $tablesFormatted = [];
+            foreach ($tables as $table) {
+                $tablesFormatted[$table->getName()] = $table->getName();
+            }
+            return $tablesFormatted;
+        } else {
+            return [];
+        }
+    }
+
+    public function getTableFieldOptions(DataContainer $dc) {
+        if ($dc->activeRecord->srcdb === 'default') {
+            if ($dc->activeRecord->srctable !== '' && $dc->activeRecord->srctable !== null) {
+                $columns = $tables = $this->getContainer()->get('doctrine')->getManager('default')->getConnection()->getSchemaManager()->listTableColumns($dc->activeRecord->srctable);
+                $columnsFormatted = [];
+                foreach ($columns as $column) {
+                    $columnsFormatted[$column->getName()] = $column->getName();
+                }
+                return $columnsFormatted;
+            }
+        } elseif ($dc->activeRecord->srcdb !== '') {
+            if ($dc->activeRecord->srctable !== '' && $dc->activeRecord->srctable !== null) {
+                $columns = $tables = $this->getContainer()->get('doctrine')->getManager($dc->activeRecord->srcdb)->getConnection()->getSchemaManager()->listTableColumns($dc->activeRecord->srctable);
+                $columnsFormatted = [];
+                foreach ($columns as $column) {
+                    $columnsFormatted[$column->getName()] = $column->getName();
+                }
+                return $columnsFormatted;
+            }
+        } else {
+            return [];
+        }
+        return [];
+    }
+}

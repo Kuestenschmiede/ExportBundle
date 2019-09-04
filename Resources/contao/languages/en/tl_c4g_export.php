@@ -27,6 +27,7 @@ $strElement = 'Export';
  * Fields
  */
 $GLOBALS['TL_LANG'][$strName]['title']          = array('Title', 'Please enter the title.');
+$GLOBALS['TL_LANG'][$strName]['srcdb']          = array('Database', 'Please choose the source database.');
 $GLOBALS['TL_LANG'][$strName]['srctable']       = array('Table', 'Please choose the source table.');
 $GLOBALS['TL_LANG'][$strName]['srcfields']      = array('Fields', 'Please choose the fields for export.');
 $GLOBALS['TL_LANG'][$strName]['sendpermail']    = array('Send Export', 'Please choose whether to send the export via email.');
@@ -45,6 +46,7 @@ $GLOBALS['TL_LANG'][$strName]['intervalcount']  = array('Maximum Number of Execu
  * Legends
  */
 $GLOBALS['TL_LANG'][$strName]['title_legend']           = 'Title';
+$GLOBALS['TL_LANG'][$strName]['srcdb_legend']           = 'Database';
 $GLOBALS['TL_LANG'][$strName]['srctable_legend']        = 'Table';
 $GLOBALS['TL_LANG'][$strName]['srcfields_legend']       = 'Fields';
 $GLOBALS['TL_LANG'][$strName]['mail_legend']            = 'Mail Settingsw';
@@ -67,3 +69,6 @@ $GLOBALS['TL_LANG'][$strName]['edit']       = array('Edit ' . $strElement, 'Edit
 $GLOBALS['TL_LANG'][$strName]['copy']       = array('Copy ' . $strElement, 'Copy ' . $strElement . ' with ID %s');
 $GLOBALS['TL_LANG'][$strName]['delete']     = array('Delete ' . $strElement, 'Delete ' . $strElement . ' with ID %s');
 $GLOBALS['TL_LANG'][$strName]['show']       = array('Show ' . $strElement, 'Show details of the ' . $strElement . 'with ID %s');
+
+/** Options */
+$GLOBALS['TL_LANG'][$strName]['contaodb'] = 'Contao Database';

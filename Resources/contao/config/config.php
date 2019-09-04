@@ -26,3 +26,10 @@ $GLOBALS['BE_MOD']['con4gis_core'] = array_merge($GLOBALS['BE_MOD']['con4gis_cor
  * EXPORT-SETTINGS
  */
 $GLOBALS['con4gis']['export']['filename'] = "{{date}}_{{time}}_{{export::title}}.csv";
+
+/** Non-default databases (doctrine only)
+ * To add: $GLOBALS['con4gis']['export']['databases'][$key] = $value;
+ *  where $key is the connection name as defined in the config.yml and $value the browser output in the select field.
+ */
+
+$GLOBALS['con4gis']['export']['databases'] = [];

@@ -69,6 +69,7 @@ $GLOBALS['TL_LANG'][$strName]['edit']       = array($strElement . ' bearbeiten',
 $GLOBALS['TL_LANG'][$strName]['copy']       = array($strElement . ' kopieren', $strElement . ' mit der ID %s kopieren');
 $GLOBALS['TL_LANG'][$strName]['delete']     = array($strElement . ' löschen', $strElement . ' mit der ID %s löschen');
 $GLOBALS['TL_LANG'][$strName]['show']       = array($strElement . ' anzeigen', 'Details des ' . $strElement . 's mit der ID %s anzeigen');
+$GLOBALS['TL_LANG'][$strName]['runexport']  = ["Export ausführen", "Den Export mit der ID %s ausführen."];
 
 /** Options */
 $GLOBALS['TL_LANG'][$strName]['contaodb'] = 'Contao Datenbank';

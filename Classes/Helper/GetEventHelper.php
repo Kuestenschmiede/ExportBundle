@@ -17,15 +17,22 @@ use Contao\Config;
 use Contao\FilesModel;
 use Contao\InsertTags;
 use Contao\System;
+use Doctrine\ORM\EntityManager;
 
 class GetEventHelper
 {
+    /**
+     * @var EntityManager
+     */
+    private $entityManager = null;
+    
     /**
      * GetEventHelper constructor.
      */
     public function __construct()
     {
         System::loadLanguageFile('default');
+        $this->entityManager = System::getContainer()->get('doctrine.orm.default_entity_manager');
     }
 
 
@@ -35,6 +42,7 @@ class GetEventHelper
      */
     public function getExportEvent($exportSettings)
     {
+        $exportSettings = $this->getSettings($exportSettings);
         $filename       = $this->parseFilename($exportSettings);
         $foldername     = $this->getPath($exportSettings);
         $event          = new ExportRunEvent();

@@ -124,6 +124,17 @@ class ExportLoadDataListener
         $result = $statement->fetchAll();
 
         if (count($result) >= 1) {
+
+            foreach ($result as $key => $row) {
+                foreach ($row as $k => $value) {
+                    if (strlen(strval(intval($value))) === 10) {
+                        $result[$key][$k] = date('d.m.Y', $value);
+                    } elseif (is_array(StringUtil::deserialize($value)) === true && !empty(StringUtil::deserialize($value))) {
+                        $result[$key][$k] = implode(', ', StringUtil::deserialize($value));
+                    }
+                }
+            }
+
             $event->setResult($result);
         }
     }

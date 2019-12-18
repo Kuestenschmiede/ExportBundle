@@ -13,8 +13,8 @@
 
 $GLOBALS['con4gis']['export']['installed'] = true;
 
-$GLOBALS['BE_MOD']['con4gis_core'] = array_merge($GLOBALS['BE_MOD']['con4gis_core'], array(
-    'export' => array(
+$GLOBALS['BE_MOD']['con4gis'] = array_merge($GLOBALS['BE_MOD']['con4gis'], array(
+    'c4g_export' => array(
         'tables'        => array('tl_c4g_export'),
         'runexport'     => array('\con4gis\ExportBundle\Classes\Contao\Modules\ModulExport', 'runExport')
     )
@@ -33,3 +33,7 @@ $GLOBALS['con4gis']['export']['filename'] = "{{date}}_{{time}}_{{export::title}}
  */
 
 $GLOBALS['con4gis']['export']['databases'] = [];
+
+if(TL_MODE == "BE") {
+    $GLOBALS['TL_CSS'][] = '/bundles/con4gisexport/css/con4gis.css';
+}

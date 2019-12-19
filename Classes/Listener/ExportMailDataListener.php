@@ -42,7 +42,7 @@ class ExportMailDataListener
         $mailaddress    = $settings->getMailaddress();
         $filename       = $event->getFilename();
         $webtitle       = $event->getWebsitetile();
-        $mail->from     = $event->getAdminmail();
+        $mail->from     = $settings->getSender();
         $mail->charset  = $event->getCharset();
         $mail->subject  = sprintf($lang['MSC']['export']['mailsubject'], $webtitle);
         $mail->text     = sprintf($lang['MSC']['export']['mailtext'], $webtitle);

@@ -32,6 +32,7 @@ $GLOBALS['TL_LANG'][$strName]['srctable']       = array('Table', 'Please choose 
 $GLOBALS['TL_LANG'][$strName]['srcfields']      = array('Fields', 'Please choose the fields for export.');
 $GLOBALS['TL_LANG'][$strName]['sendpermail']    = array('Send Export', 'Please choose whether to send the export via email.');
 $GLOBALS['TL_LANG'][$strName]['mailaddress']    = array('Email Address', 'Please enter the email address.');
+$GLOBALS['TL_LANG'][$strName]['sender']         = array('Sender', 'The sender given in the mail. Typically the domain.');
 $GLOBALS['TL_LANG'][$strName]['saveexport']     = array('Save Export', 'Please choose whether to save the export.');
 $GLOBALS['TL_LANG'][$strName]['savefolder']     = array('Save Location', '.Please choose the save location.');
 $GLOBALS['TL_LANG'][$strName]['filterstring']   = array('Conditions', 'Enter additional conditions that will be attached to the WHERE-clause of the generated SQl statement.');

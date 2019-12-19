@@ -134,7 +134,7 @@ $GLOBALS['TL_DCA'][$strName] = array
 	// Subpalettes
 	'subpalettes' => array
 	(
-		'sendpermail'                 => 'mailaddress',
+		'sendpermail'                 => 'mailaddress,sender',
         'saveexport'                  => 'savefolder',
         'useinterval'                 => 'intervalkind,intervalcount',
 	),
@@ -193,6 +193,13 @@ $GLOBALS['TL_DCA'][$strName] = array
             'default'                 => '',
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'rgxp'=>'email', 'maxlength'=>255, 'decodeEntities'=>true, 'tl_class'=>'w50'),
+        ),
+        'sender' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG'][$strName]['sender'],
+            'default'                 => '',
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
         ),
         'saveexport' => array
         (

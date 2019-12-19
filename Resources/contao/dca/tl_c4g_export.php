@@ -134,7 +134,7 @@ $GLOBALS['TL_DCA'][$strName] = array
 	// Subpalettes
 	'subpalettes' => array
 	(
-		'sendpermail'                 => 'mailaddress',
+		'sendpermail'                 => 'mailaddress,sender',
         'saveexport'                  => 'savefolder',
         'useinterval'                 => 'intervalkind,intervalcount',
 	),
@@ -193,6 +193,13 @@ $GLOBALS['TL_DCA'][$strName] = array
             'default'                 => '',
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'rgxp'=>'email', 'maxlength'=>255, 'decodeEntities'=>true, 'tl_class'=>'w50'),
+        ),
+        'sender' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG'][$strName]['sender'],
+            'default'                 => '',
+            'inputType'               => 'text',
+            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
         ),
         'saveexport' => array
         (
@@ -283,7 +290,7 @@ class tl_c4g_export extends \Backend
     public function getTableFieldOptions(DataContainer $dc) {
         if ($dc->activeRecord->srcdb === 'default') {
             if ($dc->activeRecord->srctable !== '' && $dc->activeRecord->srctable !== null) {
-                $columns = $tables = $this->getContainer()->get('doctrine')->getManager('default')->getConnection()->getSchemaManager()->listTableColumns($dc->activeRecord->srctable);
+                $columns = $this->getContainer()->get('doctrine')->getManager('default')->getConnection()->getSchemaManager()->listTableColumns($dc->activeRecord->srctable);
                 $columnsFormatted = [];
                 foreach ($columns as $column) {
                     $columnsFormatted[$column->getName()] = $column->getName();
@@ -292,7 +299,7 @@ class tl_c4g_export extends \Backend
             }
         } elseif ($dc->activeRecord->srcdb !== '') {
             if ($dc->activeRecord->srctable !== '' && $dc->activeRecord->srctable !== null) {
-                $columns = $tables = $this->getContainer()->get('doctrine')->getManager($dc->activeRecord->srcdb)->getConnection()->getSchemaManager()->listTableColumns($dc->activeRecord->srctable);
+                $columns = $this->getContainer()->get('doctrine')->getManager($dc->activeRecord->srcdb)->getConnection()->getSchemaManager()->listTableColumns($dc->activeRecord->srctable);
                 $columnsFormatted = [];
                 foreach ($columns as $column) {
                     $columnsFormatted[$column->getName()] = $column->getName();

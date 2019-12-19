@@ -84,6 +84,12 @@ class TlC4gExport extends BaseEntity
      */
     protected $mailaddress = '';
 
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $sender = '';
+
 
     /**
      * Tabelle, derem Datensätze exportiert werden sollen.
@@ -280,6 +286,21 @@ class TlC4gExport extends BaseEntity
         $this->mailaddress = $mailaddress;
     }
 
+    /**
+     * @return string
+     */
+    public function getSender(): string
+    {
+        return $this->sender;
+    }
+
+    /**
+     * @param string $sender
+     */
+    public function setSender(string $sender)
+    {
+        $this->sender = $sender;
+    }
 
     /**
      * @return string

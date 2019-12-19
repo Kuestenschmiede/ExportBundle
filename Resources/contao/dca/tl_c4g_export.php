@@ -283,7 +283,7 @@ class tl_c4g_export extends \Backend
     public function getTableFieldOptions(DataContainer $dc) {
         if ($dc->activeRecord->srcdb === 'default') {
             if ($dc->activeRecord->srctable !== '' && $dc->activeRecord->srctable !== null) {
-                $columns = $tables = $this->getContainer()->get('doctrine')->getManager('default')->getConnection()->getSchemaManager()->listTableColumns($dc->activeRecord->srctable);
+                $columns = $this->getContainer()->get('doctrine')->getManager('default')->getConnection()->getSchemaManager()->listTableColumns($dc->activeRecord->srctable);
                 $columnsFormatted = [];
                 foreach ($columns as $column) {
                     $columnsFormatted[$column->getName()] = $column->getName();
@@ -292,7 +292,7 @@ class tl_c4g_export extends \Backend
             }
         } elseif ($dc->activeRecord->srcdb !== '') {
             if ($dc->activeRecord->srctable !== '' && $dc->activeRecord->srctable !== null) {
-                $columns = $tables = $this->getContainer()->get('doctrine')->getManager($dc->activeRecord->srcdb)->getConnection()->getSchemaManager()->listTableColumns($dc->activeRecord->srctable);
+                $columns = $this->getContainer()->get('doctrine')->getManager($dc->activeRecord->srcdb)->getConnection()->getSchemaManager()->listTableColumns($dc->activeRecord->srctable);
                 $columnsFormatted = [];
                 foreach ($columns as $column) {
                     $columnsFormatted[$column->getName()] = $column->getName();

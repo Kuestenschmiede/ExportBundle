@@ -14,8 +14,8 @@
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD']['c4g_export']    = array('export', 'Manage Export Settings');
-$GLOBALS['TL_LANG']['MOD']['runexport'] = array('export', 'Manage Export Settings');
+$GLOBALS['TL_LANG']['MOD']['c4g_export']    = array('Export', 'Manage Export Settings');
+$GLOBALS['TL_LANG']['MOD']['runexport'] = array('Export', 'Manage Export Settings');
 
 
 /**

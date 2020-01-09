@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -15,7 +15,6 @@ namespace con4gis\ExportBundle\Classes\Helper;
 use con4gis\ExportBundle\Classes\Events\ExportRunEvent;
 use Contao\Config;
 use Contao\FilesModel;
-use Contao\InsertTags;
 use Contao\System;
 use Doctrine\ORM\EntityManager;
 
@@ -25,7 +24,7 @@ class GetEventHelper
      * @var EntityManager
      */
     private $entityManager = null;
-    
+
     /**
      * GetEventHelper constructor.
      */
@@ -35,7 +34,6 @@ class GetEventHelper
         $this->entityManager = System::getContainer()->get('doctrine.orm.default_entity_manager');
     }
 
-
     /**
      * @param $exportSettings
      * @return ExportRunEvent
@@ -43,9 +41,9 @@ class GetEventHelper
     public function getExportEvent($exportSettings)
     {
         $exportSettings = $this->getSettings($exportSettings);
-        $filename       = $this->parseFilename($exportSettings);
-        $foldername     = $this->getPath($exportSettings);
-        $event          = new ExportRunEvent();
+        $filename = $this->parseFilename($exportSettings);
+        $foldername = $this->getPath($exportSettings);
+        $event = new ExportRunEvent();
 
         $this->getPath($exportSettings);
         $event->setFilename($filename);
@@ -59,7 +57,6 @@ class GetEventHelper
         return $event;
     }
 
-
     /**
      * Lädt die Einstellungen des Exports.
      * @param $id
@@ -67,13 +64,12 @@ class GetEventHelper
      */
     protected function getSettings($id)
     {
-        $respositoryName    = '\con4gis\ExportBundle\Entity\TlC4gExport';
-        $respository        = $this->entityManager->getRepository($respositoryName);
-        $exportSettings     = $respository->find($id);
+        $respositoryName = '\con4gis\ExportBundle\Entity\TlC4gExport';
+        $respository = $this->entityManager->getRepository($respositoryName);
+        $exportSettings = $respository->find($id);
 
         return $exportSettings;
     }
-
 
     /**
      * Setzt den Pfad für das Speichern des Exports.
@@ -83,12 +79,11 @@ class GetEventHelper
     protected function getPath($exportSettings)
     {
         $savefolder = $exportSettings->getSavefolder();
-        $modleFiles = FilesModel::findByUuid((string)$savefolder);
-        $path       = $modleFiles->path;
+        $modleFiles = FilesModel::findByUuid((string) $savefolder);
+        $path = $modleFiles->path;
 
         return TL_ROOT . '/' . $path . '/';
     }
-
 
     /**
      * Erstellt den Dateinamen für die Exportdatei.
@@ -97,11 +92,12 @@ class GetEventHelper
      */
     protected function parseFilename($exportSettings)
     {
-        $pattern    = $GLOBALS['con4gis']['export']['filename'];
-        $pattern    = str_replace('{{export::title}}', $exportSettings->getTitle(), $pattern);
-        $pattern    = str_replace('{{time}}', date('H.i'), $pattern);
+        $pattern = $GLOBALS['con4gis']['export']['filename'];
+        $pattern = str_replace('{{export::title}}', $exportSettings->getTitle(), $pattern);
+        $pattern = str_replace('{{time}}', date('H.i'), $pattern);
         // replace manual instead of inserttag, because it creates an esi tag into the filename
-        $filename   = str_replace('{{date}}', date('d.m.Y'), $pattern);
+        $filename = str_replace('{{date}}', date('d.m.Y'), $pattern);
+
         return $filename;
     }
 }

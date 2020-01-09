@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -22,8 +22,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ExportMailDataListener
 {
-
-
     /**
      * Versendet den Export per Mail.
      * @param ExportMailDataEvent      $event
@@ -35,19 +33,19 @@ class ExportMailDataListener
         $eventName,
         EventDispatcherInterface $dispatcher
     ) {
-        $mail           = new Email();
-        $settings       = $event->getSettings();
-        $lang           = $event->getLang();
-        $returnstring   = $event->getReturnstring();
-        $mailaddress    = $settings->getMailaddress();
-        $filename       = $event->getFilename();
-        $webtitle       = $event->getWebsitetile();
-        $mail->from     = $settings->getSender();
-        $mail->charset  = $event->getCharset();
-        $mail->subject  = sprintf($lang['MSC']['export']['mailsubject'], $webtitle);
-        $mail->text     = sprintf($lang['MSC']['export']['mailtext'], $webtitle);
+        $mail = new Email();
+        $settings = $event->getSettings();
+        $lang = $event->getLang();
+        $returnstring = $event->getReturnstring();
+        $mailaddress = $settings->getMailaddress();
+        $filename = $event->getFilename();
+        $webtitle = $event->getWebsitetile();
+        $mail->from = $settings->getSender();
+        $mail->charset = $event->getCharset();
+        $mail->subject = sprintf($lang['MSC']['export']['mailsubject'], $webtitle);
+        $mail->text = sprintf($lang['MSC']['export']['mailtext'], $webtitle);
         $mail->attachFileFromString($returnstring, $filename);
-        $bytes          = $mail->sendTo($mailaddress);
+        $bytes = $mail->sendTo($mailaddress);
 
         if ($bytes !== false) {
             $event->addData(sprintf($GLOBALS['TL_LANG']['MSC']['export']['mailsuccess'], $mailaddress));

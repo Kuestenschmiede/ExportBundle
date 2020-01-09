@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -20,13 +20,10 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class ExportSaveDataEvent extends Event
 {
-
-
     /**
      * Name des Events
      */
     const NAME = 'con4gis.export.save.data';
-
 
     /**
      * Entity mit den Einstellungen für den Export
@@ -34,13 +31,11 @@ class ExportSaveDataEvent extends Event
      */
     protected $settings = null;
 
-
     /**
      * Language-Array
      * @var array
      */
-    protected $lang = array();
-
+    protected $lang = [];
 
     /**
      * Ergebnis der Konvertierung.
@@ -48,13 +43,11 @@ class ExportSaveDataEvent extends Event
      */
     protected $returnstring = '';
 
-
     /**
      * Name der Verzeichnisses, in dem der Export gespeichert werden soll.
      * @var string
      */
     protected $foldername = '';
-
 
     /**
      * Dateiname der Exportdatei
@@ -62,13 +55,11 @@ class ExportSaveDataEvent extends Event
      */
     protected $filename = '';
 
-
     /**
      * Array mit den geladenen Daten.
      * @var array
      */
-    protected $data = array();
-
+    protected $data = [];
 
     /**
      * @return null
@@ -78,7 +69,6 @@ class ExportSaveDataEvent extends Event
         return $this->settings;
     }
 
-
     /**
      * @param null $settings
      */
@@ -86,7 +76,6 @@ class ExportSaveDataEvent extends Event
     {
         $this->settings = $settings;
     }
-
 
     /**
      * @return array
@@ -96,7 +85,6 @@ class ExportSaveDataEvent extends Event
         return $this->lang;
     }
 
-
     /**
      * @param array $lang
      */
@@ -104,7 +92,6 @@ class ExportSaveDataEvent extends Event
     {
         $this->lang = $lang;
     }
-
 
     /**
      * @return string
@@ -114,7 +101,6 @@ class ExportSaveDataEvent extends Event
         return $this->returnstring;
     }
 
-
     /**
      * @param string $returnstring
      */
@@ -122,7 +108,6 @@ class ExportSaveDataEvent extends Event
     {
         $this->returnstring = $returnstring;
     }
-
 
     /**
      * @return string
@@ -132,7 +117,6 @@ class ExportSaveDataEvent extends Event
         return $this->foldername;
     }
 
-
     /**
      * @param string $foldername
      */
@@ -140,7 +124,6 @@ class ExportSaveDataEvent extends Event
     {
         $this->foldername = $foldername;
     }
-
 
     /**
      * @return string
@@ -150,7 +133,6 @@ class ExportSaveDataEvent extends Event
         return $this->filename;
     }
 
-
     /**
      * @param string $filename
      */
@@ -158,7 +140,6 @@ class ExportSaveDataEvent extends Event
     {
         $this->filename = $filename;
     }
-
 
     /**
      * @return array
@@ -168,7 +149,6 @@ class ExportSaveDataEvent extends Event
         return $this->data;
     }
 
-
     /**
      * @param array $data
      */
@@ -176,7 +156,6 @@ class ExportSaveDataEvent extends Event
     {
         $this->data = $data;
     }
-
 
     /**
      * Fügt der Ausgabe eine oder mehrere Zeilen hinzu.

@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -20,13 +20,10 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class ExportConvertDataEvent extends Event
 {
-
-
     /**
      * Name des Events
      */
     const NAME = 'con4gis.export.convert.data';
-
 
     /**
      * Entity mit den Einstellungen für den Export
@@ -34,13 +31,11 @@ class ExportConvertDataEvent extends Event
      */
     protected $settings = null;
 
-
     /**
      * Ergebniss der Db-Abfrage
      * @var array
      */
-    protected $result = array();
-
+    protected $result = [];
 
     /**
      * Ergebnis der Konvertierung.
@@ -48,13 +43,11 @@ class ExportConvertDataEvent extends Event
      */
     protected $returnstring = '';
 
-
     /**
      * Array mit den geladenen Daten.
      * @var array
      */
-    protected $data = array();
-
+    protected $data = [];
 
     /**
      * @return object
@@ -64,7 +57,6 @@ class ExportConvertDataEvent extends Event
         return $this->settings;
     }
 
-
     /**
      * @param object $settings
      */
@@ -72,7 +64,6 @@ class ExportConvertDataEvent extends Event
     {
         $this->settings = $settings;
     }
-
 
     /**
      * @return array
@@ -82,7 +73,6 @@ class ExportConvertDataEvent extends Event
         return $this->result;
     }
 
-
     /**
      * @param array $result
      */
@@ -90,7 +80,6 @@ class ExportConvertDataEvent extends Event
     {
         $this->result = $result;
     }
-
 
     /**
      * @return string
@@ -100,7 +89,6 @@ class ExportConvertDataEvent extends Event
         return $this->returnstring;
     }
 
-
     /**
      * @param string $returnstring
      */
@@ -108,7 +96,6 @@ class ExportConvertDataEvent extends Event
     {
         $this->returnstring = $returnstring;
     }
-
 
     /**
      * @return array
@@ -118,7 +105,6 @@ class ExportConvertDataEvent extends Event
         return $this->data;
     }
 
-
     /**
      * @param array $data
      */
@@ -126,7 +112,6 @@ class ExportConvertDataEvent extends Event
     {
         $this->data = $data;
     }
-
 
     /**
      * Fügt der Ausgabe eine oder mehrere Zeilen hinzu.

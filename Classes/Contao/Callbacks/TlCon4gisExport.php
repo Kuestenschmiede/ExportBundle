@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -24,8 +24,6 @@ use Contao\Input;
  */
 class TlCon4gisExport
 {
-
-
     /**
      * button_callback: Prüft, ob ein Import ausgeführt werden kann.
      * @param $arrRow
@@ -55,17 +53,16 @@ class TlCon4gisExport
                                      $strPrevious,
                                      $strNext
     ) {
-
         if ($this->testExport($arrRow)) {
-            $link   = '<a href="' . Controller::addToUrl($href) . '&id=' . $arrRow['id'];
-            $link  .= '" title="' . specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label);
-            $link  .= '</a> ';
+            $link = '<a href="' . Controller::addToUrl($href) . '&id=' . $arrRow['id'];
+            $link .= '" title="' . specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label);
+            $link .= '</a> ';
         } else {
             $link = '<span style="opacity: 0.4;">' . Image::getHtml($icon, $label) . '</span>';
         }
+
         return $link;
     }
-
 
     /**
      * Prüft, ob die Mindestangaben für einen Import vorliegen.
@@ -74,7 +71,6 @@ class TlCon4gisExport
      */
     protected function testExport($row)
     {
-
         if (!isset($row['srctable']) ||
             !isset($row['srcfields']) ||
             !isset($row['saveexport']) ||
@@ -89,7 +85,6 @@ class TlCon4gisExport
             return false;
         }
 
-
         if (!$row['saveexport'] && !$row['sendpermail']) {
             return false;
         }
@@ -101,8 +96,7 @@ class TlCon4gisExport
             }
         }
 
-        if ($row['sendpermail'] && $row['mailaddress'] == '')
-        {
+        if ($row['sendpermail'] && $row['mailaddress'] == '') {
             return false;
         }
 
@@ -115,7 +109,6 @@ class TlCon4gisExport
         return true;
     }
 
-
     /**
      * submit_callback: Speichert den Import in der Queue.
      * @param $value
@@ -125,24 +118,24 @@ class TlCon4gisExport
     public function cbAddToQueue($value, $dc)
     {
         if ($value) {
-            $eventHelper    = new GetEventHelper();
-            $event          = $eventHelper->getExportEvent($dc->id);
-            $qm             = new QueueManager();
-            $interval       = '';
-            $intervalcount  = '';
+            $eventHelper = new GetEventHelper();
+            $event = $eventHelper->getExportEvent($dc->id);
+            $qm = new QueueManager();
+            $interval = '';
+            $intervalcount = '';
 
             if (Input::post('useinterval')) {
-                $interval      = Input::post('intervalkind');
+                $interval = Input::post('intervalkind');
                 $intervalcount = Input::post('intervalcount');
             }
 
-            $metaData   = array(
-                'srcmodule'     => 'export',
-                'srctable'      => 'tl_c4g_export',
-                'srcid'         => $dc->id,
-                'intervalkind'  => $interval,
-                'intervalcount' => $intervalcount
-            );
+            $metaData = [
+                'srcmodule' => 'export',
+                'srctable' => 'tl_c4g_export',
+                'srcid' => $dc->id,
+                'intervalkind' => $interval,
+                'intervalcount' => $intervalcount,
+            ];
 
             if ($intervalcount) {
                 $metaData['intervaltorun'] = $intervalcount;

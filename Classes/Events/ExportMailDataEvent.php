@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -20,12 +20,10 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class ExportMailDataEvent extends Event
 {
-
     /**
      * Name des Events
      */
     const NAME = 'con4gis.export.mail.data';
-
 
     /**
      * Entity mit den Einstellungen für den Export
@@ -33,13 +31,11 @@ class ExportMailDataEvent extends Event
      */
     protected $settings = null;
 
-
     /**
      * Language-Array
      * @var array
      */
-    protected $lang = array();
-
+    protected $lang = [];
 
     /**
      * Webseitentitel
@@ -47,13 +43,11 @@ class ExportMailDataEvent extends Event
      */
     protected $websitetile = '';
 
-
     /**
      * Absendemailadresse
      * @var string
      */
     protected $adminmail = '';
-
 
     /**
      * Charset fur die Mail.
@@ -61,13 +55,11 @@ class ExportMailDataEvent extends Event
      */
     protected $charset = 'utf8';
 
-
     /**
      * Ergebnis der Konvertierung.
      * @var string
      */
     protected $returnstring = '';
-
 
     /**
      * Name der Verzeichnisses, in dem der Export gespeichert werden soll.
@@ -75,20 +67,17 @@ class ExportMailDataEvent extends Event
      */
     protected $foldername = '';
 
-
     /**
      * Dateiname der Exportdatei
      * @var string
      */
     protected $filename = '';
 
-
     /**
      * Array mit den geladenen Daten.
      * @var array
      */
-    protected $data = array();
-
+    protected $data = [];
 
     /**
      * @return null
@@ -98,7 +87,6 @@ class ExportMailDataEvent extends Event
         return $this->settings;
     }
 
-
     /**
      * @param null $settings
      */
@@ -106,7 +94,6 @@ class ExportMailDataEvent extends Event
     {
         $this->settings = $settings;
     }
-
 
     /**
      * @return array
@@ -116,7 +103,6 @@ class ExportMailDataEvent extends Event
         return $this->lang;
     }
 
-
     /**
      * @param array $lang
      */
@@ -124,7 +110,6 @@ class ExportMailDataEvent extends Event
     {
         $this->lang = $lang;
     }
-
 
     /**
      * @return string
@@ -134,7 +119,6 @@ class ExportMailDataEvent extends Event
         return $this->websitetile;
     }
 
-
     /**
      * @param string $websitetile
      */
@@ -142,7 +126,6 @@ class ExportMailDataEvent extends Event
     {
         $this->websitetile = $websitetile;
     }
-
 
     /**
      * @return string
@@ -152,7 +135,6 @@ class ExportMailDataEvent extends Event
         return $this->adminmail;
     }
 
-
     /**
      * @param string $adminmail
      */
@@ -160,7 +142,6 @@ class ExportMailDataEvent extends Event
     {
         $this->adminmail = $adminmail;
     }
-
 
     /**
      * @return string
@@ -170,7 +151,6 @@ class ExportMailDataEvent extends Event
         return $this->charset;
     }
 
-
     /**
      * @param string $charset
      */
@@ -178,7 +158,6 @@ class ExportMailDataEvent extends Event
     {
         $this->charset = $charset;
     }
-
 
     /**
      * @return string
@@ -188,7 +167,6 @@ class ExportMailDataEvent extends Event
         return $this->returnstring;
     }
 
-
     /**
      * @param string $returnstring
      */
@@ -196,7 +174,6 @@ class ExportMailDataEvent extends Event
     {
         $this->returnstring = $returnstring;
     }
-
 
     /**
      * @return string
@@ -206,7 +183,6 @@ class ExportMailDataEvent extends Event
         return $this->foldername;
     }
 
-
     /**
      * @param string $foldername
      */
@@ -214,7 +190,6 @@ class ExportMailDataEvent extends Event
     {
         $this->foldername = $foldername;
     }
-
 
     /**
      * @return string
@@ -224,7 +199,6 @@ class ExportMailDataEvent extends Event
         return $this->filename;
     }
 
-
     /**
      * @param string $filename
      */
@@ -232,7 +206,6 @@ class ExportMailDataEvent extends Event
     {
         $this->filename = $filename;
     }
-
 
     /**
      * @return array
@@ -242,7 +215,6 @@ class ExportMailDataEvent extends Event
         return $this->data;
     }
 
-
     /**
      * @param array $data
      */
@@ -250,7 +222,6 @@ class ExportMailDataEvent extends Event
     {
         $this->data = $data;
     }
-
 
     /**
      * Fügt der Ausgabe eine oder mehrere Zeilen hinzu.

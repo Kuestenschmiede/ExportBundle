@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -12,11 +12,7 @@
  */
 namespace con4gis\ExportBundle\Classes\Contao\Modules;
 
-use con4gis\ExportBundle\Classes\Events\ExportRunEvent;
 use Contao\BackendTemplate;
-use Contao\Config;
-use Contao\FilesModel;
-use Contao\InsertTags;
 use Contao\System;
 use con4gis\ExportBundle\Classes\Helper\GetEventHelper;
 
@@ -26,20 +22,16 @@ use con4gis\ExportBundle\Classes\Helper\GetEventHelper;
  */
 class ModulExport
 {
-
-
     /**
      * Template
      * @var string
      */
     protected $templateName = 'be_mod_export';
 
-
     /**
      * @var \Contao\BackendTemplate|null
      */
     protected $template = null;
-
 
     /**
      * Instanz von doctrine.orm.default_entity_manager
@@ -47,20 +39,17 @@ class ModulExport
      */
     protected $entityManager = null;
 
-
     /**
      * Instanz des Symfony EventDispatchers
      * @var null
      */
     protected $dispatcher = null;
 
-
     /**
      * Id der Exportkonfiguration
      * @var int
      */
     protected $exportId = 0;
-
 
     /**
      * ModulExport constructor
@@ -71,7 +60,7 @@ class ModulExport
 
         System::loadLanguageFile('default');
         $this->template = new BackendTemplate($this->templateName);
-        $this->exportId = (isset($_GET ['id'])) ? $_GET['id'] : 0;
+        $this->exportId = (isset($_GET['id'])) ? $_GET['id'] : 0;
         // Contao funktioniert nicht: \Contao\Environment::get('id');
     }
 
@@ -82,7 +71,6 @@ class ModulExport
     {
         return $this->exportId;
     }
-
 
     /**
      * @param int $exportId
@@ -111,9 +99,9 @@ class ModulExport
         if ($parseTemplate) {
             // Ausgabe Backend
             $this->template->exporttitle = $exportSettings->getTitle();
-            $this->template->class       = 'exportoutput';
-            $this->template->content     = $content;
-            $output                      = $this->template->parse();
+            $this->template->class = 'exportoutput';
+            $this->template->content = $content;
+            $output = $this->template->parse();
         } else {
             // Ausgabe für API-Call
             $output = array_map('strip_tags', $content);

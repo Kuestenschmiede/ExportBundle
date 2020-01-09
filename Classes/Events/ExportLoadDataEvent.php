@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -20,13 +20,10 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class ExportLoadDataEvent extends Event
 {
-
-
     /**
      * Name des Events
      */
     const NAME = 'con4gis.export.load.data';
-
 
     /**
      * Entity mit den Einstellungen für den Export
@@ -34,32 +31,27 @@ class ExportLoadDataEvent extends Event
      */
     protected $settings = null;
 
-
     /**
      * Kommagetrennte Liste der Felder
      * @var string
      */
     protected $fieldlist = '';
 
-
     /**
      * @var string
      */
     protected $query = '';
-
 
     /**
      * @var array
      */
     protected $result = [];
 
-
     /**
      * Array mit den geladenen Daten.
      * @var array
      */
     protected $data = [];
-
 
     /**
      * @return object
@@ -69,7 +61,6 @@ class ExportLoadDataEvent extends Event
         return $this->settings;
     }
 
-
     /**
      * @param object $settings
      */
@@ -77,7 +68,6 @@ class ExportLoadDataEvent extends Event
     {
         $this->settings = $settings;
     }
-
 
     /**
      * @return string
@@ -87,7 +77,6 @@ class ExportLoadDataEvent extends Event
         return $this->fieldlist;
     }
 
-
     /**
      * @param string $fieldlist
      */
@@ -95,7 +84,6 @@ class ExportLoadDataEvent extends Event
     {
         $this->fieldlist = $fieldlist;
     }
-
 
     /**
      * @return string
@@ -105,7 +93,6 @@ class ExportLoadDataEvent extends Event
         return $this->query;
     }
 
-
     /**
      * @param string $query
      */
@@ -113,7 +100,6 @@ class ExportLoadDataEvent extends Event
     {
         $this->query = $query;
     }
-
 
     /**
      * @return array
@@ -123,7 +109,6 @@ class ExportLoadDataEvent extends Event
         return $this->result;
     }
 
-
     /**
      * @param array $result
      */
@@ -131,7 +116,6 @@ class ExportLoadDataEvent extends Event
     {
         $this->result = $result;
     }
-
 
     /**
      * @return array
@@ -141,7 +125,6 @@ class ExportLoadDataEvent extends Event
         return $this->data;
     }
 
-
     /**
      * @param array $data
      */
@@ -149,7 +132,6 @@ class ExportLoadDataEvent extends Event
     {
         $this->data = $data;
     }
-
 
     /**
      * Fügt der Ausgabe eine oder mehrere Zeilen hinzu.

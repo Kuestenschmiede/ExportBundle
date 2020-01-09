@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -12,7 +12,6 @@
  */
 namespace con4gis\ExportBundle\Classes\Listener;
 
-use Contao\Database;
 use con4gis\ExportBundle\Classes\Events\ExportLoadDataEvent;
 use Contao\StringUtil;
 use Contao\System;
@@ -63,7 +62,6 @@ class ExportLoadDataListener
         }
     }
 
-
     /**
      * Erstellt die Db-Abfrage zum laden der Daten.
      * @param ExportLoadDataEvent           $event
@@ -75,13 +73,12 @@ class ExportLoadDataListener
         $eventName,
         EventDispatcherInterface $dispatcher
     ) {
-        $settings   = $event->getSettings();
-        $fieldlist  = $event->getFieldlist();
-        $table      = $settings->getSrctable();
-        $query      = "SELECT $fieldlist FROM $table";
+        $settings = $event->getSettings();
+        $fieldlist = $event->getFieldlist();
+        $table = $settings->getSrctable();
+        $query = "SELECT $fieldlist FROM $table";
         $event->setQuery($query);
     }
-
 
     /**
      * Erstellt die Db-Abfrage zum laden der Daten.
@@ -94,17 +91,16 @@ class ExportLoadDataListener
         $eventName,
         EventDispatcherInterface $dispatcher
     ) {
-        $query      = $event->getQuery();
-        $settings   = $event->getSettings();
-        $where      = $settings->getFilterstring();
+        $query = $event->getQuery();
+        $settings = $event->getSettings();
+        $where = $settings->getFilterstring();
 
         if ($where) {
-            $where  = str_replace(';', '', $where); // rudimentäre SQL-Injection-Protection!
+            $where = str_replace(';', '', $where); // rudimentäre SQL-Injection-Protection!
             $query .= "WHERE $where";
             $event->setQuery($query);
         }
     }
-
 
     /**
      * Führt die Abfrage aus.
@@ -124,7 +120,6 @@ class ExportLoadDataListener
         $result = $statement->fetchAll();
 
         if (count($result) >= 1) {
-
             foreach ($result as $key => $row) {
                 foreach ($row as $k => $value) {
                     if (strlen(strval(intval($value))) === 10) {

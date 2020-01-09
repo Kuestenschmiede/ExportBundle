@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -21,8 +21,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ExportSaveDataListener
 {
-
-
     /**
      * Speichert den CSV-String auf dem Server.
      * @param ExportSaveDataEvent           $event
@@ -34,12 +32,12 @@ class ExportSaveDataListener
         $eventName,
         EventDispatcherInterface $dispatcher
     ) {
-        $lang           = $event->getLang();
-        $returnstring   = $event->getReturnstring();
-        $filename       = $event->getFilename();
-        $foldername     = $event->getFoldername();
-        $savepath       = $foldername . $filename;
-        $bytes          = file_put_contents($savepath, $returnstring);
+        $lang = $event->getLang();
+        $returnstring = $event->getReturnstring();
+        $filename = $event->getFilename();
+        $foldername = $event->getFoldername();
+        $savepath = $foldername . $filename;
+        $bytes = file_put_contents($savepath, $returnstring);
 
         if ($bytes !== false) {
             $output = $lang['MSC']['export']['saveresult'];

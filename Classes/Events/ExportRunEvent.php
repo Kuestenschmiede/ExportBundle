@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -20,13 +20,10 @@ use con4gis\QueueBundle\Classes\Events\QueueEvent;
  */
 class ExportRunEvent extends QueueEvent
 {
-
-
     /**
      * Name des Events
      */
     const NAME = 'con4gis.export.run';
-
 
     /**
      * Entity mit den Einstellungen für den Export
@@ -34,13 +31,11 @@ class ExportRunEvent extends QueueEvent
      */
     protected $settings = null;
 
-
     /**
      * Language-Array
      * @var array
      */
     protected $lang = [];
-
 
     /**
      * Webseitentitel
@@ -48,13 +43,11 @@ class ExportRunEvent extends QueueEvent
      */
     protected $websitetile = '';
 
-
     /**
      * Absendemailadresse
      * @var string
      */
     protected $adminmail = '';
-
 
     /**
      * Charset fur die Mail.
@@ -62,13 +55,11 @@ class ExportRunEvent extends QueueEvent
      */
     protected $charset = 'utf8';
 
-
     /**
      * Ergebissarray der Db-Abfarge.
      * @var array
      */
     protected $result = [];
-
 
     /**
      * Umwndlungsergebnis (CSV-String)
@@ -76,13 +67,11 @@ class ExportRunEvent extends QueueEvent
      */
     protected $returnstring = '';
 
-
     /**
      * Name der Verzeichnisses, in dem der Export gespeichert werden soll.
      * @var string
      */
     protected $foldername = '';
-
 
     /**
      * Dateiname der Exportdatei
@@ -90,13 +79,11 @@ class ExportRunEvent extends QueueEvent
      */
     protected $filename = '';
 
-
     /**
      * Array mit den geladenen Daten.
      * @var array
      */
-    protected $data = array();
-
+    protected $data = [];
 
     /**
      * @return null
@@ -106,7 +93,6 @@ class ExportRunEvent extends QueueEvent
         return $this->settings;
     }
 
-
     /**
      * @param null $settings
      */
@@ -114,7 +100,6 @@ class ExportRunEvent extends QueueEvent
     {
         $this->settings = $settings;
     }
-
 
     /**
      * @return array
@@ -124,7 +109,6 @@ class ExportRunEvent extends QueueEvent
         return $this->lang;
     }
 
-
     /**
      * @param array $lang
      */
@@ -132,7 +116,6 @@ class ExportRunEvent extends QueueEvent
     {
         $this->lang = $lang;
     }
-
 
     /**
      * @return string
@@ -142,7 +125,6 @@ class ExportRunEvent extends QueueEvent
         return $this->websitetile;
     }
 
-
     /**
      * @param string $websitetile
      */
@@ -150,7 +132,6 @@ class ExportRunEvent extends QueueEvent
     {
         $this->websitetile = $websitetile;
     }
-
 
     /**
      * @return string
@@ -160,7 +141,6 @@ class ExportRunEvent extends QueueEvent
         return $this->adminmail;
     }
 
-
     /**
      * @param string $adminmail
      */
@@ -168,7 +148,6 @@ class ExportRunEvent extends QueueEvent
     {
         $this->adminmail = $adminmail;
     }
-
 
     /**
      * @return string
@@ -178,7 +157,6 @@ class ExportRunEvent extends QueueEvent
         return $this->charset;
     }
 
-
     /**
      * @param string $charset
      */
@@ -186,7 +164,6 @@ class ExportRunEvent extends QueueEvent
     {
         $this->charset = $charset;
     }
-
 
     /**
      * @return array
@@ -196,7 +173,6 @@ class ExportRunEvent extends QueueEvent
         return $this->result;
     }
 
-
     /**
      * @param array $result
      */
@@ -204,7 +180,6 @@ class ExportRunEvent extends QueueEvent
     {
         $this->result = $result;
     }
-
 
     /**
      * @return string
@@ -214,7 +189,6 @@ class ExportRunEvent extends QueueEvent
         return $this->returnstring;
     }
 
-
     /**
      * @param string $returnstring
      */
@@ -222,7 +196,6 @@ class ExportRunEvent extends QueueEvent
     {
         $this->returnstring = $returnstring;
     }
-
 
     /**
      * @return string
@@ -232,7 +205,6 @@ class ExportRunEvent extends QueueEvent
         return $this->foldername;
     }
 
-
     /**
      * @param string $foldername
      */
@@ -240,7 +212,6 @@ class ExportRunEvent extends QueueEvent
     {
         $this->foldername = $foldername;
     }
-
 
     /**
      * @return string
@@ -250,7 +221,6 @@ class ExportRunEvent extends QueueEvent
         return $this->filename;
     }
 
-
     /**
      * @param string $filename
      */
@@ -258,7 +228,6 @@ class ExportRunEvent extends QueueEvent
     {
         $this->filename = $filename;
     }
-
 
     /**
      * @return array
@@ -268,7 +237,6 @@ class ExportRunEvent extends QueueEvent
         return $this->data;
     }
 
-
     /**
      * @param array $data
      */
@@ -276,7 +244,6 @@ class ExportRunEvent extends QueueEvent
     {
         $this->data = $data;
     }
-
 
     /**
      * Fügt der Ausgabe eine oder mehrere Zeilen hinzu.

@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -25,8 +25,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ExportRunListener
 {
-
-
     /**
      * Führt den Export aus.
      * @param ExportRunEvent            $event
@@ -35,20 +33,19 @@ class ExportRunListener
      */
     public function onExportRunLoadData(ExportRunEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
-        $settings   = $event->getSettings();
-        $lang       = $event->getLang();
+        $settings = $event->getSettings();
+        $lang = $event->getLang();
         $event->addData($lang['MSC']['export']['loadheadline']);
-        $loadEvent  = new ExportLoadDataEvent();
+        $loadEvent = new ExportLoadDataEvent();
         $loadEvent->setSettings($settings);
         $dispatcher->dispatch($loadEvent::NAME, $loadEvent);
-        $result     = $loadEvent->getResult();
-        $fields     = $settings->getSrcfields();
+        $result = $loadEvent->getResult();
+        $fields = $settings->getSrcfields();
         $resulttext = $lang['MSC']['export']['loadresult'];
         $resulttext = sprintf($resulttext, count($fields), count($result));
         $event->addData($resulttext);
         $event->setResult($result);
     }
-
 
     /**
      * Ruft das Konvertieren der Daten vom Array in einen CSV-String auf.
@@ -58,21 +55,20 @@ class ExportRunListener
      */
     public function onExportRunConvertData(ExportRunEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
-        $settings   = $event->getSettings();
-        $result     = $event->getResult();
-        $lang       = $event->getLang();
+        $settings = $event->getSettings();
+        $result = $event->getResult();
+        $lang = $event->getLang();
         $event->addData($lang['MSC']['export']['convertheadline']);
         $convertEvent = new ExportConvertDataEvent();
         $convertEvent->setSettings($settings);
         $convertEvent->setResult($result);
         $dispatcher->dispatch($convertEvent::NAME, $convertEvent);
-        $csvstring  = $convertEvent->getReturnstring();
+        $csvstring = $convertEvent->getReturnstring();
         $resulttext = $lang['MSC']['export']['convertresult'];
         $resulttext = sprintf($resulttext, count($result), strlen($csvstring));
         $event->addData($resulttext);
         $event->setReturnstring($csvstring);
     }
-
 
     /**
      * Führt den Export aus.
@@ -82,16 +78,16 @@ class ExportRunListener
      */
     public function onExportRunSaveData(ExportRunEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
-        $settings   = $event->getSettings();
-        $lang       = $event->getLang();
+        $settings = $event->getSettings();
+        $lang = $event->getLang();
         $event->addData($lang['MSC']['export']['saveheadline']);
 
         if ($settings->getSaveexport()) {
-            $retrunstring   = $event->getReturnstring();
-            $filname        = $event->getFilename();
-            $foldername     = $event->getFoldername();
-            $lang           = $event->getLang();
-            $saveEvent      = new ExportSaveDataEvent();
+            $retrunstring = $event->getReturnstring();
+            $filname = $event->getFilename();
+            $foldername = $event->getFoldername();
+            $lang = $event->getLang();
+            $saveEvent = new ExportSaveDataEvent();
             $saveEvent->setSettings($settings);
             $saveEvent->setLang($lang);
             $saveEvent->setReturnstring($retrunstring);
@@ -105,7 +101,6 @@ class ExportRunListener
         }
     }
 
-
     /**
      * Führt den Export aus.
      * @param ExportRunEvent            $event
@@ -114,19 +109,19 @@ class ExportRunListener
      */
     public function onExportRunMailData(ExportRunEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
-        $settings   = $event->getSettings();
-        $lang       = $event->getLang();
+        $settings = $event->getSettings();
+        $lang = $event->getLang();
         $event->addData($lang['MSC']['export']['mailheadline']);
 
         if ($settings->getSendpermail()) {
-            $retrunstring   = $event->getReturnstring();
-            $filname        = $event->getFilename();
-            $foldername     = $event->getFoldername();
-            $lang           = $event->getLang();
-            $websiteTitle   = $event->getWebsitetile();
-            $adminEmail     = $event->getAdminmail();
-            $characterSet   = $event->getCharset();
-            $mailEvent      = new ExportMailDataEvent();
+            $retrunstring = $event->getReturnstring();
+            $filname = $event->getFilename();
+            $foldername = $event->getFoldername();
+            $lang = $event->getLang();
+            $websiteTitle = $event->getWebsitetile();
+            $adminEmail = $event->getAdminmail();
+            $characterSet = $event->getCharset();
+            $mailEvent = new ExportMailDataEvent();
             $mailEvent->setSettings($settings);
             $mailEvent->setLang($lang);
             $mailEvent->setReturnstring($retrunstring);

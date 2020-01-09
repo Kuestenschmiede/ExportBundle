@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -21,8 +21,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ExportConvertDataListener
 {
-
-
     /**
      * Konvertiert die Daten vom Array in einen CSV-String.
      * @param ExportConvertDataEvent   $event
@@ -34,22 +32,22 @@ class ExportConvertDataListener
         $eventName,
         EventDispatcherInterface $dispatcher
     ) {
-        $result     = $event->getResult();
-        $settings   = $event->getSettings();
-        $headlines  = $settings->getSrcfields();
+        $result = $event->getResult();
+        $settings = $event->getSettings();
+        $headlines = $settings->getSrcfields();
 
         if ($settings->getExportheadlines()) {
             $csv[] = '"' . implode('";"', $headlines) . '"';
         } else {
-            $csv = array();
+            $csv = [];
         }
 
         foreach ($result as $row) {
-            $replaceQuotationMark   = function ($value) {
+            $replaceQuotationMark = function ($value) {
                 return str_replace('"', '\"', $value);
             };
-            $temp                   = array_map($replaceQuotationMark, $row);
-            $csv[]                  = '"' . implode('";"', $row) . '"';
+            $temp = array_map($replaceQuotationMark, $row);
+            $csv[] = '"' . implode('";"', $row) . '"';
         }
 
         $returnstring = implode(";\n", $csv) . ';';

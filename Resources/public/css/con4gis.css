@@ -15,3 +15,6 @@
 li .c4g_export {
   display: none !important;
 }
+li .active .c4g_export {
+  display: block !important;
+}

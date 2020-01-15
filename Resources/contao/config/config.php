@@ -11,8 +11,6 @@
  * @link       https://www.con4gis.org
  */
 
-$GLOBALS['con4gis']['export']['installed'] = true;
-
 $GLOBALS['BE_MOD']['con4gis'] = array_merge($GLOBALS['BE_MOD']['con4gis'], array(
     'c4g_export' => array(
         'tables'        => array('tl_c4g_export'),

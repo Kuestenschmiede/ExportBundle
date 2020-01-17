@@ -42,7 +42,8 @@ $GLOBALS['TL_DCA'][$strName] = array
 			'mode'                    => 1,
 			'fields'                  => array('title'),
             'panelLayout'             => 'sort,filter;search,limit',
-			'flag'                    => 1
+			'flag'                    => 1,
+            'icon'                    => 'bundles/con4giscore/images/be-icons/con4gis.org_dark.svg',
 		),
 		'label' => array
 		(
@@ -90,13 +91,13 @@ $GLOBALS['TL_DCA'][$strName] = array
 			(
 				'label'               => &$GLOBALS['TL_LANG'][$strName]['show'],
 				'href'                => 'act=show',
-				'icon'                => 'show.gif'
+				'icon'                => 'show.svg'
 			),
             'runexport' => array
             (
                 'label'               => &$GLOBALS['TL_LANG'][$strName]['runexport'],
                 'href'                => 'key=runexport',
-                'icon'                => 'web/bundles/con4gisexport/export.png',
+                'icon'                => 'web/bundles/con4gisexport/images/be-icons/export.svg',
                 'button_callback'     => array('\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbGenerateButton'),
                 'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['ExportConfirm'] . '\'))return false;Backend.getScrollOffset()"'
             )

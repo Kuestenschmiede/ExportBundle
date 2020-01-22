@@ -31,7 +31,3 @@ $GLOBALS['con4gis']['export']['filename'] = "{{date}}_{{time}}_{{export::title}}
  */
 
 $GLOBALS['con4gis']['export']['databases'] = [];
-
-if(TL_MODE == "BE") {
-    $GLOBALS['TL_CSS'][] = '/bundles/con4gisexport/css/con4gis.css';
-}

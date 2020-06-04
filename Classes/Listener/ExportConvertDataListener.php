@@ -44,9 +44,9 @@ class ExportConvertDataListener
 
         foreach ($result as $row) {
             $replaceQuotationMark = function ($value) {
-                return str_replace('"', '\"', $value);
+                return str_replace('"', '""', $value);
             };
-            $temp = array_map($replaceQuotationMark, $row);
+            $row = array_map($replaceQuotationMark, $row);
             $csv[] = '"' . implode('";"', $row) . '"';
         }
 

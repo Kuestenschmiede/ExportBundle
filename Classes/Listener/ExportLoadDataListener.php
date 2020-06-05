@@ -120,17 +120,41 @@ class ExportLoadDataListener
         $result = $statement->fetchAll();
 
         if (count($result) >= 1) {
-            foreach ($result as $key => $row) {
-                foreach ($row as $k => $value) {
-                    if (strlen(strval(intval($value))) === 10) {
-                        $result[$key][$k] = date('d.m.Y', $value);
-                    } elseif (is_array(StringUtil::deserialize($value)) === true && !empty(StringUtil::deserialize($value))) {
-                        $result[$key][$k] = implode(', ', StringUtil::deserialize($value));
+            if ($event->getSettings()->getConvertData() === '1') {
+                foreach ($result as $key => $row) {
+                    foreach ($row as $k => $value) {
+                        if (strlen(strval(intval($value))) === 10) {
+                            $result[$key][$k] = date('d.m.Y', $value);
+                        } elseif (is_array(StringUtil::deserialize($value)) === true && !empty(StringUtil::deserialize($value))) {
+                            $result[$key][$k] = implode(', ', array_filter($this->flattenArray(StringUtil::deserialize($value))));
+                        }
                     }
                 }
             }
 
             $event->setResult($result);
         }
+    }
+
+    private function recursivelyDeserializeArray($value) {
+        $source = StringUtil::deserialize($value);
+        $result = [];
+        foreach ($source as $k => $v) {
+            if (is_array($v)) {
+                array_merge($result, $this->recursivelyDeserializeArray($v));
+            } else {
+                $result[] = $v;
+            }
+        }
+        return $result;
+    }
+
+    private function flattenArray($arr) {
+        $it = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($arr));
+        return iterator_to_array($it, true);
+    }
+
+    private function filterEmptyArrayElements() {
+
     }
 }

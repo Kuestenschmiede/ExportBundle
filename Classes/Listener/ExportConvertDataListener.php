@@ -43,10 +43,15 @@ class ExportConvertDataListener
         }
 
         foreach ($result as $row) {
-            $replaceQuotationMark = function ($value) {
+            $escapeQuotationMark = function ($value) {
                 return str_replace('"', '""', $value);
             };
-            $row = array_map($replaceQuotationMark, $row);
+            $row = array_map($escapeQuotationMark, $row);
+            $removeNewLines = function ($value) {
+                return preg_replace('/\n+/', '', $value);
+            };
+            $row = array_map($removeNewLines, $row);
+
             $csv[] = '"' . implode('";"', $row) . '"';
         }
 

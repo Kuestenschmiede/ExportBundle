@@ -126,7 +126,7 @@ $GLOBALS['TL_DCA'][$strName] = array
             '{srcdb_legend},srcdb;'.
             '{srctable_legend},srctable,exportheadlines;'.
             '{srcfields_legend},srcfields;'.
-            '{filterstring_legend:hide},filterstring;'.
+            '{filterstring_legend:hide},filterstring,convertData;'.
             '{usequeue_legend},usequeue,useinterval;'
 	),
 
@@ -220,6 +220,13 @@ $GLOBALS['TL_DCA'][$strName] = array
             'default'                 => '',
             'inputType'               => 'text',
             'eval'                    => array('maxlength'=>255),
+        ),
+        'convertData' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG'][$strName]['convertData'],
+            'default'                 => '',
+            'inputType'               => 'checkbox',
+            'eval'                    => array('tl_class'=>'clr'),
         ),
         'usequeue' => array
         (

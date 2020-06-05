@@ -129,6 +129,13 @@ class TlC4gExport extends BaseEntity
      */
     protected $filterstring = '';
 
+    /**
+     * Verarbeitungsintervall in der Queue benutzen
+     * @var string
+     * @ORM\Column(type="string", length=1)
+     */
+    protected $useinterval = '';
+
 
     /**
      * Abarbeitung über die Warteschlange
@@ -139,11 +146,10 @@ class TlC4gExport extends BaseEntity
 
 
     /**
-     * Verarbeitungsintervall in der Queue benutzen
      * @var string
      * @ORM\Column(type="string", length=1)
      */
-    protected $useinterval = '';
+    protected $convertData = '';
 
 
     /**
@@ -394,6 +400,23 @@ class TlC4gExport extends BaseEntity
         $this->filterstring = $filterstring;
     }
 
+    /**
+     * @return string
+     */
+    public function getConvertData(): string
+    {
+        return $this->convertData;
+    }
+
+    /**
+     * @param string $convertData
+     * @return TlC4gExport
+     */
+    public function setConvertData(string $convertData): TlC4gExport
+    {
+        $this->convertData = $convertData;
+        return $this;
+    }
 
     /**
      * @return string

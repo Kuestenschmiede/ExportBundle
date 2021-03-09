@@ -136,7 +136,8 @@ class ExportLoadDataListener
         }
     }
 
-    private function recursivelyDeserializeArray($value) {
+    private function recursivelyDeserializeArray($value)
+    {
         $source = StringUtil::deserialize($value);
         $result = [];
         foreach ($source as $k => $v) {
@@ -146,15 +147,18 @@ class ExportLoadDataListener
                 $result[] = $v;
             }
         }
+
         return $result;
     }
 
-    private function flattenArray($arr) {
+    private function flattenArray($arr)
+    {
         $it = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($arr));
+
         return iterator_to_array($it, true);
     }
 
-    private function filterEmptyArrayElements() {
-
+    private function filterEmptyArrayElements()
+    {
     }
 }

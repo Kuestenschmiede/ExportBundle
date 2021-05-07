@@ -114,10 +114,10 @@ class TlC4gExport extends BaseEntity
 
     /**
      * Felder, die exportiert werden sollen.
-     * @var string
+     * @var array
      * @ORM\Column(type="array")
      */
-    protected $srcfields = array();
+    protected $srcfields = [];
 
 
     /**
@@ -358,28 +358,21 @@ class TlC4gExport extends BaseEntity
         $this->exportheadlines = $exportheadlines;
     }
 
-
     /**
      * @return array
      */
     public function getSrcfields(): array
     {
-        if ($this->srcfields) {
-            return StringUtil::deserialize($this->srcfields, true);
-        }
-
-        return [];
+        return $this->srcfields;
     }
-
 
     /**
      * @param array $srcfields
      */
-    public function setSrcfields(array $srcfields)
+    public function setSrcfields(array $srcfields): void
     {
-        $this->srcfields = serialize($srcfields);
+        $this->srcfields = $srcfields;
     }
-
 
     /**
      * @return string

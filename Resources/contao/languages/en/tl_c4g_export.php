@@ -1,14 +1,12 @@
 <?php
 /*
- * This file is part of con4gis,
- * the gis-kit for Contao CMS.
- *
- * @package    con4gis
- * @version    7
- * @author     con4gis contributors (see "authors.txt")
- * @license    LGPL-3.0-or-later
- * @copyright  Küstenschmiede GmbH Software & Design
- * @link       https://www.con4gis.org
+ * This file is part of con4gis, the gis-kit for Contao CMS.
+ * @package con4gis
+ * @version 8
+ * @author con4gis contributors (see "authors.txt")
+ * @license LGPL-3.0-or-later
+ * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @link https://www.con4gis.org
  */
 
 /**
@@ -36,6 +34,7 @@ $GLOBALS['TL_LANG'][$strName]['sender']         = array('Sender', 'The sender gi
 $GLOBALS['TL_LANG'][$strName]['saveexport']     = array('Save Export', 'Please choose whether to save the export.');
 $GLOBALS['TL_LANG'][$strName]['savefolder']     = array('Save Location', '.Please choose the save location.');
 $GLOBALS['TL_LANG'][$strName]['filterstring']   = array('Conditions', 'Enter additional conditions that will be attached to the WHERE-clause of the generated SQl statement.');
+$GLOBALS['TL_LANG'][$strName]['convertData']   = ['Convert data', 'Certain data is converted into another format. However, a re-import is then no longer possible without loss.'];
 $GLOBALS['TL_LANG'][$strName]['exportheadlines']= array('Export Column Names', 'Please choose whether to write the column names into the first column in the export file.');
 $GLOBALS['TL_LANG'][$strName]['usequeue']       = array('Process via Queue', 'Process task via queue.');
 $GLOBALS['TL_LANG'][$strName]['useinterval']    = array('Interval Execution', 'Please choose whether to repeat the task in a set interval.');

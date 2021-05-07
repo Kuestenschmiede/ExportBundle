@@ -37,6 +37,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: con4gis.export.load.data, method: onExportLoadGenQuery }
 
+    con4gis_export.onExportLoadAddWhere:
+        class: con4gis\ExportBundle\Classes\Listener\ExportLoadDataListener
+        tags:
+            - { name: kernel.event_listener, event: con4gis.export.load.data, method: onExportLoadAddWhere }
+
     con4gis_export.onExportLoadExecuteQuery:
         class: con4gis\ExportBundle\Classes\Listener\ExportLoadDataListener
         tags:

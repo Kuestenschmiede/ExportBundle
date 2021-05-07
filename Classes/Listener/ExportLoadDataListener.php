@@ -95,7 +95,8 @@ class ExportLoadDataListener
 
         if ($where) {
             $where = str_replace(';', '', $where); // rudimentäre SQL-Injection-Protection!
-            $query .= "WHERE $where";
+            $where = str_replace('WHERE', '', $where);
+            $query .= " WHERE $where";
             $event->setQuery($query);
         }
     }

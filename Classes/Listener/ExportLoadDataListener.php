@@ -91,7 +91,7 @@ class ExportLoadDataListener
     ) {
         $query = $event->getQuery();
         $settings = $event->getSettings();
-        $where = $settings->getFilterstring();
+        $where = html_entity_decode($settings->getFilterstring());
 
         if ($where) {
             $where = str_replace(';', '', $where); // rudimentäre SQL-Injection-Protection!
@@ -123,8 +123,18 @@ class ExportLoadDataListener
                 foreach ($result as $key => $row) {
                     foreach ($row as $k => $value) {
                         if (strlen(strval(intval($value))) === 10) {
-                            $result[$key][$k] = date('d.m.Y', $value);
-                        } elseif (is_array(StringUtil::deserialize($value)) === true && !empty(StringUtil::deserialize($value))) {
+                            if (strpos(strtolower($k), 'time')) {
+                                $result[$key][$k] = date($GLOBALS['TL_CONFIG']['timeFormat'], $value);
+                            } else if (strpos(strtolower($k), 'date')) {
+                                $result[$key][$k] = date($GLOBALS['TL_CONFIG']['dateFormat'], $value);
+                            } else {
+                                $result[$key][$k] = date($GLOBALS['TL_CONFIG']['datimFormat'], $value);
+                            }
+                        } else if (strlen(strval(intval($value))) === 5) {
+                            if (strpos(strtolower($k), 'time')) {
+                                $result[$key][$k] = date($GLOBALS['TL_CONFIG']['timeFormat'], $value);
+                            }
+                        } else if (is_array(StringUtil::deserialize($value)) === true && !empty(StringUtil::deserialize($value))) {
                             $result[$key][$k] = implode(', ', array_filter($this->flattenArray(StringUtil::deserialize($value))));
                         }
                     }

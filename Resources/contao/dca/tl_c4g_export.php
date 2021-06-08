@@ -117,14 +117,14 @@ $GLOBALS['TL_DCA'][$strName] = array
 	// Palettes
 	'palettes' => array
 	(
-		'__selector__'                => array('saveexport', 'sendpermail','useinterval'),
+		'__selector__'                => array('saveexport', 'sendpermail','useinterval','calculator','sortRows'),
 		'default'                     => '{title_legend},title;'.
             '{save_legend},saveexport;'.
             '{mail_legend},sendpermail;'.
             '{srcdb_legend},srcdb;'.
             '{srctable_legend},srctable,exportheadlines;'.
             '{srcfields_legend},srcfields;'.
-            '{filterstring_legend:hide},filterstring,convertData;'.
+            '{filterstring_legend:hide},filterstring,convertData,calculator,sortRows,removeDuplicatedRows;'.
             '{usequeue_legend},usequeue,useinterval;'
 	),
 
@@ -134,6 +134,8 @@ $GLOBALS['TL_DCA'][$strName] = array
 		'sendpermail'                 => 'mailaddress,sender',
         'saveexport'                  => 'savefolder',
         'useinterval'                 => 'intervalkind,intervalcount',
+        'calculator'                  => 'calculatorType,calculatorField',
+        'sortRows'                    => 'sortField'
 	),
 
 	// Fields
@@ -223,6 +225,52 @@ $GLOBALS['TL_DCA'][$strName] = array
         (
             'label'                   => &$GLOBALS['TL_LANG'][$strName]['convertData'],
             'default'                 => '',
+            'inputType'               => 'checkbox',
+            'eval'                    => array('tl_class'=>'clr'),
+        ),
+        'calculator' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG'][$strName]['periodCalculator'],
+            'default'                 => '',
+            'inputType'               => 'checkbox',
+            'eval'                    => array('tl_class'=>'clr', 'submitOnChange'=>true),
+        ),
+        'calculatorType' => array
+        (
+            'label'             => &$GLOBALS['TL_LANG'][$strName]['calculatorType'],
+            'inputType'         => 'select',
+            'default'           => 'sum',
+            'options'           => ['sum','count'],
+            'reference'         => &$GLOBALS['TL_LANG'][$strName]['references'],
+            'sql'               => "varchar(25) NOT NULL default 'sum'"
+        ),
+        'calculatorField' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG'][$strName]['calculatorField'],
+            'default'                 => '',
+            'inputType'               => 'select',
+            'options_callback'        => array('tl_c4g_export', 'getTableFieldOptions'),
+            'eval'                    => array('mandatory'=>true, 'tl_class' => 'long clr', 'includeBlankOption'=>true, 'multiple'=>false),
+        ),
+        'sortRows' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG'][$strName]['sortRows'],
+            'default'                 => '',
+            'inputType'               => 'checkbox',
+            'eval'                    => array('tl_class'=>'clr', 'submitOnChange'=>true),
+        ),
+        'sortField' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG'][$strName]['sortField'],
+            'default'                 => '',
+            'inputType'               => 'select',
+            'options_callback'        => array('tl_c4g_export', 'getTableFieldOptions'),
+            'eval'                    => array('mandatory'=>true, 'tl_class' => 'long clr', 'includeBlankOption'=>true, 'multiple'=>false),
+        ),
+        'removeDuplicatedRows' => array
+        (
+            'label'                   => &$GLOBALS['TL_LANG'][$strName]['removeDuplicatedRows'],
+            'default'                 => '1',
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr'),
         ),

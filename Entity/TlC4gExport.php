@@ -149,6 +149,41 @@ class TlC4gExport extends BaseEntity
      */
     protected $convertData = '';
 
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=1)
+     */
+    protected $calculator = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=10)
+     */
+    protected $calculatorType = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=100)
+     */
+    protected $calculatorField = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=1)
+     */
+    protected $sortRows = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=100)
+     */
+    protected $sortField = '';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=1)
+     */
+    protected $removeDuplicatedRows = '1';
 
     /**
      * Verarbeitungsintervall in der Queue
@@ -407,6 +442,126 @@ class TlC4gExport extends BaseEntity
     {
         $this->convertData = $convertData;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCalculator(): string
+    {
+        return $this->calculator;
+    }
+
+    /**
+     * @param string $calculator
+     */
+    public function setCalculator(string $calculator): void
+    {
+        $this->calculator = $calculator;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCalculatorType(): string
+    {
+        return $this->calculatorType;
+    }
+
+    /**
+     * @param string $calculatorType
+     */
+    public function setCalculatorType(string $calculatorType): void
+    {
+        $this->calculatorType = $calculatorType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCalculatorField(): string
+    {
+        return $this->calculatorField;
+    }
+
+    /**
+     * @param string $calculatorField
+     */
+    public function setCalculatorField(string $calculatorField): void
+    {
+        $this->calculatorField = $calculatorField;
+    }
+
+    /**
+     * @param string $periodType
+     */
+    public function setPeriodType(string $periodType): void
+    {
+        $this->periodType = $periodType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPeriodField(): string
+    {
+        return $this->periodField;
+    }
+
+    /**
+     * @param string $periodField
+     */
+    public function setPeriodField(string $periodField): void
+    {
+        $this->periodField = $periodField;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSortRows(): string
+    {
+        return $this->sortRows;
+    }
+
+    /**
+     * @param string $sortRows
+     */
+    public function setSortRows(string $sortRows): void
+    {
+        $this->sortRows = $sortRows;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSortField(): string
+    {
+        return $this->sortField;
+    }
+
+    /**
+     * @param string $sortField
+     */
+    public function setSortField(string $sortField): void
+    {
+        $this->sortField = $sortField;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemoveDuplicatedRows(): string
+    {
+        return $this->removeDuplicatedRows;
+    }
+
+    /**
+     * @param string $removeDuplicatedRows
+     */
+    public function setRemoveDuplicatedRows(string $removeDuplicatedRows): void
+    {
+        $this->removeDuplicatedRows = $removeDuplicatedRows;
     }
 
     /**

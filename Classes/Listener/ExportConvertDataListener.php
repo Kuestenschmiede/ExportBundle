@@ -34,6 +34,15 @@ class ExportConvertDataListener
         $settings = $event->getSettings();
         $headlines = $settings->getSrcfields();
 
+        if ($event->getSettings()->getCalculator() === '1') {
+            if ($event->getSettings()->getCalculatorType() && $event->getSettings()->getCalculatorType() == 'count' && $event->getSettings()->getCalculatorField()) {
+                $headlines[] = 'Count';
+            }
+            if ($event->getSettings()->getCalculatorType() && $event->getSettings()->getCalculatorType() == 'sum' && $event->getSettings()->getCalculatorField()) {
+                $headlines[] = 'Sum';
+            }
+        }
+
         if ($settings->getExportheadlines()) {
             $csv[] = '"' . implode('";"', $headlines) . '"';
         } else {

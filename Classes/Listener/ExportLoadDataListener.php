@@ -10,7 +10,6 @@
  */
 namespace con4gis\ExportBundle\Classes\Listener;
 
-use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\ExportBundle\Classes\Events\ExportLoadDataEvent;
 use Contao\StringUtil;
@@ -104,6 +103,20 @@ class ExportLoadDataListener
     }
 
     /**
+     * @param $string
+     * @param $chunk
+     * @return mixed|string
+     */
+    public function prepend($string, $chunk)
+    {
+        if (!empty($chunk) && isset($chunk)) {
+            return $string . $chunk;
+        }
+
+        return $string;
+    }
+
+    /**
      * Führt die Abfrage aus.
      * @param ExportLoadDataEvent           $event
      * @param                          $eventName
@@ -132,36 +145,40 @@ class ExportLoadDataListener
                                 $count = 0;
                                 foreach ($row as $k => $value) {
                                     if ($k == $fieldName) {
-                                        $query = 'SELECT COUNT('.$fieldName.') AS count FROM '.$tableName.' WHERE '.$fieldName.'='.$value;
+                                        $query = 'SELECT COUNT(' . $fieldName . ') AS count FROM ' . $tableName . ' WHERE ' . $fieldName . '=' . $value;
                                         $statement = $entityManager->getConnection()->prepare($query);
                                         $statement->execute();
                                         $countResult = $statement->fetch();
                                         if ($result) {
                                             $count = $countResult['count'];
                                         }
+
                                         break;
                                     }
                                 }
                                 $result[$key]['Count'] = $count;
                             }
+
                             break;
                         case 'sum':
                             foreach ($result as $key => $row) {
                                 $sum = 0;
                                 foreach ($row as $k => $value) {
                                     if ($k == $fieldName) {
-                                        $query = 'SELECT SUM('.$fieldName.') AS sum FROM '.$tableName;
+                                        $query = 'SELECT SUM(' . $fieldName . ') AS sum FROM ' . $tableName;
                                         $statement = $entityManager->getConnection()->prepare($query);
                                         $statement->execute();
                                         $countResult = $statement->fetch();
                                         if ($result) {
-                                          $sum = $countResult['sum'];
+                                            $sum = $countResult['sum'];
                                         }
+
                                         break;
                                     }
                                 }
                                 $result[$key]['Sum'] = $sum;
                             }
+
                             break;
                     }
                 }
@@ -170,24 +187,32 @@ class ExportLoadDataListener
             if ($event->getSettings()->getSortRows() === '1') {
                 $fieldName = $event->getSettings()->getSortField();
                 if ($fieldName) {
-                    $result = ArrayHelper::array_sort($result,$fieldName);
+                    $result = ArrayHelper::array_sort($result, $fieldName);
                 }
             }
 
             if ($event->getSettings()->getConvertData() === '1') {
                 foreach ($result as $key => $row) {
                     foreach ($row as $k => $value) {
-                        if (strlen(strval(intval($value))) === 10) {
-                            if (strpos(strtolower($k), 'time')) {
+                        if (intval($value) && ((strpos(strtolower($k), 'time') !== false) || (strpos(strtolower($k), 'date')) !== false)) {
+                            if (strpos(strtolower($k), 'time') !== false) {
                                 $result[$key][$k] = date($GLOBALS['TL_CONFIG']['timeFormat'], $value);
-                            } elseif (strpos(strtolower($k), 'date')) {
+                            } elseif (strpos(strtolower($k), 'date') !== false) {
                                 $result[$key][$k] = date($GLOBALS['TL_CONFIG']['dateFormat'], $value);
-                            } else {
+                            }
+                        } elseif ((strlen(strval(intval($value))) === 5) && (strpos(strtolower($k), 'time') !== false)) {
+                            if (strpos(strtolower($k), 'time') !== false) {
+                                $result[$key][$k] = date($GLOBALS['TL_CONFIG']['timeFormat'], $value);
+                            }
+                        } elseif ((strlen(strval(intval($value))) === 10) && (strpos(strtolower($k), 'date') !== false)) {
+                            if (strpos(strtolower($k), 'time') !== false) {
                                 $result[$key][$k] = date($GLOBALS['TL_CONFIG']['datimFormat'], $value);
                             }
-                        } elseif (strlen(strval(intval($value))) === 5) {
-                            if (strpos(strtolower($k), 'time')) {
-                                $result[$key][$k] = date($GLOBALS['TL_CONFIG']['timeFormat'], $value);
+                        } elseif (strpos(strtolower($k), 'file') !== false) {
+                            $file = \FilesModel::findByUuid(StringUtil::binToUuid($value));
+
+                            if ($file && $file->path) {
+                                $result[$key][$k] = $file->path;
                             }
                         } elseif (is_array(StringUtil::deserialize($value)) === true && !empty(StringUtil::deserialize($value))) {
                             $result[$key][$k] = implode(', ', array_filter($this->flattenArray(StringUtil::deserialize($value))));

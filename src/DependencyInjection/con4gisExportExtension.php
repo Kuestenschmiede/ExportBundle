@@ -9,7 +9,7 @@
  * @link https://www.con4gis.org
  */
 
-namespace con4gis\DataBundle\DependencyInjection;
+namespace con4gis\ExportBundle\DependencyInjection;
 
 
 use Symfony\Component\Config\FileLocator;

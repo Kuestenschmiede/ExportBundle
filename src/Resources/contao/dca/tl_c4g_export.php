@@ -6,7 +6,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -83,7 +83,7 @@ $GLOBALS['TL_DCA'][$strName] = array
 				'label'               => &$GLOBALS['TL_LANG'][$strName]['delete'],
 				'href'                => 'act=delete',
 				'icon'                => 'delete.svg',
-				'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
+				'attributes'          => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"'
 			),
 			'show' => array
 			(
@@ -295,7 +295,7 @@ $GLOBALS['TL_DCA'][$strName] = array
             'default'                 => '',
             'inputType'               => 'select',
             'options'                 => array('hourly', 'daily', 'weekly', 'monthly', 'yearly'),
-            'reference'               => $GLOBALS['TL_LANG'][$strName]['intervalkind_ref'],
+            'reference'               => &$GLOBALS['TL_LANG'][$strName]['intervalkind_ref'],
             'eval'                    => array('tl_class'=>'w50', 'includeBlankOption'=>true, 'chosen'=>true),
         ),
         'intervalcount' => array
@@ -311,7 +311,7 @@ $GLOBALS['TL_DCA'][$strName] = array
 class tl_c4g_export extends \Backend
 {
     public function getDatabaseOptions(DataContainer $dc) {
-        $options = ['default' => $GLOBALS['TL_LANG']['tl_c4g_export']['contaodb']];
+        $options = ['default' => &$GLOBALS['TL_LANG']['tl_c4g_export']['contaodb']];
         foreach ($GLOBALS['con4gis']['export']['databases'] as $key => $value) {
             $options[$key] = $value;
         }

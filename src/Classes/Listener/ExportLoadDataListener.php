@@ -26,9 +26,11 @@ class ExportLoadDataListener
     private EntityManagerInterface $entityManager;
 
     /**
-     * @param ExportLoadDataEvent      $event
-     * @param                          $eventName
+     * @param ExportLoadDataEvent $event
+     * @param $eventName
      * @param EventDispatcherInterface $dispatcher
+     * @return void
+     * @throws \Doctrine\DBAL\Exception
      */
     public function onExportLoadGenFieldlist(
         ExportLoadDataEvent $event,
@@ -65,10 +67,10 @@ class ExportLoadDataListener
     }
 
     /**
-     * Erstellt die Db-Abfrage zum laden der Daten.
-     * @param ExportLoadDataEvent           $event
-     * @param                          $eventName
+     * @param ExportLoadDataEvent $event
+     * @param $eventName
      * @param EventDispatcherInterface $dispatcher
+     * @return void
      */
     public function onExportLoadGenQuery(
         ExportLoadDataEvent $event,
@@ -83,10 +85,10 @@ class ExportLoadDataListener
     }
 
     /**
-     * Erstellt die Db-Abfrage zum laden der Daten.
-     * @param ExportLoadDataEvent           $event
-     * @param                          $eventName
+     * @param ExportLoadDataEvent $event
+     * @param $eventName
      * @param EventDispatcherInterface $dispatcher
+     * @return void
      */
     public function onExportLoadAddWhere(
         ExportLoadDataEvent $event,
@@ -120,10 +122,11 @@ class ExportLoadDataListener
     }
 
     /**
-     * Führt die Abfrage aus.
-     * @param ExportLoadDataEvent           $event
-     * @param                          $eventName
+     * @param ExportLoadDataEvent $event
+     * @param $eventName
      * @param EventDispatcherInterface $dispatcher
+     * @return void
+     * @throws \Doctrine\DBAL\Exception
      */
     public function onExportLoadExecuteQuery(
         ExportLoadDataEvent $event,

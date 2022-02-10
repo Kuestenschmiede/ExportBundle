@@ -34,19 +34,19 @@ class ExportMailDataListener
         $mail = new Email();
         $settings = $event->getSettings();
         $lang = $event->getLang();
-        $returnstring = $event->getReturnstring();
-        $mailaddress = $settings->getMailaddress();
+        $returnString = $event->getReturnstring();
+        $mailAddress = $settings->getMailaddress();
         $filename = $event->getFilename();
-        $webtitle = $event->getWebsitetile();
+        $websiteTitle = $event->getWebsitetile();
         $mail->from = $settings->getSender();
         $mail->charset = $event->getCharset();
-        $mail->subject = sprintf($lang['MSC']['export']['mailsubject'], $webtitle);
-        $mail->text = sprintf($lang['MSC']['export']['mailtext'], $webtitle);
-        $mail->attachFileFromString($returnstring, $filename);
-        $bytes = $mail->sendTo($mailaddress);
+        $mail->subject = sprintf($lang['MSC']['export']['mailsubject'], $websiteTitle);
+        $mail->text = sprintf($lang['MSC']['export']['mailtext'], $websiteTitle);
+        $mail->attachFileFromString($returnString, $filename);
+        $bytes = $mail->sendTo($mailAddress);
 
         if ($bytes !== false) {
-            $event->addData(sprintf($GLOBALS['TL_LANG']['MSC']['export']['mailsuccess'], $mailaddress));
+            $event->addData(sprintf($GLOBALS['TL_LANG']['MSC']['export']['mailsuccess'], $mailAddress));
         } else {
             $event->addData($GLOBALS['TL_LANG']['MSC']['export']['mailerror']);
         }

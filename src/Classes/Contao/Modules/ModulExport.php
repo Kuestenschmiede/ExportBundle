@@ -91,7 +91,7 @@ class ModulExport
 
         $eventHelper = new GetEventHelper();
         $event = $eventHelper->getExportEvent($exportSettings);
-        $this->dispatcher->dispatch($event::NAME, $event);
+        $this->dispatcher->dispatch($event, $event::NAME);
         $content = $event->getData();
 
         if ($parseTemplate) {

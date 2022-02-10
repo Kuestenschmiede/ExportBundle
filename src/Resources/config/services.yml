@@ -1,10 +1,4 @@
-##
-# Services
-##
 services:
-
-
-    # RunExport
     con4gis_export.onExportRunLoadData:
         class: con4gis\ExportBundle\Classes\Listener\ExportRunListener
         tags:
@@ -25,8 +19,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: con4gis.export.run, method: onExportRunMailData }
 
-
-    # Load Data
     con4gis_export.onExportLoadGenFieldlist:
         class: con4gis\ExportBundle\Classes\Listener\ExportLoadDataListener
         tags:
@@ -47,22 +39,16 @@ services:
         tags:
             - { name: kernel.event_listener, event: con4gis.export.load.data, method: onExportLoadExecuteQuery }
 
-
-    # Convert Data
     con4gis_export.onExportConvertGenCsv:
         class: con4gis\ExportBundle\Classes\Listener\ExportConvertDataListener
         tags:
             - { name: kernel.event_listener, event: con4gis.export.convert.data, method: onExportConvertGenCsv }
 
-
-    # Save Data
     con4gis_export.onExportSaveData:
         class: con4gis\ExportBundle\Classes\Listener\ExportSaveDataListener
         tags:
             - { name: kernel.event_listener, event: con4gis.export.save.data, method: onExportSaveData }
 
-
-    # Mail Data
     con4gis_export.onExportMailSendData:
         class: con4gis\ExportBundle\Classes\Listener\ExportMailDataListener
         tags:

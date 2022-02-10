@@ -14,6 +14,7 @@ use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\ExportBundle\Classes\Events\ExportLoadDataEvent;
 use Contao\StringUtil;
 use Contao\System;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -22,10 +23,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ExportLoadDataListener
 {
+    private EntityManagerInterface $entityManager;
+
     /**
-     * @param ExportLoadDataEvent      $event
-     * @param                          $eventName
+     * @param ExportLoadDataEvent $event
+     * @param $eventName
      * @param EventDispatcherInterface $dispatcher
+     * @return void
+     * @throws \Doctrine\DBAL\Exception
      */
     public function onExportLoadGenFieldlist(
         ExportLoadDataEvent $event,
@@ -37,8 +42,13 @@ class ExportLoadDataListener
         $srcFields = $settings->getSrcfields();
         $fields = StringUtil::deserialize($srcFields, true);
 
-        $entityManager = System::getContainer()->get('doctrine')->getManager($settings->getSrcdb());
-        $columns = $entityManager->getConnection()->getSchemaManager()->listTableColumns($table);
+        $this->entityManager = System::getContainer()->get('doctrine')->getManager($settings->getSrcdb());
+        $connection = $this->entityManager->getConnection();
+        if (method_exists($connection, 'createSchemaManager')) {
+            $columns = $connection->createSchemaManager()->listTableColumns($table);
+        } else {
+            $columns = $connection->getSchemaManager()->listTableColumns($table);
+        }
 
         if (count($fields) >= 1) {
             $saveFields = [];
@@ -62,10 +72,10 @@ class ExportLoadDataListener
     }
 
     /**
-     * Erstellt die Db-Abfrage zum laden der Daten.
-     * @param ExportLoadDataEvent           $event
-     * @param                          $eventName
+     * @param ExportLoadDataEvent $event
+     * @param $eventName
      * @param EventDispatcherInterface $dispatcher
+     * @return void
      */
     public function onExportLoadGenQuery(
         ExportLoadDataEvent $event,
@@ -80,10 +90,10 @@ class ExportLoadDataListener
     }
 
     /**
-     * Erstellt die Db-Abfrage zum laden der Daten.
-     * @param ExportLoadDataEvent           $event
-     * @param                          $eventName
+     * @param ExportLoadDataEvent $event
+     * @param $eventName
      * @param EventDispatcherInterface $dispatcher
+     * @return void
      */
     public function onExportLoadAddWhere(
         ExportLoadDataEvent $event,
@@ -117,10 +127,11 @@ class ExportLoadDataListener
     }
 
     /**
-     * Führt die Abfrage aus.
-     * @param ExportLoadDataEvent           $event
-     * @param                          $eventName
+     * @param ExportLoadDataEvent $event
+     * @param $eventName
      * @param EventDispatcherInterface $dispatcher
+     * @return void
+     * @throws \Doctrine\DBAL\Exception
      */
     public function onExportLoadExecuteQuery(
         ExportLoadDataEvent $event,
@@ -128,10 +139,9 @@ class ExportLoadDataListener
         EventDispatcherInterface $dispatcher
     ) {
         $query = $event->getQuery();
-        $entityManager = System::getContainer()->get('doctrine')->getManager($event->getSettings()->getSrcdb());
-        $statement = $entityManager->getConnection()->prepare($query);
-        $statement->execute();
-        $result = $statement->fetchAll();
+        $this->entityManager = System::getContainer()->get('doctrine')->getManager($event->getSettings()->getSrcdb());
+        $statement = $this->entityManager->getConnection()->prepare($query);
+        $result = $statement->executeQuery()->fetchAllAssociative();
 
         if (count($result) >= 1) {
             if ($event->getSettings()->getCalculator() === '1') {
@@ -146,10 +156,9 @@ class ExportLoadDataListener
                                 foreach ($row as $k => $value) {
                                     if ($k == $fieldName) {
                                         $query = 'SELECT COUNT(' . $fieldName . ') AS count FROM ' . $tableName . ' WHERE ' . $fieldName . '=' . $value;
-                                        $statement = $entityManager->getConnection()->prepare($query);
-                                        $statement->execute();
-                                        $countResult = $statement->fetch();
-                                        if ($result) {
+                                        $statement = $this->entityManager->getConnection()->prepare($query);
+                                        $countResult = $statement->executeQuery()->fetchOne();
+                                        if ($countResult) {
                                             $count = $countResult['count'];
                                         }
 
@@ -166,10 +175,9 @@ class ExportLoadDataListener
                                 foreach ($row as $k => $value) {
                                     if ($k == $fieldName) {
                                         $query = 'SELECT SUM(' . $fieldName . ') AS sum FROM ' . $tableName;
-                                        $statement = $entityManager->getConnection()->prepare($query);
-                                        $statement->execute();
-                                        $countResult = $statement->fetch();
-                                        if ($result) {
+                                        $statement = $this->entityManager->getConnection()->prepare($query);
+                                        $countResult = $statement->executeQuery()->fetchOne();
+                                        if ($countResult) {
                                             $sum = $countResult['sum'];
                                         }
 
@@ -239,29 +247,10 @@ class ExportLoadDataListener
         }
     }
 
-    private function recursivelyDeserializeArray($value)
-    {
-        $source = StringUtil::deserialize($value);
-        $result = [];
-        foreach ($source as $k => $v) {
-            if (is_array($v)) {
-                array_merge($result, $this->recursivelyDeserializeArray($v));
-            } else {
-                $result[] = $v;
-            }
-        }
-
-        return $result;
-    }
-
     private function flattenArray($arr)
     {
         $it = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($arr));
 
         return iterator_to_array($it, true);
-    }
-
-    private function filterEmptyArrayElements()
-    {
     }
 }

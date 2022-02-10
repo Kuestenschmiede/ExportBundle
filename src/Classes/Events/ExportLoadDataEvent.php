@@ -10,7 +10,8 @@
  */
 namespace con4gis\ExportBundle\Classes\Events;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
+use con4gis\ExportBundle\Entity\TlC4gExport;
 
 /**
  * Class ExportLoadDataEvent
@@ -52,17 +53,17 @@ class ExportLoadDataEvent extends Event
     protected $data = [];
 
     /**
-     * @return object
+     * @return TlC4gExport
      */
-    public function getSettings()
+    public function getSettings() : TlC4gExport
     {
         return $this->settings;
     }
 
     /**
-     * @param object $settings
+     * @param TlC4gExport $settings
      */
-    public function setSettings($settings)
+    public function setSettings(TlC4gExport $settings)
     {
         $this->settings = $settings;
     }

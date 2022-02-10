@@ -40,8 +40,8 @@ class ExportLoadDataListener
         $srcFields = $settings->getSrcfields();
         $fields = StringUtil::deserialize($srcFields, true);
 
-        $entityManager = System::getContainer()->get('doctrine')->getManager($settings->getSrcdb());
-        $columns = $entityManager->getConnection()->getSchemaManager()->listTableColumns($table);
+        $this->entityManager = System::getContainer()->get('doctrine')->getManager($settings->getSrcdb());
+        $columns = $this->entityManager->getConnection()->createSchemaManager()->listTableColumns($table);
 
         if (count($fields) >= 1) {
             $saveFields = [];
@@ -131,10 +131,9 @@ class ExportLoadDataListener
         EventDispatcherInterface $dispatcher
     ) {
         $query = $event->getQuery();
-        $entityManager = System::getContainer()->get('doctrine')->getManager($event->getSettings()->getSrcdb());
-        $statement = $entityManager->getConnection()->prepare($query);
-        $statement->execute();
-        $result = $statement->fetchAll();
+        $this->entityManager = System::getContainer()->get('doctrine')->getManager($event->getSettings()->getSrcdb());
+        $statement = $this->entityManager->getConnection()->prepare($query);
+        $result = $statement->executeQuery()->fetchAllAssociative();
 
         if (count($result) >= 1) {
             if ($event->getSettings()->getCalculator() === '1') {
@@ -149,10 +148,9 @@ class ExportLoadDataListener
                                 foreach ($row as $k => $value) {
                                     if ($k == $fieldName) {
                                         $query = 'SELECT COUNT(' . $fieldName . ') AS count FROM ' . $tableName . ' WHERE ' . $fieldName . '=' . $value;
-                                        $statement = $entityManager->getConnection()->prepare($query);
-                                        $statement->execute();
-                                        $countResult = $statement->fetch();
-                                        if ($result) {
+                                        $statement = $this->entityManager->getConnection()->prepare($query);
+                                        $countResult = $statement->executeQuery()->fetchOne();
+                                        if ($countResult) {
                                             $count = $countResult['count'];
                                         }
 
@@ -169,10 +167,9 @@ class ExportLoadDataListener
                                 foreach ($row as $k => $value) {
                                     if ($k == $fieldName) {
                                         $query = 'SELECT SUM(' . $fieldName . ') AS sum FROM ' . $tableName;
-                                        $statement = $entityManager->getConnection()->prepare($query);
-                                        $statement->execute();
-                                        $countResult = $statement->fetch();
-                                        if ($result) {
+                                        $statement = $this->entityManager->getConnection()->prepare($query);
+                                        $countResult = $statement->executeQuery()->fetchOne();
+                                        if ($countResult) {
                                             $sum = $countResult['sum'];
                                         }
 

@@ -35,7 +35,7 @@ class ExportMailDataListener
         $settings = $event->getSettings();
         $lang = $event->getLang();
         $returnString = $event->getReturnstring();
-        $mailAddress = $settings->getMailaddress();
+        $mailAddress = $event->getSettings()->getMailaddress();
         $filename = $event->getFilename();
         $websiteTitle = $event->getWebsitetile();
         $mail->from = $settings->getSender();

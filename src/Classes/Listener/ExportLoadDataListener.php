@@ -14,6 +14,7 @@ use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\ExportBundle\Classes\Events\ExportLoadDataEvent;
 use Contao\StringUtil;
 use Contao\System;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -22,6 +23,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ExportLoadDataListener
 {
+    private EntityManagerInterface $entityManager;
+
     /**
      * @param ExportLoadDataEvent      $event
      * @param                          $eventName

@@ -36,7 +36,7 @@ class ExportRunListener
         $event->addData($lang['MSC']['export']['loadheadline']);
         $loadEvent = new ExportLoadDataEvent();
         $loadEvent->setSettings($settings);
-        $dispatcher->dispatch($loadEvent::NAME, $loadEvent);
+        $dispatcher->dispatch($loadEvent, $loadEvent::NAME);
         $result = $loadEvent->getResult();
         $fields = $settings->getSrcfields();
         $resulttext = $lang['MSC']['export']['loadresult'];
@@ -60,7 +60,7 @@ class ExportRunListener
         $convertEvent = new ExportConvertDataEvent();
         $convertEvent->setSettings($settings);
         $convertEvent->setResult($result);
-        $dispatcher->dispatch($convertEvent::NAME, $convertEvent);
+        $dispatcher->dispatch($convertEvent, $convertEvent::NAME);
         $csvstring = $convertEvent->getReturnstring();
         $resulttext = $lang['MSC']['export']['convertresult'];
         $resulttext = sprintf($resulttext, count($result), strlen($csvstring));
@@ -91,7 +91,7 @@ class ExportRunListener
             $saveEvent->setReturnstring($retrunstring);
             $saveEvent->setFilename($filname);
             $saveEvent->setFoldername($foldername);
-            $dispatcher->dispatch($saveEvent::NAME, $saveEvent);
+            $dispatcher->dispatch($saveEvent, $saveEvent::NAME);
             $output = $saveEvent->getData();
             $event->addData($output);
         } else {
@@ -128,7 +128,7 @@ class ExportRunListener
             $mailEvent->setWebsitetile($websiteTitle);
             $mailEvent->setAdminmail($adminEmail);
             $mailEvent->setCharset($characterSet);
-            $dispatcher->dispatch($mailEvent::NAME, $mailEvent);
+            $dispatcher->dispatch($mailEvent, $mailEvent::NAME);
             $output = $mailEvent->getData();
             $event->addData($output);
         } else {

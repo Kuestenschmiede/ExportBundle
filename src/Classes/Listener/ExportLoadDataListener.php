@@ -239,29 +239,10 @@ class ExportLoadDataListener
         }
     }
 
-    private function recursivelyDeserializeArray($value)
-    {
-        $source = StringUtil::deserialize($value);
-        $result = [];
-        foreach ($source as $k => $v) {
-            if (is_array($v)) {
-                array_merge($result, $this->recursivelyDeserializeArray($v));
-            } else {
-                $result[] = $v;
-            }
-        }
-
-        return $result;
-    }
-
     private function flattenArray($arr)
     {
         $it = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($arr));
 
         return iterator_to_array($it, true);
-    }
-
-    private function filterEmptyArrayElements()
-    {
     }
 }

@@ -43,7 +43,12 @@ class ExportLoadDataListener
         $fields = StringUtil::deserialize($srcFields, true);
 
         $this->entityManager = System::getContainer()->get('doctrine')->getManager($settings->getSrcdb());
-        $columns = $this->entityManager->getConnection()->createSchemaManager()->listTableColumns($table);
+        $connection = $this->entityManager->getConnection();
+        if (method_exists($connection, 'createSchemaManager')) {
+            $columns = $connection->createSchemaManager()->listTableColumns($table);
+        } else {
+            $columns = $connection->getSchemaManager()->listTableColumns($table);
+        }
 
         if (count($fields) >= 1) {
             $saveFields = [];

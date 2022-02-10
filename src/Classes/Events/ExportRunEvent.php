@@ -10,6 +10,7 @@
  */
 namespace con4gis\ExportBundle\Classes\Events;
 
+use con4gis\ExportBundle\Entity\TlC4gExport;
 use con4gis\QueueBundle\Classes\Events\QueueEvent;
 
 /**
@@ -84,17 +85,17 @@ class ExportRunEvent extends QueueEvent
     protected $data = [];
 
     /**
-     * @return null
+     * @return TlC4gExport
      */
-    public function getSettings()
+    public function getSettings() : TlC4gExport
     {
         return $this->settings;
     }
 
     /**
-     * @param null $settings
+     * @param TlC4gExport $settings
      */
-    public function setSettings($settings)
+    public function setSettings(TlC4gExport $settings)
     {
         $this->settings = $settings;
     }

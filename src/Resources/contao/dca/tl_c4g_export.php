@@ -24,15 +24,11 @@ $strName = 'tl_c4g_export';
  */
 $GLOBALS['TL_DCA'][$strName] = array
 (
-
-	// Config
 	'config' => array
 	(
 		'dataContainer'               => 'Table',
 		'enableVersioning'            => true
 	),
-
-	// List
 	'list' => array
 	(
 		'sorting' => array
@@ -101,20 +97,14 @@ $GLOBALS['TL_DCA'][$strName] = array
             )
 		)
 	),
-
-	// Select
 	'select' => array
 	(
 		'buttons_callback' => array()
 	),
-
-	// Edit
 	'edit' => array
 	(
 		'buttons_callback' => array()
 	),
-
-	// Palettes
 	'palettes' => array
 	(
 		'__selector__'                => array('saveexport', 'sendpermail','useinterval','calculator','sortRows'),
@@ -127,8 +117,6 @@ $GLOBALS['TL_DCA'][$strName] = array
             '{filterstring_legend:hide},filterstring,convertData,calculator,sortRows,removeDuplicatedRows;'.
             '{usequeue_legend},usequeue,useinterval;'
 	),
-
-	// Subpalettes
 	'subpalettes' => array
 	(
 		'sendpermail'                 => 'mailaddress,sender',
@@ -137,8 +125,6 @@ $GLOBALS['TL_DCA'][$strName] = array
         'calculator'                  => 'calculatorType,calculatorField',
         'sortRows'                    => 'sortField'
 	),
-
-	// Fields
 	'fields' => array
 	(
         'title' => array

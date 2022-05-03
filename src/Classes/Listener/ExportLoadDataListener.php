@@ -12,10 +12,14 @@ namespace con4gis\ExportBundle\Classes\Listener;
 
 use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\ExportBundle\Classes\Events\ExportLoadDataEvent;
+use Contao\Controller;
+use Contao\Database;
 use Contao\StringUtil;
 use Contao\System;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Exception;
+use Throwable;
 
 /**
  * Class ExportLoadDataListener
@@ -24,6 +28,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class ExportLoadDataListener
 {
     private EntityManagerInterface $entityManager;
+    private array $foreignKeyValues = [];
 
     /**
      * @param ExportLoadDataEvent $event
@@ -201,9 +206,47 @@ class ExportLoadDataListener
             }
 
             if ($settings->getConvertData() === '1') {
+                $table = $settings->getSrctable();
+                Controller::loadDataContainer($table);
+                $dcaFields = $GLOBALS['TL_DCA'][$table]['fields'];
+                $hasValidDcaFields = is_array($dcaFields) && !empty($dcaFields);
                 foreach ($result as $key => $row) {
                     foreach ($row as $k => $value) {
-                        if (intval($value) && ((strpos(strtolower($k), 'time') !== false) || (strpos(strtolower($k), 'date')) !== false)) {
+                        if ($hasValidDcaFields && isset($dcaFields[$k]['foreignKey'])) {
+                            $foreignKey = $dcaFields[$k]['foreignKey'];
+                            $foreignKey = explode('.', $foreignKey);
+                            if (count($foreignKey) === 2) {
+                                if (!is_array($this->foreignKeyValues[$foreignKey[0]][$foreignKey[1]])) {
+                                    try {
+                                        $this->fillForeignKeyValues($foreignKey[0], $foreignKey[1]);
+                                    } catch (Exception $exception) {
+                                        continue;
+                                    }
+                                }
+                                if (
+                                    isset($dcaFields[$k]['inputType']) &&
+                                    (
+                                        $dcaFields[$k]['inputType'] === 'select' ||
+                                        $dcaFields[$k]['inputType'] === 'radio'
+                                    )
+                                ) {
+                                    if (
+                                        !isset($dcaFields[$k]['eval']) ||
+                                        !isset($dcaFields[$k]['eval']['multiple']) ||
+                                        $dcaFields[$k]['eval']['multiple'] !== true
+                                    ) {
+                                        if (
+                                            array_key_exists(
+                                                $value,
+                                                $this->foreignKeyValues[$foreignKey[0]][$foreignKey[1]]
+                                            )
+                                        ) {
+                                            $result[$key][$k] = $this->foreignKeyValues[$foreignKey[0]][$foreignKey[1]][$value];
+                                        }
+                                    }
+                                }
+                            }
+                        } elseif (intval($value) && ((strpos(strtolower($k), 'time') !== false) || (strpos(strtolower($k), 'date')) !== false)) {
                             if (strpos(strtolower($k), 'time') !== false) {
                                 $result[$key][$k] = date($GLOBALS['TL_CONFIG']['timeFormat'], $value);
                             } elseif (strpos(strtolower($k), 'date') !== false) {
@@ -255,5 +298,35 @@ class ExportLoadDataListener
         $it = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($arr));
 
         return iterator_to_array($it, true);
+    }
+
+    /**
+     * @param string $table
+     * @param string $field
+     * @return void
+     * @throws Exception
+     */
+    private function fillForeignKeyValues(string $table, string $field)
+    {
+        $database = Database::getInstance();
+
+        $tables = $database->listTables();
+        if (!in_array($table, $tables)) {
+            throw new Exception("Unknown table $table.");
+        }
+        $fields = array_column($database->listFields($table), 'name');
+        if (!in_array($field, $fields)) {
+            throw new Exception("Unknown column $field in table $table.");
+        }
+
+        $statement = $database->prepare("SELECT id, $field FROM $table");
+        $result = $statement->execute()->fetchAllAssoc();
+        if (!empty($result)) {
+            foreach ($result as $row) {
+                $this->foreignKeyValues[$table][$field][$row['id']] = $row[$field];
+            }
+        } else {
+            $this->foreignKeyValues[$table][$field] = [];
+        }
     }
 }

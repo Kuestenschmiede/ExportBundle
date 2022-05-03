@@ -139,16 +139,17 @@ class ExportLoadDataListener
         EventDispatcherInterface $dispatcher
     ) {
         $query = $event->getQuery();
-        $this->entityManager = System::getContainer()->get('doctrine')->getManager($event->getSettings()->getSrcdb());
+        $settings = $event->getSettings();
+        $this->entityManager = System::getContainer()->get('doctrine')->getManager($settings->getSrcdb());
         $statement = $this->entityManager->getConnection()->prepare($query);
         $result = $statement->executeQuery()->fetchAllAssociative();
 
         if (count($result) >= 1) {
-            if ($event->getSettings()->getCalculator() === '1') {
-                if ($event->getSettings()->getCalculatorType() && $event->getSettings()->getCalculatorField()) {
-                    $calculatorType = $event->getSettings()->getCalculatorType();
-                    $fieldName = $event->getSettings()->getCalculatorField();
-                    $tableName = $event->getSettings()->getSrctable();
+            if ($settings->getCalculator() === '1') {
+                if ($settings->getCalculatorType() && $settings->getCalculatorField()) {
+                    $calculatorType = $settings->getCalculatorType();
+                    $fieldName = $settings->getCalculatorField();
+                    $tableName = $settings->getSrctable();
                     switch ($calculatorType) {
                         case 'count':
                             foreach ($result as $key => $row) {
@@ -192,14 +193,14 @@ class ExportLoadDataListener
                 }
             }
 
-            if ($event->getSettings()->getSortRows() === '1') {
-                $fieldName = $event->getSettings()->getSortField();
+            if ($settings->getSortRows() === '1') {
+                $fieldName = $settings->getSortField();
                 if ($fieldName) {
                     $result = ArrayHelper::array_sort($result, $fieldName);
                 }
             }
 
-            if ($event->getSettings()->getConvertData() === '1') {
+            if ($settings->getConvertData() === '1') {
                 foreach ($result as $key => $row) {
                     foreach ($row as $k => $value) {
                         if (intval($value) && ((strpos(strtolower($k), 'time') !== false) || (strpos(strtolower($k), 'date')) !== false)) {
@@ -229,7 +230,7 @@ class ExportLoadDataListener
                 }
             }
 
-            if ($event->getSettings()->getRemoveDuplicatedRows() === '1') {
+            if ($settings->getRemoveDuplicatedRows() === '1') {
                 foreach ($result as $key => $row) {
                     $rowCount = 0;
                     foreach ($result as $key2 => $row2) {

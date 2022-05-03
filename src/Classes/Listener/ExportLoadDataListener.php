@@ -207,6 +207,7 @@ class ExportLoadDataListener
 
             if ($settings->getConvertData() === '1') {
                 $table = $settings->getSrctable();
+                System::loadLanguageFile($table);
                 Controller::loadDataContainer($table);
                 $dcaFields = $GLOBALS['TL_DCA'][$table]['fields'];
                 $hasValidDcaFields = is_array($dcaFields) && !empty($dcaFields);
@@ -242,6 +243,29 @@ class ExportLoadDataListener
                                             )
                                         ) {
                                             $result[$key][$k] = $this->foreignKeyValues[$foreignKey[0]][$foreignKey[1]][$value];
+                                        }
+                                    }
+                                }
+                            }
+                        } elseif ($hasValidDcaFields && isset($dcaFields[$k]['reference'])) {
+                            if (
+                                isset($dcaFields[$k]['inputType']) &&
+                                (
+                                    $dcaFields[$k]['inputType'] === 'select' ||
+                                    $dcaFields[$k]['inputType'] === 'radio'
+                                )
+                            ) {
+                                if (
+                                    !isset($dcaFields[$k]['eval']) ||
+                                    !isset($dcaFields[$k]['eval']['multiple']) ||
+                                    $dcaFields[$k]['eval']['multiple'] !== true
+                                ) {
+                                    if (array_key_exists($value, $dcaFields[$k]['reference'])
+                                    ) {
+                                        if (is_array($dcaFields[$k]['reference'][$value])) {
+                                            $result[$key][$k] = $dcaFields[$k]['reference'][$value][0];
+                                        } else {
+                                            $result[$key][$k] = $dcaFields[$k]['reference'][$value];
                                         }
                                     }
                                 }

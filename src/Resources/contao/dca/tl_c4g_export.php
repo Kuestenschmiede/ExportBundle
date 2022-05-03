@@ -129,12 +129,14 @@ $GLOBALS['TL_DCA'][$strName] = array
 	(
         'title' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50', 'rgxp'=>'alnum', 'nospace'=>false, 'spaceToUnderscore'=>true),
         ),
         'srcdb' => array
         (
+            'exclude'                 => true,
             'default'                 => 'default',
             'inputType'               => 'select',
             'options_callback'        => array('tl_c4g_export', 'getDatabaseOptions'),
@@ -142,6 +144,7 @@ $GLOBALS['TL_DCA'][$strName] = array
         ),
         'srctable' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'select',
             'options_callback'        => array('tl_c4g_export', 'getTableOptions'),
@@ -149,12 +152,14 @@ $GLOBALS['TL_DCA'][$strName] = array
         ),
         'exportheadlines' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr m12'),
         ),
         'srcfields' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkboxWizard',
             'options_callback'        => array('tl_c4g_export', 'getTableFieldOptions'),
@@ -162,54 +167,63 @@ $GLOBALS['TL_DCA'][$strName] = array
         ),
         'sendpermail' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr m12', 'submitOnChange'=>true),
         ),
         'mailaddress' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'rgxp'=>'email', 'maxlength'=>255, 'decodeEntities'=>true, 'tl_class'=>'w50'),
         ),
         'sender' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
             'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
         ),
         'saveexport' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr m12', 'submitOnChange'=>true),
         ),
         'savefolder' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'fileTree',
             'eval'                    => array('fieldType'=>'radio', 'tl_class'=>'clr wizard'),
         ),
         'filterstring' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
             'eval'                    => array('maxlength'=>255),
         ),
         'convertData' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr'),
         ),
         'calculator' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr', 'submitOnChange'=>true),
         ),
         'calculatorType' => array
         (
+            'exclude'           => true,
             'inputType'         => 'select',
             'default'           => 'sum',
             'options'           => ['sum','count'],
@@ -218,6 +232,7 @@ $GLOBALS['TL_DCA'][$strName] = array
         ),
         'calculatorField' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'select',
             'options_callback'        => array('tl_c4g_export', 'getTableFieldOptions'),
@@ -225,12 +240,14 @@ $GLOBALS['TL_DCA'][$strName] = array
         ),
         'sortRows' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr', 'submitOnChange'=>true),
         ),
         'sortField' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'select',
             'options_callback'        => array('tl_c4g_export', 'getTableFieldOptions'),
@@ -238,12 +255,14 @@ $GLOBALS['TL_DCA'][$strName] = array
         ),
         'removeDuplicatedRows' => array
         (
+            'exclude'                 => true,
             'default'                 => '1',
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr'),
         ),
         'usequeue' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
             'save_callback'           => array(array('\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbAddToQueue')),
@@ -251,12 +270,14 @@ $GLOBALS['TL_DCA'][$strName] = array
         ),
         'useinterval' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'w50', 'submitOnChange'=>true),
         ),
         'intervalkind' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'select',
             'options'                 => array('hourly', 'daily', 'weekly', 'monthly', 'yearly'),
@@ -265,6 +286,7 @@ $GLOBALS['TL_DCA'][$strName] = array
         ),
         'intervalcount' => array
         (
+            'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
             'eval'                    => array('tl_class'=>'w50', 'rgxp'=>'natural'),

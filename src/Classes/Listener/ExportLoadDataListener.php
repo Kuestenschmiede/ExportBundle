@@ -218,11 +218,13 @@ class ExportLoadDataListener
                                 $result[$key][$k] = date($GLOBALS['TL_CONFIG']['datimFormat'], $value);
                             }
                         } elseif (strpos(strtolower($k), 'file') !== false) {
-                            $file = \FilesModel::findByUuid(StringUtil::binToUuid($value));
+                            try {
+                                $file = \FilesModel::findByUuid(StringUtil::binToUuid($value));
 
-                            if ($file && $file->path) {
-                                $result[$key][$k] = $file->path;
-                            }
+                                if ($file && $file->path) {
+                                    $result[$key][$k] = $file->path;
+                                }
+                            } catch (Throwable $throwable) {}
                         } elseif (is_array(StringUtil::deserialize($value)) === true && !empty(StringUtil::deserialize($value))) {
                             $result[$key][$k] = implode(', ', array_filter($this->flattenArray(StringUtil::deserialize($value))));
                         }

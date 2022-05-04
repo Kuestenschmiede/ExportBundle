@@ -11,6 +11,7 @@
 namespace con4gis\ExportBundle\Classes\Listener;
 
 use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
+use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\ExportBundle\Classes\Events\ExportLoadDataEvent;
 use Contao\Controller;
 use Contao\Database;
@@ -267,6 +268,38 @@ class ExportLoadDataListener
                                         } else {
                                             $result[$key][$k] = $dcaFields[$k]['reference'][$value];
                                         }
+                                    }
+                                }
+                            }
+                        } elseif (
+                            $hasValidDcaFields &&
+                            isset($dcaFields[$k]['options_callback']) &&
+                            is_array($dcaFields[$k]['options_callback'])
+                        ) {
+                            if (
+                                isset($dcaFields[$k]['inputType']) &&
+                                (
+                                    $dcaFields[$k]['inputType'] === 'select' ||
+                                    $dcaFields[$k]['inputType'] === 'radio'
+                                )
+                            ) {
+                                if (
+                                    !isset($dcaFields[$k]['eval']) ||
+                                    !isset($dcaFields[$k]['eval']['multiple']) ||
+                                    $dcaFields[$k]['eval']['multiple'] !== true
+                                ) {
+                                    try {
+                                        $optionsCallback = $dcaFields[$k]['options_callback'];
+                                        $object = new ($optionsCallback[0])();
+                                        $method = $optionsCallback[1];
+                                        $options = $object->$method($row);
+                                    } catch (Throwable $throwable) {
+                                        C4gLogModel::addLogEntry('export', $throwable->getMessage());
+                                        continue;
+                                    }
+                                    if (array_key_exists($value, $options)
+                                    ) {
+                                        $result[$key][$k] = $options[$value];
                                     }
                                 }
                             }

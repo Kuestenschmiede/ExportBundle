@@ -290,11 +290,15 @@ class ExportLoadDataListener
                                 ) {
                                     try {
                                         $optionsCallback = $dcaFields[$k]['options_callback'];
-                                        $object = new ($optionsCallback[0])();
+                                        $callbackClass = $optionsCallback[0];
+                                        $object = new $callbackClass();
                                         $method = $optionsCallback[1];
                                         $options = $object->$method($row);
                                     } catch (Throwable $throwable) {
                                         C4gLogModel::addLogEntry('export', $throwable->getMessage());
+                                        continue;
+                                    } catch (Exception $exception) {
+                                        C4gLogModel::addLogEntry('export', $exception->getMessage());
                                         continue;
                                     }
                                     if (array_key_exists($value, $options)

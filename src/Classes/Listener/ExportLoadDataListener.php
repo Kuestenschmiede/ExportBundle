@@ -297,9 +297,6 @@ class ExportLoadDataListener
                                     } catch (Throwable $throwable) {
                                         C4gLogModel::addLogEntry('export', $throwable->getMessage());
                                         continue;
-                                    } catch (Exception $exception) {
-                                        C4gLogModel::addLogEntry('export', $exception->getMessage());
-                                        continue;
                                     }
                                     if (array_key_exists($value, $options)
                                     ) {

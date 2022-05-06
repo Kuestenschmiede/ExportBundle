@@ -310,14 +310,6 @@ class ExportLoadDataListener
                             } elseif (strpos(strtolower($k), 'date') !== false) {
                                 $result[$key][$k] = date($GLOBALS['TL_CONFIG']['dateFormat'], $value);
                             }
-                        } elseif ((strlen(strval(intval($value))) === 5) && (strpos(strtolower($k), 'time') !== false)) {
-                            if (strpos(strtolower($k), 'time') !== false) {
-                                $result[$key][$k] = date($GLOBALS['TL_CONFIG']['timeFormat'], $value);
-                            }
-                        } elseif ((strlen(strval(intval($value))) === 10) && (strpos(strtolower($k), 'date') !== false)) {
-                            if (strpos(strtolower($k), 'time') !== false) {
-                                $result[$key][$k] = date($GLOBALS['TL_CONFIG']['datimFormat'], $value);
-                            }
                         } elseif (strpos(strtolower($k), 'file') !== false) {
                             try {
                                 $file = \FilesModel::findByUuid(StringUtil::binToUuid($value));

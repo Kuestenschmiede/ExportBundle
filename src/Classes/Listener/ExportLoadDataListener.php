@@ -304,10 +304,45 @@ class ExportLoadDataListener
                                     }
                                 }
                             }
-                        } elseif (intval($value) && (strpos(strtolower($k), 'time') !== false)) {
+                        } elseif (
+                            intval($value) &&
+                            (
+                                strpos(strtolower($k), 'time') !== false ||
+                                (
+                                    $hasValidDcaFields &&
+                                    isset($dcaFields[$k]['eval']) &&
+                                    isset($dcaFields[$k]['eval']['rgxp']) &&
+                                    $dcaFields[$k]['eval']['rgxp'] === 'time'
+                                )
+                            )
+                        ) {
                             $result[$key][$k] = date($GLOBALS['TL_CONFIG']['timeFormat'], $value);
-                        } elseif (intval($value) && (strpos(strtolower($k), 'date')) !== false) {
+                        } elseif (
+                            intval($value) &&
+                            (
+                                strpos(strtolower($k), 'date') !== false ||
+                                (
+                                    $hasValidDcaFields &&
+                                    isset($dcaFields[$k]['eval']) &&
+                                    isset($dcaFields[$k]['eval']['rgxp']) &&
+                                    $dcaFields[$k]['eval']['rgxp'] === 'date'
+                                )
+                            )
+                        ) {
                             $result[$key][$k] = date($GLOBALS['TL_CONFIG']['dateFormat'], $value);
+                        } elseif (
+                            intval($value) &&
+                            (
+                                $k === 'tstamp' ||
+                                (
+                                    $hasValidDcaFields &&
+                                    isset($dcaFields[$k]['eval']) &&
+                                    isset($dcaFields[$k]['eval']['rgxp']) &&
+                                    $dcaFields[$k]['eval']['rgxp'] === 'datim'
+                                )
+                            )
+                        ) {
+                            $result[$key][$k] = date($GLOBALS['TL_CONFIG']['datimFormat'], $value);
                         } elseif (strpos(strtolower($k), 'file') !== false) {
                             try {
                                 $file = \FilesModel::findByUuid(StringUtil::binToUuid($value));

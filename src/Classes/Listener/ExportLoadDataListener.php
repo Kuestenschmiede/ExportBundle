@@ -289,11 +289,16 @@ class ExportLoadDataListener
                                     $dcaFields[$k]['eval']['multiple'] !== true
                                 ) {
                                     try {
+                                        $database = Database::getInstance();
+                                        $statement = $database->prepare(
+                                            "SELECT * FROM $table WHERE id = ?"
+                                        );
+                                        $fullRow = $statement->execute($row['id'])->fetchAssoc();
                                         $optionsCallback = $dcaFields[$k]['options_callback'];
                                         $callbackClass = $optionsCallback[0];
                                         $object = new $callbackClass();
                                         $method = $optionsCallback[1];
-                                        $options = $object->$method($row);
+                                        $options = $object->$method($fullRow);
                                     } catch (Throwable $throwable) {
                                         C4gLogModel::addLogEntry('export', $throwable->getMessage());
                                         continue;

@@ -68,8 +68,14 @@ class ExportLoadDataListener
                 }
             }
 
-            $fieldlist = implode(',', $saveFields);
-            $event->setFieldlist($fieldlist);
+            if (!in_array('id', $saveFields)) {
+                // We might need the id to operate on the row. It will be removed before the export is created.
+                $fieldList = implode(',', array_merge(['id'], $saveFields));
+            } else {
+                $fieldList = implode(',', $saveFields);
+            }
+
+            $event->setFieldlist($fieldList);
 
             // Save the changed field list in the settings
             $settings->setSrcfields($saveFields);
@@ -89,9 +95,9 @@ class ExportLoadDataListener
         EventDispatcherInterface $dispatcher
     ) {
         $settings = $event->getSettings();
-        $fieldlist = $event->getFieldlist();
+        $fieldList = $event->getFieldlist();
         $table = $settings->getSrctable();
-        $query = "SELECT $fieldlist FROM $table";
+        $query = "SELECT $fieldList FROM $table";
         $event->setQuery($query);
     }
 
@@ -374,6 +380,12 @@ class ExportLoadDataListener
                     if ($rowCount > 1) {
                         unset($result[$key]);
                     }
+                }
+            }
+
+            if (!in_array('id', $settings->getSrcfields())) {
+                foreach ($result as $key => $row) {
+                    unset($result[$key]['id']);
                 }
             }
 

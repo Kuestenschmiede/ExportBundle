@@ -125,20 +125,6 @@ class ExportLoadDataListener
     }
 
     /**
-     * @param $string
-     * @param $chunk
-     * @return mixed|string
-     */
-    public function prepend($string, $chunk)
-    {
-        if (!empty($chunk) && isset($chunk)) {
-            return $string . $chunk;
-        }
-
-        return $string;
-    }
-
-    /**
      * @param ExportLoadDataEvent $event
      * @param $eventName
      * @param EventDispatcherInterface $dispatcher

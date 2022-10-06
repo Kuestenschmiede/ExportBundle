@@ -198,6 +198,48 @@ class ExportLoadDataListener
                 }
             }
 
+            if ($settings->getLoadChildTableData()) {
+                $tables = $settings->getChildTables();
+                $formattedTables = [];
+                foreach ($tables as $table) {
+                    $table = explode('.', $table);
+                    $formattedTables[$table[0]][] = $table[1];
+                }
+                $database = Database::getInstance();
+                foreach ($formattedTables as $key => $columns) {
+                    $statement = $database->prepare("SELECT * FROM $key");
+                    $foreignRows = $statement->execute()->fetchAllAssoc();
+                    if (!empty($foreignRows)) {
+                        $statement = $database->prepare(
+                            "SELECT max(`count`) as `max` FROM (SELECT pid, count(*) as `count` FROM $key GROUP BY pid) target"
+                        );
+                        $max = $statement->execute()->fetchAssoc()['max'];
+                        if ($max > 0) {
+                            foreach ($result as $k => $row) {
+                                $counter = 1;
+                                foreach ($foreignRows as $foreignRow) {
+                                    if ((int) $row['id'] === (int) $foreignRow['pid']) {
+                                        foreach ($columns as $column) {
+                                            $result[$k][$key.'.'.$column.$counter] = $foreignRow[$column];
+                                        }
+                                        $counter += 1;
+                                        if ($counter > $max) {
+                                            continue 2;
+                                        }
+                                    }
+                                }
+                                while ($counter <= $max) {
+                                    foreach ($columns as $column) {
+                                        $result[$k][$column.$counter] = '';
+                                    }
+                                    $counter += 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             if ($settings->getConvertData() === '1') {
                 $table = $settings->getSrctable();
                 System::loadLanguageFile($table);

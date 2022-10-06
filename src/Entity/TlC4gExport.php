@@ -186,6 +186,18 @@ class TlC4gExport extends BaseEntity
     protected $removeDuplicatedRows = '1';
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=1)
+     */
+    protected $loadChildTableData = '0';
+
+    /**
+     * @var array
+     * @ORM\Column(type="array")
+     */
+    protected $childTables = [];
+
+    /**
      * Verarbeitungsintervall in der Queue
      * @var string
      * @ORM\Column(type="string")
@@ -562,6 +574,38 @@ class TlC4gExport extends BaseEntity
     public function setRemoveDuplicatedRows(string $removeDuplicatedRows): void
     {
         $this->removeDuplicatedRows = $removeDuplicatedRows;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLoadChildTableData(): string
+    {
+        return $this->loadChildTableData;
+    }
+
+    /**
+     * @param string $loadChildTableData
+     */
+    public function setLoadChildTableData(string $loadChildTableData): void
+    {
+        $this->loadChildTableData = $loadChildTableData;
+    }
+
+    /**
+     * @return array
+     */
+    public function getChildTables(): array
+    {
+        return $this->childTables;
+    }
+
+    /**
+     * @param array $childTables
+     */
+    public function setChildTables(array $childTables): void
+    {
+        $this->childTables = $childTables;
     }
 
     /**

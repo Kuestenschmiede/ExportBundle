@@ -11,6 +11,7 @@
 namespace con4gis\ExportBundle\Classes\Listener;
 
 use con4gis\ExportBundle\Classes\Events\ExportConvertDataEvent;
+use Contao\Database;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -40,6 +41,35 @@ class ExportConvertDataListener
             }
             if ($event->getSettings()->getCalculatorType() && $event->getSettings()->getCalculatorType() == 'sum' && $event->getSettings()->getCalculatorField()) {
                 $headlines[] = 'Sum';
+            }
+        }
+
+        if ($settings->getLoadChildTableData()) {
+            $tables = $settings->getChildTables();
+            $formattedTables = [];
+            foreach ($tables as $table) {
+                $table = explode('.', $table);
+                $formattedTables[$table[0]][] = $table[1];
+            }
+            $database = Database::getInstance();
+            foreach ($formattedTables as $key => $columns) {
+                $statement = $database->prepare("SELECT * FROM $key");
+                $foreignRows = $statement->execute()->fetchAllAssoc();
+                if (!empty($foreignRows)) {
+                    $statement = $database->prepare(
+                        "SELECT max(`count`) as `max` FROM (SELECT pid, count(*) as `count` FROM $key GROUP BY pid) target"
+                    );
+                    $max = $statement->execute()->fetchAssoc()['max'];
+                    if ($max > 0) {
+                        $counter = 1;
+                        while ($counter <= $max) {
+                            foreach ($columns as $column) {
+                                $headlines[] = $key.'.'.$column.$counter;
+                            }
+                            $counter += 1;
+                        }
+                    }
+                }
             }
         }
 

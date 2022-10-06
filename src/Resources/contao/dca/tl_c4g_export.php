@@ -107,14 +107,14 @@ $GLOBALS['TL_DCA'][$strName] = array
 	),
 	'palettes' => array
 	(
-		'__selector__'                => array('saveexport', 'sendpermail','useinterval','calculator','sortRows'),
+		'__selector__'                => array('saveexport', 'sendpermail','useinterval','calculator','sortRows','loadChildTableData'),
 		'default'                     => '{title_legend},title;'.
             '{save_legend},saveexport;'.
             '{mail_legend},sendpermail;'.
             '{srcdb_legend},srcdb;'.
             '{srctable_legend},srctable,exportheadlines;'.
             '{srcfields_legend},srcfields;'.
-            '{filterstring_legend:hide},filterstring,convertData,calculator,sortRows,removeDuplicatedRows;'.
+            '{filterstring_legend:hide},filterstring,convertData,calculator,sortRows,removeDuplicatedRows,loadChildTableData;'.
             '{usequeue_legend},usequeue,useinterval;'
 	),
 	'subpalettes' => array
@@ -123,7 +123,8 @@ $GLOBALS['TL_DCA'][$strName] = array
         'saveexport'                  => 'savefolder',
         'useinterval'                 => 'intervalkind,intervalcount',
         'calculator'                  => 'calculatorType,calculatorField',
-        'sortRows'                    => 'sortField'
+        'sortRows'                    => 'sortField',
+        'loadChildTableData'          => 'childTables'
 	),
 	'fields' => array
 	(
@@ -260,6 +261,21 @@ $GLOBALS['TL_DCA'][$strName] = array
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'clr'),
         ),
+        'loadChildTableData' => array
+        (
+            'exclude'                 => true,
+            'default'                 => '1',
+            'inputType'               => 'checkbox',
+            'eval'                    => array('tl_class'=>'clr'),
+        ),
+        'childTables' => [
+            'exclude' => true,
+            'inputType' => 'checkboxWizard',
+            'options_callback' => [\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport::class, 'loadChildTableOptions'],
+            'eval' => [
+                'multiple' => true
+            ]
+        ],
         'usequeue' => array
         (
             'exclude'                 => true,

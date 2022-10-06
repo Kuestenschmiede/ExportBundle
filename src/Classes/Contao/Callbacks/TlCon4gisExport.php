@@ -12,6 +12,8 @@ namespace con4gis\ExportBundle\Classes\Contao\Callbacks;
 
 use con4gis\QueueBundle\Classes\Queue\QueueManager;
 use Contao\Controller;
+use Contao\Database;
+use Contao\DataContainer;
 use Contao\Image;
 use con4gis\ExportBundle\Classes\Helper\GetEventHelper;
 use Contao\Input;
@@ -143,5 +145,22 @@ class TlCon4gisExport
         }
 
         return $value;
+    }
+
+    public function loadChildTableOptions(DataContainer $dc)
+    {
+        $table = $dc->activeRecord->srctable;
+
+        Controller::loadDataContainer($table);
+        $cTables = $GLOBALS['TL_DCA'][$table]['config']['ctable'];
+        $options = [];
+        $database = Database::getInstance();
+        foreach ($cTables as $table) {
+            $fields = $database->listFields($table);
+            foreach ($fields as $field) {
+                $options[] = "$table.".$field['name'];
+            }
+        }
+        return $options;
     }
 }

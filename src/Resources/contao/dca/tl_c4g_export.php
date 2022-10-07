@@ -212,7 +212,7 @@ $GLOBALS['TL_DCA'][$strName] = [
         ],
         'loadChildTableData' => [
             'exclude'                 => true,
-            'default'                 => '1',
+            'default'                 => '0',
             'inputType'               => 'checkbox',
             'eval'                    => ['tl_class' => 'clr', 'submitOnChange' => true],
         ],

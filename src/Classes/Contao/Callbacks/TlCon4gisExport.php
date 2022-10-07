@@ -149,16 +149,17 @@ class TlCon4gisExport
 
     public function loadChildTableOptions(DataContainer $dc)
     {
-        $table = $dc->activeRecord->srctable;
-
-        Controller::loadDataContainer($table);
-        $cTables = $GLOBALS['TL_DCA'][$table]['config']['ctable'];
         $options = [];
-        $database = Database::getInstance();
-        foreach ($cTables as $table) {
-            $fields = $database->listFields($table);
-            foreach ($fields as $field) {
-                $options[] = "$table.".$field['name'];
+        $table = $dc->activeRecord->srctable;
+        if ($table) {
+            Controller::loadDataContainer($table);
+            $cTables = $GLOBALS['TL_DCA'][$table]['config']['ctable'];
+            $database = Database::getInstance();
+            foreach ($cTables as $table) {
+                $fields = $database->listFields($table);
+                foreach ($fields as $field) {
+                    $options[] = "$table.".$field['name'];
+                }
             }
         }
         return $options;

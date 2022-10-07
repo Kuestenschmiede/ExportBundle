@@ -270,6 +270,7 @@ $GLOBALS['TL_DCA'][$strName] = array
         ),
         'childTables' => [
             'exclude' => true,
+            'default' => '',
             'inputType' => 'checkboxWizard',
             'options_callback' => [\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport::class, 'loadChildTableOptions'],
             'eval' => [

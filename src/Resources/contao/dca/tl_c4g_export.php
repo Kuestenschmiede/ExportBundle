@@ -266,7 +266,7 @@ $GLOBALS['TL_DCA'][$strName] = array
             'exclude'                 => true,
             'default'                 => '1',
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class'=>'clr'),
+            'eval'                    => array('tl_class' => 'clr', 'submitOnChange' => true),
         ),
         'childTables' => [
             'exclude' => true,

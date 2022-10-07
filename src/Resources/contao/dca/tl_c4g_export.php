@@ -10,48 +10,32 @@
  * @link https://www.con4gis.org
  */
 
-/**
- * Set Tablename
- */
-
-use con4gis\CoreBundle\Classes\Helper\DcaHelper;
-
 $strName = 'tl_c4g_export';
 
-
-/**
- * Table tl_c4g_export
- */
-$GLOBALS['TL_DCA'][$strName] = array
-(
-	'config' => array
-	(
+$GLOBALS['TL_DCA'][$strName] = [
+	'config' => [
 		'dataContainer'               => 'Table',
 		'enableVersioning'            => true
-	),
-	'list' => array
-	(
-		'sorting' => array
-		(
+    ],
+	'list' => [
+		'sorting' => [
 			'mode'                    => 1,
-			'fields'                  => array('title'),
+			'fields'                  => ['title'],
             'panelLayout'             => 'sort,filter;search,limit',
 			'flag'                    => 1,
             'icon'                    => 'bundles/con4giscore/images/be-icons/con4gis_blue.svg',
-		),
-		'label' => array
-		(
-			'fields'                  => array('title'),
+        ],
+		'label' => [
+			'fields'                  => ['title'],
 			'format'                  => '%s'
-		),
-		'global_operations' => array
-		(
+        ],
+		'global_operations' => [
 			'all' => [
 				'label'               => &$GLOBALS['TL_LANG']['MSC']['all'],
 				'href'                => 'act=select',
 				'class'               => 'header_edit_all',
 				'attributes'          => 'onclick="Backend.getScrollOffset();" accesskey="e"'
-			],
+		],
             'back' => [
                 'href'                => 'key=back',
                 'class'               => 'header_back',
@@ -59,55 +43,40 @@ $GLOBALS['TL_DCA'][$strName] = array
                 'icon'                => 'back.svg',
                 'label'               => &$GLOBALS['TL_LANG']['MSC']['backBT'],
             ],
-		),
-		'operations' => array
-		(
-			'edit' => array
-			(
+        ],
+		'operations' => [
+			'edit' => [
 				'label'               => &$GLOBALS['TL_LANG'][$strName]['edit'],
 				'href'                => 'act=edit',
 				'icon'                => 'edit.svg',
-			),
-			'copy' => array
-			(
+            ],
+			'copy' => [
 				'label'               => &$GLOBALS['TL_LANG'][$strName]['copy'],
 				'href'                => 'act=copy',
 				'icon'                => 'copy.svg'
-			),
-			'delete' => array
-			(
+            ],
+			'delete' => [
 				'label'               => &$GLOBALS['TL_LANG'][$strName]['delete'],
 				'href'                => 'act=delete',
 				'icon'                => 'delete.svg',
 				'attributes'          => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"'
-			),
-			'show' => array
-			(
+            ],
+			'show' => [
 				'label'               => &$GLOBALS['TL_LANG'][$strName]['show'],
 				'href'                => 'act=show',
 				'icon'                => 'show.svg'
-			),
-            'runexport' => array
-            (
+            ],
+            'runexport' => [
                 'label'               => &$GLOBALS['TL_LANG'][$strName]['runexport'],
                 'href'                => 'key=runexport',
                 'icon'                => 'web/bundles/con4gisexport/images/be-icons/export.svg',
-                'button_callback'     => array('\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbGenerateButton'),
+                'button_callback'     => ['\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbGenerateButton'],
                 'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['ExportConfirm'] . '\'))return false;Backend.getScrollOffset()"'
-            )
-		)
-	),
-	'select' => array
-	(
-		'buttons_callback' => array()
-	),
-	'edit' => array
-	(
-		'buttons_callback' => array()
-	),
-	'palettes' => array
-	(
-		'__selector__'                => array('saveexport', 'sendpermail','useinterval','calculator','sortRows','loadChildTableData'),
+            ]
+        ]
+    ],
+	'palettes' => [
+		'__selector__'                => ['saveexport', 'sendpermail','useinterval','calculator','sortRows','loadChildTableData'],
 		'default'                     => '{title_legend},title;'.
             '{save_legend},saveexport;'.
             '{mail_legend},sendpermail;'.
@@ -116,158 +85,137 @@ $GLOBALS['TL_DCA'][$strName] = array
             '{srcfields_legend},srcfields;'.
             '{filterstring_legend:hide},filterstring,convertData,calculator,sortRows,removeDuplicatedRows,loadChildTableData;'.
             '{usequeue_legend},usequeue,useinterval;'
-	),
-	'subpalettes' => array
-	(
+    ],
+	'subpalettes' => [
 		'sendpermail'                 => 'mailaddress,sender',
         'saveexport'                  => 'savefolder',
         'useinterval'                 => 'intervalkind,intervalcount',
         'calculator'                  => 'calculatorType,calculatorField',
         'sortRows'                    => 'sortField',
         'loadChildTableData'          => 'childTables'
-	),
-	'fields' => array
-	(
-        'title' => array
-        (
+    ],
+	'fields' => [
+        'title' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50', 'rgxp'=>'alnum', 'nospace'=>false, 'spaceToUnderscore'=>true),
-        ),
-        'srcdb' => array
-        (
+            'eval'                    => ['mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50', 'rgxp'=>'alnum', 'nospace'=>false, 'spaceToUnderscore'=>true],
+        ],
+        'srcdb' => [
             'exclude'                 => true,
             'default'                 => 'default',
             'inputType'               => 'select',
-            'options_callback'        => array('tl_c4g_export', 'getDatabaseOptions'),
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'submitOnChange'=>true, 'includeBlankOption'=>false, 'chosen'=>false),
-        ),
-        'srctable' => array
-        (
+            'options_callback'        => ['tl_c4g_export', 'getDatabaseOptions'],
+            'eval'                    => ['mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'submitOnChange'=>true, 'includeBlankOption'=>false, 'chosen'=>false],
+        ],
+        'srctable' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'select',
-            'options_callback'        => array('tl_c4g_export', 'getTableOptions'),
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'submitOnChange'=>true, 'includeBlankOption'=>true, 'chosen'=>true),
-        ),
-        'exportheadlines' => array
-        (
+            'options_callback'        => ['tl_c4g_export', 'getTableOptions'],
+            'eval'                    => ['mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'submitOnChange'=>true, 'includeBlankOption'=>true, 'chosen'=>true],
+        ],
+        'exportheadlines' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class'=>'clr m12'),
-        ),
-        'srcfields' => array
-        (
+            'eval'                    => ['tl_class'=>'clr m12'],
+        ],
+        'srcfields' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkboxWizard',
-            'options_callback'        => array('tl_c4g_export', 'getTableFieldOptions'),
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'multiple'=>true),
-        ),
-        'sendpermail' => array
-        (
+            'options_callback'        => ['tl_c4g_export', 'getTableFieldOptions'],
+            'eval'                    => ['mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'multiple'=>true],
+        ],
+        'sendpermail' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class'=>'clr m12', 'submitOnChange'=>true),
-        ),
-        'mailaddress' => array
-        (
+            'eval'                    => ['tl_class'=>'clr m12', 'submitOnChange'=>true],
+        ],
+        'mailaddress' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'rgxp'=>'email', 'maxlength'=>255, 'decodeEntities'=>true, 'tl_class'=>'w50'),
-        ),
-        'sender' => array
-        (
+            'eval'                    => ['mandatory'=>true, 'rgxp'=>'email', 'maxlength'=>255, 'decodeEntities'=>true, 'tl_class'=>'w50'],
+        ],
+        'sender' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
-            'eval'                    => array('mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
-        ),
-        'saveexport' => array
-        (
+            'eval'                    => ['mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'],
+        ],
+        'saveexport' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class'=>'clr m12', 'submitOnChange'=>true),
-        ),
-        'savefolder' => array
-        (
+            'eval'                    => ['tl_class'=>'clr m12', 'submitOnChange'=>true],
+        ],
+        'savefolder' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'fileTree',
-            'eval'                    => array('fieldType'=>'radio', 'tl_class'=>'clr wizard'),
-        ),
-        'filterstring' => array
-        (
+            'eval'                    => ['fieldType'=>'radio', 'tl_class'=>'clr wizard'],
+        ],
+        'filterstring' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
-            'eval'                    => array('maxlength'=>255),
-        ),
-        'convertData' => array
-        (
+            'eval'                    => ['maxlength'=>255],
+        ],
+        'convertData' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class'=>'clr'),
-        ),
-        'calculator' => array
-        (
+            'eval'                    => ['tl_class'=>'clr'],
+        ],
+        'calculator' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class'=>'clr', 'submitOnChange'=>true),
-        ),
-        'calculatorType' => array
-        (
+            'eval'                    => ['tl_class'=>'clr', 'submitOnChange'=>true],
+        ],
+        'calculatorType' => [
             'exclude'           => true,
             'inputType'         => 'select',
             'default'           => 'sum',
             'options'           => ['sum','count'],
             'reference'         => &$GLOBALS['TL_LANG'][$strName]['references'],
             'sql'               => "varchar(25) NOT NULL default 'sum'"
-        ),
-        'calculatorField' => array
-        (
+        ],
+        'calculatorField' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'select',
-            'options_callback'        => array('tl_c4g_export', 'getTableFieldOptions'),
-            'eval'                    => array('mandatory'=>true, 'tl_class' => 'long clr', 'includeBlankOption'=>true, 'multiple'=>false),
-        ),
-        'sortRows' => array
-        (
+            'options_callback'        => ['tl_c4g_export', 'getTableFieldOptions'],
+            'eval'                    => ['mandatory'=>true, 'tl_class' => 'long clr', 'includeBlankOption'=>true, 'multiple'=>false],
+        ],
+        'sortRows' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class'=>'clr', 'submitOnChange'=>true),
-        ),
-        'sortField' => array
-        (
+            'eval'                    => ['tl_class'=>'clr', 'submitOnChange'=>true],
+        ],
+        'sortField' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'select',
-            'options_callback'        => array('tl_c4g_export', 'getTableFieldOptions'),
-            'eval'                    => array('mandatory'=>true, 'tl_class' => 'long clr', 'includeBlankOption'=>true, 'multiple'=>false),
-        ),
-        'removeDuplicatedRows' => array
-        (
+            'options_callback'        => ['tl_c4g_export', 'getTableFieldOptions'],
+            'eval'                    => ['mandatory'=>true, 'tl_class' => 'long clr', 'includeBlankOption'=>true, 'multiple'=>false],
+        ],
+        'removeDuplicatedRows' => [
             'exclude'                 => true,
             'default'                 => '1',
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class'=>'clr'),
-        ),
-        'loadChildTableData' => array
-        (
+            'eval'                    => ['tl_class'=>'clr'],
+        ],
+        'loadChildTableData' => [
             'exclude'                 => true,
             'default'                 => '1',
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class' => 'clr', 'submitOnChange' => true),
-        ),
+            'eval'                    => ['tl_class' => 'clr', 'submitOnChange' => true],
+        ],
         'childTables' => [
             'exclude' => true,
             'default' => '',
@@ -277,39 +225,35 @@ $GLOBALS['TL_DCA'][$strName] = array
                 'multiple' => true
             ]
         ],
-        'usequeue' => array
-        (
+        'usequeue' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'save_callback'           => array(array('\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbAddToQueue')),
-            'eval'                    => array('tl_class'=>'w50', 'submitOnChange'=>true),
-        ),
-        'useinterval' => array
-        (
+            'save_callback'           => [['\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbAddToQueue']],
+            'eval'                    => ['tl_class'=>'w50', 'submitOnChange'=>true],
+        ],
+        'useinterval' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'eval'                    => array('tl_class'=>'w50', 'submitOnChange'=>true),
-        ),
-        'intervalkind' => array
-        (
+            'eval'                    => ['tl_class'=>'w50', 'submitOnChange'=>true],
+        ],
+        'intervalkind' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'select',
-            'options'                 => array('hourly', 'daily', 'weekly', 'monthly', 'yearly'),
+            'options'                 => ['hourly', 'daily', 'weekly', 'monthly', 'yearly'],
             'reference'               => &$GLOBALS['TL_LANG'][$strName]['intervalkind_ref'],
-            'eval'                    => array('tl_class'=>'w50', 'includeBlankOption'=>true, 'chosen'=>true),
-        ),
-        'intervalcount' => array
-        (
+            'eval'                    => ['tl_class'=>'w50', 'includeBlankOption'=>true, 'chosen'=>true],
+        ],
+        'intervalcount' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
-            'eval'                    => array('tl_class'=>'w50', 'rgxp'=>'natural'),
-        )
-	)
-);
+            'eval'                    => ['tl_class'=>'w50', 'rgxp'=>'natural'],
+        ]
+    ]
+];
 
 class tl_c4g_export extends \Backend
 {

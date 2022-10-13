@@ -36,7 +36,7 @@ class ExportRunListener
 
         $where = Input::get('where');
         if ($where) {
-            $where = substr($where,1,-1);
+            $where = base64_decode($where);
             $settings->setFilterstring($where);
         }
 

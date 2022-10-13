@@ -15,6 +15,7 @@ use con4gis\ExportBundle\Classes\Events\ExportLoadDataEvent;
 use con4gis\ExportBundle\Classes\Events\ExportMailDataEvent;
 use con4gis\ExportBundle\Classes\Events\ExportRunEvent;
 use con4gis\ExportBundle\Classes\Events\ExportSaveDataEvent;
+use Contao\Input;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -32,6 +33,13 @@ class ExportRunListener
     public function onExportRunLoadData(ExportRunEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         $settings = $event->getSettings();
+
+        $where = Input::get('where');
+        if ($where) {
+            $where = substr($where,1,-1);
+            $settings->setFilterstring($where);
+        }
+
         $lang = $event->getLang();
         $event->addData($lang['MSC']['export']['loadheadline']);
         $loadEvent = new ExportLoadDataEvent();

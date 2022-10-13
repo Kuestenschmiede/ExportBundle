@@ -70,7 +70,7 @@ $GLOBALS['TL_DCA'][$strName] = [
             'runexport' => [
                 'label'               => &$GLOBALS['TL_LANG'][$strName]['runexport'],
                 'href'                => 'key=runexport',
-                'icon'                => 'web/bundles/con4gisexport/images/be-icons/export.svg',
+                'icon'                => 'bundles/con4gisexport/images/be-icons/export.svg',
                 'button_callback'     => ['\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbGenerateButton'],
                 'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['ExportConfirm'] . '\'))return false;Backend.getScrollOffset()"'
             ]

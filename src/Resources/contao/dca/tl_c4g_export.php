@@ -35,14 +35,15 @@ $GLOBALS['TL_DCA'][$strName] = [
 				'href'                => 'act=select',
 				'class'               => 'header_edit_all',
 				'attributes'          => 'onclick="Backend.getScrollOffset();" accesskey="e"'
-		],
+    		],
+
             'back' => [
-                'href'                => 'key=back',
+                'href'                => Input::get('calendar') ? 'do=calendar&table=tl_calendar_events&pid='.Input::get('calendar') : 'key=back',
                 'class'               => 'header_back',
-                'button_callback'     => ['\con4gis\CoreBundle\Classes\Helper\DcaHelper', 'back'],
+                //'button_callback'     => ['\con4gis\CoreBundle\Classes\Helper\DcaHelper', 'back'],
                 'icon'                => 'back.svg',
                 'label'               => &$GLOBALS['TL_LANG']['MSC']['backBT'],
-            ],
+            ]
         ],
 		'operations' => [
 			'edit' => [

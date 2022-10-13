@@ -36,8 +36,7 @@ class ExportRunListener
 
         $where = Input::get('where');
         if ($where) {
-            $where = base64_decode($where);
-            $settings->setFilterstring($where);
+            $settings->setFilterstring(html_entity_decode($where));
         }
 
         $lang = $event->getLang();

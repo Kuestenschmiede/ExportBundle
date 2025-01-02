@@ -3,18 +3,20 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
+
+use Contao\DC_Table;
 
 $strName = 'tl_c4g_export';
 
 $GLOBALS['TL_DCA'][$strName] = [
 	'config' => [
-		'dataContainer'               => 'Table',
+		'dataContainer'               => DC_Table::class,
 		'enableVersioning'            => true
     ],
 	'list' => [
@@ -72,7 +74,7 @@ $GLOBALS['TL_DCA'][$strName] = [
                 'href'                => 'key=runexport',
                 'icon'                => 'bundles/con4gisexport/images/be-icons/export.svg',
                 'button_callback'     => ['\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbGenerateButton'],
-                'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['ExportConfirm'] . '\'))return false;Backend.getScrollOffset()"'
+                'attributes'          => 'onclick="if(!confirm(\'' . key_exists('exportConfirm',$GLOBALS['TL_LANG'][$strName]) ? $GLOBALS['TL_LANG'][$strName]['exportConfirm'] : '' . '\'))return false;Backend.getScrollOffset()"'
             ]
         ]
     ],
@@ -256,7 +258,7 @@ $GLOBALS['TL_DCA'][$strName] = [
     ]
 ];
 
-class tl_c4g_export extends \Backend
+class tl_c4g_export extends \Contao\Backend
 {
     public function getDatabaseOptions(DataContainer $dc) {
         $options = ['default' => &$GLOBALS['TL_LANG']['tl_c4g_export']['contaodb']];

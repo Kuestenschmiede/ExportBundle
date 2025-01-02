@@ -2,10 +2,10 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -83,3 +83,5 @@ $GLOBALS['TL_LANG'][$strName]['runexport']  = ["Export ausführen", "Den Export 
 
 /** Options */
 $GLOBALS['TL_LANG'][$strName]['contaodb'] = 'Contao Datenbank';
+
+$GLOBALS['TL_LANG'][$strName]['exportConfirm'] = 'Wollen Sie den Export jetzt durchführen?';

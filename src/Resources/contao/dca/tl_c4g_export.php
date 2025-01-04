@@ -74,7 +74,7 @@ $GLOBALS['TL_DCA'][$strName] = [
                 'href'                => 'key=runexport',
                 'icon'                => 'bundles/con4gisexport/images/be-icons/export.svg',
                 'button_callback'     => ['\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbGenerateButton'],
-                'attributes'          => 'onclick="if(!confirm(\'' . key_exists('exportConfirm',$GLOBALS['TL_LANG'][$strName]) ? $GLOBALS['TL_LANG'][$strName]['exportConfirm'] : '' . '\'))return false;Backend.getScrollOffset()"'
+                'attributes'          => 'onclick="if(!confirm(\'' . key_exists($strName,$GLOBALS['TL_LANG']) && key_exists('exportConfirm',$GLOBALS['TL_LANG'][$strName]) ? $GLOBALS['TL_LANG'][$strName]['exportConfirm'] : '' . '\'))return false;Backend.getScrollOffset()"'
             ]
         ]
     ],

@@ -17,6 +17,7 @@ use Contao\DataContainer;
 use Contao\Image;
 use con4gis\ExportBundle\Classes\Helper\GetEventHelper;
 use Contao\Input;
+use Contao\StringUtil;
 
 /**
  * Class TlCon4gisExport
@@ -55,7 +56,7 @@ class TlCon4gisExport
     ) {
         if ($this->testExport($arrRow)) {
             $link = '<a href="' . Controller::addToUrl($href) . '&id=' . $arrRow['id'];
-            $link .= '" title="' . specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label);
+            $link .= '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Image::getHtml($icon, $label);
             $link .= '</a> ';
         } else {
             $link = '<span style="opacity: 0.4;">' . Image::getHtml($icon, $label) . '</span>';

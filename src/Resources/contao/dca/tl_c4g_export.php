@@ -85,7 +85,7 @@ $GLOBALS['TL_DCA'][$strName] = [
             '{mail_legend},sendpermail;'.
             '{srcdb_legend},srcdb;'.
             '{srctable_legend},srctable,exportheadlines;'.
-            '{srcfields_legend},srcfields;'.
+            '{srcfields_legend},srcfields,customFields,columnLabels,preLine;'.
             '{filterstring_legend:hide},filterstring,convertData,calculator,sortRows,removeDuplicatedRows,loadChildTableData;'.
             '{usequeue_legend},usequeue,useinterval;'
     ],
@@ -254,7 +254,62 @@ $GLOBALS['TL_DCA'][$strName] = [
             'default'                 => '',
             'inputType'               => 'text',
             'eval'                    => ['tl_class'=>'w50', 'rgxp'=>'natural'],
-        ]
+        ],
+        'customFields' => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_c4g_export']['customFields'],
+            'exclude'   => true,
+            'inputType' => 'multiColumnWizard',
+            'eval'      => [
+                'tl_class'     => 'clr',
+                'columnFields' => [
+                    'name' => [
+                        'label'     => &$GLOBALS['TL_LANG']['tl_c4g_export']['fieldName'],
+                        'inputType' => 'text',
+                        'eval'      => ['maxlength'=>255, 'tl_class'=>'w50'],
+                    ],
+                    'value' => [
+                        'label'     => &$GLOBALS['TL_LANG']['tl_c4g_export']['fieldValue'],
+                        'inputType' => 'text',
+                        'eval'      => ['maxlength'=>255, 'tl_class'=>'w50'],
+                    ],
+                ],
+            ],
+            'sql'       => "blob NULL",
+        ],
+        'columnLabels' => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_c4g_export']['columnLabels'],
+            'exclude'   => true,
+            'inputType' => 'multiColumnWizard',
+            'eval'      => [
+                'tl_class'     => 'clr',
+                'columnFields' => [
+                    'field' => [
+                        'label'            => &$GLOBALS['TL_LANG']['tl_c4g_export']['origField'],
+                        'exclude'          => true,
+                        'inputType'        => 'select',
+                        'options_callback' => ['tl_c4g_export', 'getSrcFieldOptionsForLabels'],
+                        'eval'             => ['mandatory'=>false, 'tl_class'=>'w50', 'includeBlankOption'=>true],
+                    ],
+                    'label' => [
+                        'label'     => &$GLOBALS['TL_LANG']['tl_c4g_export']['newLabel'],
+                        'inputType' => 'text',
+                        'eval'      => ['maxlength'=>255, 'tl_class'=>'w50'],
+                    ],
+                ],
+            ],
+            'sql'       => "blob NULL",
+        ],
+        'preLine' => [
+            'label'     => &$GLOBALS['TL_LANG']['tl_c4g_export']['preLine'],
+            'exclude'   => true,
+            'inputType' => 'textarea',
+            'eval'      => [
+                'tl_class' => 'clr',
+                'rows'     => 3,
+                'allowHtml'=> false,
+            ],
+            'sql'       => "text NULL",
+        ],
     ]
 ];
 
@@ -312,5 +367,34 @@ class tl_c4g_export extends \Contao\Backend
             return [];
         }
         return [];
+    }
+
+    /**
+     * Return the list of srcfields for populating the label-override selector.
+     *
+     * @param \Contao\DataContainer|\MenAtWork\MultiColumnWizardBundle\Contao\Widgets\MultiColumnWizard $dcOrWidget
+     * @return array
+     */
+    public function getSrcFieldOptionsForLabels($dcOrWidget)
+    {
+        if ($dcOrWidget instanceof \Contao\DataContainer) {
+            $raw = $dcOrWidget->activeRecord->srcfields;
+        } else {
+            $id  = $dcOrWidget->currentRecord;
+            $raw = \Contao\Database::getInstance()
+                ->prepare("SELECT srcfields FROM tl_c4g_export WHERE id=?")
+                ->execute($id)
+                ->srcfields;
+        }
+
+        $fields = \Contao\System::importStatic('Contao\StringUtil')
+            ->deserialize($raw, true);
+
+        $opts = [];
+        foreach ($fields as $f) {
+            $opts[$f] = $f;
+        }
+
+        return $opts;
     }
 }

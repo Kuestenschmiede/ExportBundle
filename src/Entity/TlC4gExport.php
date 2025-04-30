@@ -212,6 +212,24 @@ class TlC4gExport extends BaseEntity
      */
     protected $intervalcount = '';
 
+    /**
+     * @var array
+     * @ORM\Column(type="array", nullable=true)
+     */
+    protected $customFields = [];
+
+    /**
+     * @var array
+     * @ORM\Column(type="array", nullable=true)
+     */
+    protected $columnLabels = [];
+
+    /**
+     * @var string|null Einzeilige Textzeile, die vor allen anderen Zeilen ausgegeben wird
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $preLine;
 
     /**
      * @return int
@@ -677,5 +695,50 @@ class TlC4gExport extends BaseEntity
     public function setIntervalcount(string $intervalcount)
     {
         $this->intervalcount = $intervalcount;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomFields(): array {
+        return $this->customFields;
+    }
+
+    /**
+     * @param array $fields
+     */
+    public function setCustomFields(array $fields): void {
+        $this->customFields = $fields;
+    }
+
+    /**
+     * @return array
+     */
+    public function getColumnLabels(): array {
+        return $this->columnLabels;
+    }
+
+    /**
+     * @param array $labels
+     */
+    public function setColumnLabels(array $labels): void {
+        $this->columnLabels = $labels;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPreLine(): ?string
+    {
+        return $this->preLine;
+    }
+
+    /**
+     * @param string $preLine
+     */
+    public function setPreLine(?string $preLine): self
+    {
+        $this->preLine = $preLine;
+        return $this;
     }
 }

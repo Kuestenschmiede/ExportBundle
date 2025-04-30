@@ -12,6 +12,7 @@ namespace con4gis\ExportBundle\Classes\Events;
 
 use con4gis\ExportBundle\Entity\TlC4gExport;
 use con4gis\QueueBundle\Classes\Events\QueueEvent;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Class ExportRunEvent
@@ -77,6 +78,11 @@ class ExportRunEvent extends QueueEvent
      * @var string
      */
     protected $filename = '';
+
+    /**
+    * @var array Static extra columns to append [ ['name'=>'Foo','value'=>'Bar'], … ]
+    */
+    protected $customFields = [];
 
     /**
      * Array mit den geladenen Daten.
@@ -226,6 +232,66 @@ class ExportRunEvent extends QueueEvent
     public function setFilename(string $filename)
     {
         $this->filename = $filename;
+    }
+
+    /**
+    * @return array
+    */
+    public function getCustomFields(): array
+    {
+        return $this->customFields;
+    }
+
+    /**
+     * @param array $customFields
+     * @return $this
+     */
+    public function setCustomFields(array $customFields): self
+    {
+        $this->customFields = $customFields;
+        return $this;
+    }
+
+    /**
+     * @var array Override map for column labels [ 'origField'=>'New Heading', … ]
+     */
+    protected $columnLabels = [];
+
+    /**
+     * @return array
+     */
+    public function getColumnLabels(): array
+    {
+        return $this->columnLabels;
+    }
+
+    /**
+     * @param array $columnLabels
+     * @return $this
+     */
+    public function setColumnLabels(array $columnLabels): self
+    {
+        $this->columnLabels = $columnLabels;
+        return $this;
+    }
+
+    /**
+     * @var string|null Vorlaufzeile
+     */
+    protected $preLine = null;
+
+    public function getPreLine(): ?string
+    {
+        return $this->preLine;
+    }
+
+    /**
+     * @return self
+     */
+    public function setPreLine(?string $preLine): self
+    {
+        $this->preLine = $preLine;
+        return $this;
     }
 
     /**

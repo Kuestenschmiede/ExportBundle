@@ -51,6 +51,9 @@ class GetEventHelper
         $event->setWebsitetile(strval(Config::get('websiteTitle')));
         $event->setAdminmail(strval(Config::get('adminEmail')));
         $event->setCharset(strval(Config::get('characterSet')));
+        $event->setCustomFields($exportSettings->getCustomFields());
+        $event->setColumnLabels($exportSettings->getColumnLabels());
+        $event->setPreLine($exportSettings->getPreLine());
 
         return $event;
     }

@@ -50,7 +50,13 @@ $GLOBALS['TL_LANG'][$strName]['usequeue']       = ['Abarbeitung über Warteschla
 $GLOBALS['TL_LANG'][$strName]['useinterval']    = ['Intervallausführung', 'Bitte wählen Sie aus, ob der Auftrag in einem bestimmten Intervall wiederholt ausgeführt werden soll.'];
 $GLOBALS['TL_LANG'][$strName]['intervalkind']   = ['Intervall', 'Bitte legen Sie das Intervall fest, in dem der Auftrag wiederholt werden soll.'];
 $GLOBALS['TL_LANG'][$strName]['intervalcount']  = ['Maximale Anzahl der Ausführungen', 'Bitte legen Sie fest, ob der Auftrag nach einer bestimmten Anzahl von Ausführungen beendet sein soll. Für unendliche Ausführung bitte leer lassen.'];
-
+$GLOBALS['TL_LANG'][$strName]['customFields']   = ['Extra Spalten','Hier eigene Spalten anlegen'];
+$GLOBALS['TL_LANG'][$strName]['fieldName']      = ['Bezeichnung','Name der Spalte'];
+$GLOBALS['TL_LANG'][$strName]['fieldValue']     = ['Wert','Statischer Wert für alle Zeilen'];
+$GLOBALS['TL_LANG'][$strName]['columnLabels']   = ['Spaltenüberschriften überschreiben','Spaltenüberschriften aus der Tabelle überschreiben'];
+$GLOBALS['TL_LANG'][$strName]['origField']      = ['Feld','Original-Feldkennzeichnung'];
+$GLOBALS['TL_LANG'][$strName]['newLabel']       = ['Neue Überschrift','Neue Spaltenüberschrift'];
+$GLOBALS['TL_LANG'][$strName]['preLine']        = ['Vorlaufzeile','Text, der als erste Zeile direkt ins CSV geschrieben wird'];
 
 /**
  * Legends

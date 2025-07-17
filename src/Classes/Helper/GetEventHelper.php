@@ -82,8 +82,9 @@ class GetEventHelper
         $savefolder = $exportSettings->getSavefolder();
         $modleFiles = FilesModel::findByUuid((string) $savefolder);
         $path = $modleFiles->path;
+        $rootDir = System::getContainer()->getParameter("kernel.project_dir");
 
-        return TL_ROOT . '/' . $path . '/';
+        return $rootDir . '/' . $path . '/';
     }
 
     /**

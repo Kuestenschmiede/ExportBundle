@@ -14,10 +14,12 @@ use con4gis\QueueBundle\Classes\Queue\QueueManager;
 use Contao\Controller;
 use Contao\Database;
 use Contao\DataContainer;
+use Contao\FilesModel;
 use Contao\Image;
 use con4gis\ExportBundle\Classes\Helper\GetEventHelper;
 use Contao\Input;
 use Contao\StringUtil;
+use Contao\System;
 
 /**
  * Class TlCon4gisExport
@@ -72,6 +74,8 @@ class TlCon4gisExport
      */
     protected function testExport($row)
     {
+        $rootDir = System::getContainer()->getParameter("kernel.project_dir");
+
         if (!isset($row['srctable']) ||
             !isset($row['srcfields']) ||
             !isset($row['saveexport']) ||
@@ -91,8 +95,8 @@ class TlCon4gisExport
         }
 
         if ($row['saveexport']) {
-            $dir = \FilesModel::findByUuid($row['savefolder']);
-            if (!$dir || !is_dir(TL_ROOT . '/' . $dir->path)) {
+            $dir = FilesModel::findByUuid($row['savefolder']);
+            if (!$dir || !is_dir($rootDir . '/' . $dir->path)) {
                 return false;
             }
         }
@@ -101,7 +105,7 @@ class TlCon4gisExport
             return false;
         }
 
-        $fields = deserialize($row['srcfields'], true);
+        $fields = StringUtil::deserialize($row['srcfields'], true);
 
         if (!count($fields)) {
             return false;

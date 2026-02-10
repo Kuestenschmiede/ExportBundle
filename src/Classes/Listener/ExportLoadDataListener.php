@@ -400,7 +400,7 @@ class ExportLoadDataListener
             if ($settings->getRemoveDuplicatedRows() === '1') {
                 foreach ($result as $key => $row) {
                     $rowCount = 0;
-                    foreach ($result as $key2 => $row2) {
+                    foreach ($result as $row2) {
                         if ($row == $row2) {
                             $rowCount++;
                         }

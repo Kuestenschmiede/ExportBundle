@@ -17,10 +17,10 @@ use con4gis\CoreBundle\Entity\BaseEntity;
 /**
  * Class TlC4gExport
  *
- * @ORM\Entity
- * @ORM\Table(name="tl_c4g_export")
  * @package con4gis\ExportBundle\Entity
  */
+#[ORM\Table(name: 'tl_c4g_export')]
+#[ORM\Entity]
 class TlC4gExport extends BaseEntity
 {
 
@@ -28,207 +28,206 @@ class TlC4gExport extends BaseEntity
     /**
      * Id
      * @var int
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     protected $id = 0;
 
 
     /**
      * Timestamp
      * @var int
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Column(type: 'integer')]
     protected $tstamp = 0;
 
 
     /**
      * Titel der Exportkonfiguration
      * @var string
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     protected $title = '';
 
 
     /**
      * Exportdatei speichern
      * @var string
-     * @ORM\Column(type="string", length=1)
      */
+    #[ORM\Column(type: 'string', length: 1)]
     protected $saveexport = '';
 
 
     /**
      * Speicherort für die Exportdatei
      * @var resource
-     * @ORM\Column(type="blob")
      */
+    #[ORM\Column(type: 'blob')]
     protected $savefolder = null;
 
 
     /**
      * Export per Mail versenden
      * @var string
-     * @ORM\Column(type="string", length=1)
      */
+    #[ORM\Column(type: 'string', length: 1)]
     protected $sendpermail = '';
 
 
     /**
      * Empfängeradressen, für die Exportdatei
      * @var string
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     protected $mailaddress = '';
 
     /**
      * @var string
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     protected $sender = '';
 
 
     /**
      * Tabelle, derem Datensätze exportiert werden sollen.
      * @var string
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     protected $srcdb = '';
 
     /**
      * Tabelle, derem Datensätze exportiert werden sollen.
      * @var string
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     protected $srctable = '';
 
 
     /**
      * Kopfzeile mit Feldnamen exportieren.
      * @var string
-     * @ORM\Column(type="string", length=1)
      */
+    #[ORM\Column(type: 'string', length: 1)]
     protected $exportheadlines = '';
 
 
     /**
      * Felder, die exportiert werden sollen.
      * @var array
-     * @ORM\Column(type="array")
      */
+    #[ORM\Column(type: 'simple_array')]
     protected $srcfields = [];
 
 
     /**
      * String um nur bestimmte Datensätze zu exportieren
      * @var string
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     protected $filterstring = '';
 
     /**
      * Verarbeitungsintervall in der Queue benutzen
      * @var string
-     * @ORM\Column(type="string", length=1)
      */
+    #[ORM\Column(type: 'string', length: 1)]
     protected $useinterval = '';
 
 
     /**
      * Abarbeitung über die Warteschlange
      * @var string
-     * @ORM\Column(type="string", length=1)
      */
+    #[ORM\Column(type: 'string', length: 1)]
     protected $usequeue = '';
 
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=1)
      */
+    #[ORM\Column(type: 'string', length: 1)]
     protected $convertData = '';
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=1)
      */
+    #[ORM\Column(type: 'string', length: 1)]
     protected $calculator = '';
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=10)
      */
+    #[ORM\Column(type: 'string', length: 10)]
     protected $calculatorType = '';
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100)
      */
+    #[ORM\Column(type: 'string', length: 100)]
     protected $calculatorField = '';
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=1)
      */
+    #[ORM\Column(type: 'string', length: 1)]
     protected $sortRows = '';
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100)
      */
+    #[ORM\Column(type: 'string', length: 100)]
     protected $sortField = '';
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=1)
      */
+    #[ORM\Column(type: 'string', length: 1)]
     protected $removeDuplicatedRows = '1';
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=1)
      */
+    #[ORM\Column(type: 'string', length: 1)]
     protected $loadChildTableData = '0';
 
     /**
      * @var array
-     * @ORM\Column(type="array")
      */
+    #[ORM\Column(type: 'array')]
     protected $childTables = [];
 
     /**
      * Verarbeitungsintervall in der Queue
      * @var string
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     protected $intervalkind = '';
 
 
     /**
      * Verarbeitungsanzahl in der Queue
      * @var string
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     protected $intervalcount = '';
 
     /**
      * @var array
-     * @ORM\Column(type="array", nullable=true)
      */
+    #[ORM\Column(type: 'json', nullable: true)]
     protected $customFields = [];
 
     /**
      * @var array
-     * @ORM\Column(type="array", nullable=true)
      */
+    #[ORM\Column(type: 'json', nullable: true)]
     protected $columnLabels = [];
 
     /**
      * @var string|null Einzeilige Textzeile, die vor allen anderen Zeilen ausgegeben wird
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected $preLine;
 
     /**

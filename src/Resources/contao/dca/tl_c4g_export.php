@@ -10,6 +10,7 @@
  * @link https://www.con4gis.org
  */
 
+use con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport;
 use Contao\DC_Table;
 
 $strName = 'tl_c4g_export';
@@ -74,7 +75,7 @@ $GLOBALS['TL_DCA'][$strName] = [
                 'href'                => 'key=runexport',
                 'icon'                => 'bundles/con4gisexport/images/be-icons/export.svg',
                 'button_callback'     => ['\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbGenerateButton'],
-                'attributes'          => 'onclick="if(!confirm(\'' . key_exists($strName,$GLOBALS['TL_LANG']) && key_exists('exportConfirm',$GLOBALS['TL_LANG'][$strName]) ? $GLOBALS['TL_LANG'][$strName]['exportConfirm'] : '' . '\'))return false;Backend.getScrollOffset()"'
+                'attributes'          => 'onclick="if(!confirm(\'' . array_key_exists($strName,$GLOBALS['TL_LANG']) && array_key_exists('exportConfirm',$GLOBALS['TL_LANG'][$strName]) ? $GLOBALS['TL_LANG'][$strName]['exportConfirm'] : '' . '\'))return false;Backend.getScrollOffset()"'
             ]
         ]
     ],
@@ -129,6 +130,8 @@ $GLOBALS['TL_DCA'][$strName] = [
             'default'                 => '',
             'inputType'               => 'checkboxWizard',
             'options_callback'        => ['tl_c4g_export', 'getTableFieldOptions'],
+            'save_callback' => [[TlCon4gisExport::class, 'saveSimpleArrayValue']],
+            'load_callback' => [[TlCon4gisExport::class, 'loadSimpleArrayValue']],
             'eval'                    => ['mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'multiple'=>true],
         ],
         'sendpermail' => [
@@ -223,7 +226,7 @@ $GLOBALS['TL_DCA'][$strName] = [
             'exclude' => true,
             'default' => '',
             'inputType' => 'checkboxWizard',
-            'options_callback' => [\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport::class, 'loadChildTableOptions'],
+            'options_callback' => [TlCon4gisExport::class, 'loadChildTableOptions'],
             'eval' => [
                 'multiple' => true
             ]
@@ -274,6 +277,8 @@ $GLOBALS['TL_DCA'][$strName] = [
                     ],
                 ],
             ],
+            'save_callback' => [[TlCon4gisExport::class, 'saveJsonValue']],
+            'load_callback' => [[TlCon4gisExport::class, 'loadJsonValue']],
             'sql'       => "blob NULL",
         ],
         'columnLabels' => [
@@ -297,6 +302,8 @@ $GLOBALS['TL_DCA'][$strName] = [
                     ],
                 ],
             ],
+            'save_callback' => [[TlCon4gisExport::class, 'saveJsonValue']],
+            'load_callback' => [[TlCon4gisExport::class, 'loadJsonValue']],
             'sql'       => "blob NULL",
         ],
         'preLine' => [
@@ -387,8 +394,7 @@ class tl_c4g_export extends \Contao\Backend
                 ->srcfields;
         }
 
-        $fields = \Contao\System::importStatic('Contao\StringUtil')
-            ->deserialize($raw, true);
+        $fields = explode(",", $raw);
 
         $opts = [];
         foreach ($fields as $f) {

@@ -227,9 +227,12 @@ $GLOBALS['TL_DCA'][$strName] = [
             'default' => '',
             'inputType' => 'checkboxWizard',
             'options_callback' => [TlCon4gisExport::class, 'loadChildTableOptions'],
+            'save_callback' => [[TlCon4gisExport::class, 'saveSimpleArrayValue']],
+            'load_callback' => [[TlCon4gisExport::class, 'loadSimpleArrayValue']],
             'eval' => [
                 'multiple' => true
             ]
+
         ],
         'usequeue' => [
             'exclude'                 => true,

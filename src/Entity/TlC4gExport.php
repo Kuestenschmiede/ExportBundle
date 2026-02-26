@@ -194,7 +194,7 @@ class TlC4gExport extends BaseEntity
     /**
      * @var array
      */
-    #[ORM\Column(type: 'array')]
+    #[ORM\Column(type: 'simple_array')]
     protected $childTables = [];
 
     /**

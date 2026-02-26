@@ -15,6 +15,7 @@ class UpdateArraysMigration implements MigrationInterface
     private array $exportConfigFields = [
         'srcfields',
         'customFields',
+        'childTables',
         'columnLabels'
     ];
 
@@ -61,7 +62,7 @@ class UpdateArraysMigration implements MigrationInterface
     {
         $updatedExportConfigs = 0;
 
-        $sql = "SELECT id,srcfields,customFields,columnLabels FROM tl_c4g_export";
+        $sql = "SELECT id,srcfields,customFields,columnLabels,childTables FROM tl_c4g_export";
         $exportConfigs = $this->connection
             ->executeQuery($sql)
             ->fetchAllAssociative();
@@ -75,6 +76,11 @@ class UpdateArraysMigration implements MigrationInterface
                     $srcfields = implode(",", $srcfields);
                 }
 
+                if ($this->checkForSerializedValue($config['childTables'])) {
+                    $childTables = StringUtil::deserialize($config['childTables'], true);
+                    $childTables = implode(",", $childTables);
+                }
+
                 if ($this->checkForSerializedValue($config['customFields'])) {
                     $customFields = StringUtil::deserialize($config['customFields'], true);
                     $customFields = json_encode($customFields);
@@ -85,13 +91,14 @@ class UpdateArraysMigration implements MigrationInterface
                     $columnLabels = json_encode($columnLabels);
                 }
 
-                $sql = "UPDATE tl_c4g_export SET srcfields = ?, customFields = ?, columnLabels = ? WHERE id=?";
+                $sql = "UPDATE tl_c4g_export SET srcfields = ?, customFields = ?, columnLabels = ?, childTables = ? WHERE id=?";
                 $this->connection->executeQuery(
                     $sql,
                     [
                         $srcfields ?? $config['srcfields'],
                         $customFields ?? $config['customFields'],
                         $columnLabels ?? $config['columnLabels'],
+                        $childTables ?? $config['childTables'],
                         $config['id']
                     ]
                 );

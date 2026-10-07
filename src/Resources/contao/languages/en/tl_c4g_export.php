@@ -49,6 +49,18 @@ $GLOBALS['TL_LANG'][$strName]['usequeue']       = array('Process via Queue', 'Pr
 $GLOBALS['TL_LANG'][$strName]['useinterval']    = array('Interval Execution', 'Please choose whether to repeat the task in a set interval.');
 $GLOBALS['TL_LANG'][$strName]['intervalkind']   = array('Interval', 'Please choose the interval in which to repeat the task.');
 $GLOBALS['TL_LANG'][$strName]['intervalcount']  = array('Maximum Number of Executions', 'Please choose whether the task should finish after a set number of executions. Leave empty for infinite executions.');
+$GLOBALS['TL_LANG'][$strName]['customFields']   = ['Extra Columns','Add custom columns here'];
+$GLOBALS['TL_LANG'][$strName]['fieldName']      = ['Column Name','Name of the column'];
+$GLOBALS['TL_LANG'][$strName]['fieldValue']     = ['Value','Static value for all rows'];
+$GLOBALS['TL_LANG'][$strName]['columnLabels']   = ['Override Column Headings','Override column headings from the table'];
+$GLOBALS['TL_LANG'][$strName]['origField']      = ['Field','Original field identifier'];
+$GLOBALS['TL_LANG'][$strName]['newLabel']       = ['New Heading','New column heading'];
+$GLOBALS['TL_LANG'][$strName]['idMappings']     = ['ID Mappings','Map ID fields to labels from target tables'];
+$GLOBALS['TL_LANG'][$strName]['mappingSrcField']    = ['Source Field','Field containing the ID in the source table'];
+$GLOBALS['TL_LANG'][$strName]['mappingTargetTable']  = ['Target Table','Table from which to retrieve the label'];
+$GLOBALS['TL_LANG'][$strName]['mappingTargetKey']    = ['Target ID Column','Name of the ID column in the target table (default: id)'];
+$GLOBALS['TL_LANG'][$strName]['mappingTargetField']  = ['Target Label Column','Name of the label column (e.g. caption, name, title)'];
+$GLOBALS['TL_LANG'][$strName]['preLine']        = ['Header Line','Text written as the first line directly into the CSV'];
 
 
 /**

@@ -16,7 +16,8 @@ class UpdateArraysMigration implements MigrationInterface
         'srcfields',
         'customFields',
         'childTables',
-        'columnLabels'
+        'columnLabels',
+        'idMappings'
     ];
 
     public function __construct(
@@ -42,14 +43,20 @@ class UpdateArraysMigration implements MigrationInterface
             return false;
         }
 
-        $sql = "SELECT srcfields,customFields,columnLabels FROM tl_c4g_export";
+        $columns = array_column($schemaManager->listTableColumns('tl_c4g_export'), 'name');
+        $existingFields = array_intersect($this->exportConfigFields, $columns);
+        if (empty($existingFields)) {
+            return false;
+        }
+
+        $sql = "SELECT " . implode(',', $existingFields) . " FROM tl_c4g_export";
         $exportConfigs = $this->connection
             ->executeQuery($sql)
             ->fetchAllAssociative();
 
         foreach ($exportConfigs as $config) {
-            foreach ($this->exportConfigFields as $field) {
-                if ($this->checkForSerializedValue($config[$field])) {
+            foreach ($existingFields as $field) {
+                if (isset($config[$field]) && $this->checkForSerializedValue($config[$field])) {
                     return true;
                 }
             }
@@ -60,66 +67,70 @@ class UpdateArraysMigration implements MigrationInterface
 
     public function run(): MigrationResult
     {
-        $updatedExportConfigs = 0;
+        $schemaManager = $this->connection->createSchemaManager();
+        $columns = array_column($schemaManager->listTableColumns('tl_c4g_export'), 'name');
+        $existingFields = array_intersect($this->exportConfigFields, $columns);
+        if (empty($existingFields)) {
+            return new MigrationResult(true, "Keine Migration erforderlich.");
+        }
 
-        $sql = "SELECT id,srcfields,customFields,columnLabels,childTables FROM tl_c4g_export";
+        $sql = "SELECT id, " . implode(',', $existingFields) . " FROM tl_c4g_export";
         $exportConfigs = $this->connection
             ->executeQuery($sql)
             ->fetchAllAssociative();
 
-        if ($this->shouldRun()) {
-            $this->logger->info("Running migration...");
-            foreach ($exportConfigs as $config) {
+        $updatedExportConfigs = 0;
+        $this->logger->info("Running migration...");
 
-                if ($this->checkForSerializedValue($config['srcfields'])) {
-                    $srcfields = StringUtil::deserialize($config['srcfields'], true);
-                    $srcfields = implode(",", $srcfields);
-                }
+        foreach ($exportConfigs as $config) {
+            $updates = [];
+            $params = [];
 
-                if ($this->checkForSerializedValue($config['childTables'])) {
-                    $childTables = StringUtil::deserialize($config['childTables'], true);
-                    $childTables = implode(",", $childTables);
-                }
-
-                if ($this->checkForSerializedValue($config['customFields'])) {
-                    $customFields = StringUtil::deserialize($config['customFields'], true);
-                    $customFields = json_encode($customFields);
-                }
-
-                if ($this->checkForSerializedValue($config['columnLabels'])) {
-                    $columnLabels = StringUtil::deserialize($config['columnLabels'], true);
-                    $columnLabels = json_encode($columnLabels);
-                }
-
-                $sql = "UPDATE tl_c4g_export SET srcfields = ?, customFields = ?, columnLabels = ?, childTables = ? WHERE id=?";
-                $this->connection->executeQuery(
-                    $sql,
-                    [
-                        $srcfields ?? $config['srcfields'],
-                        $customFields ?? $config['customFields'],
-                        $columnLabels ?? $config['columnLabels'],
-                        $childTables ?? $config['childTables'],
-                        $config['id']
-                    ]
-                );
-                $updatedExportConfigs++;
+            if (isset($config['srcfields']) && $this->checkForSerializedValue($config['srcfields'])) {
+                $srcfields = StringUtil::deserialize($config['srcfields'], true);
+                $updates[] = "srcfields = ?";
+                $params[] = implode(",", $srcfields);
             }
 
-            return new MigrationResult(
-                true,
-                sprintf(
-                    "Es wurden %d Export-Konfigurationen aktualisiert",
-                    $updatedExportConfigs
-                )
-            );
-        } else {
+            if (isset($config['childTables']) && $this->checkForSerializedValue($config['childTables'])) {
+                $childTables = StringUtil::deserialize($config['childTables'], true);
+                $updates[] = "childTables = ?";
+                $params[] = implode(",", $childTables);
+            }
 
-            return new MigrationResult(
-                true,
-                "Keine Migration erforderlich."
-            );
+            if (isset($config['customFields']) && $this->checkForSerializedValue($config['customFields'])) {
+                $customFields = StringUtil::deserialize($config['customFields'], true);
+                $updates[] = "customFields = ?";
+                $params[] = json_encode($customFields);
+            }
+
+            if (isset($config['columnLabels']) && $this->checkForSerializedValue($config['columnLabels'])) {
+                $columnLabels = StringUtil::deserialize($config['columnLabels'], true);
+                $updates[] = "columnLabels = ?";
+                $params[] = json_encode($columnLabels);
+            }
+
+            if (isset($config['idMappings']) && $this->checkForSerializedValue($config['idMappings'])) {
+                $idMappings = StringUtil::deserialize($config['idMappings'], true);
+                $updates[] = "idMappings = ?";
+                $params[] = json_encode($idMappings);
+            }
+
+            if (!empty($updates)) {
+                $params[] = $config['id'];
+                $updateSql = "UPDATE tl_c4g_export SET " . implode(", ", $updates) . " WHERE id = ?";
+                $this->connection->executeQuery($updateSql, $params);
+                $updatedExportConfigs++;
+            }
         }
 
+        return new MigrationResult(
+            true,
+            sprintf(
+                "Es wurden %d Export-Konfigurationen aktualisiert",
+                $updatedExportConfigs
+            )
+        );
     }
 
     private function checkForSerializedValue($value): bool

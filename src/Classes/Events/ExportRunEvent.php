@@ -275,6 +275,29 @@ class ExportRunEvent extends QueueEvent
     }
 
     /**
+     * @var array ID mappings [ ['srcField' => '...', 'targetTable' => '...', 'targetKey' => 'id', 'targetField' => '...'], ... ]
+     */
+    protected $idMappings = [];
+
+    /**
+     * @return array
+     */
+    public function getIdMappings(): array
+    {
+        return $this->idMappings ?? [];
+    }
+
+    /**
+     * @param array $idMappings
+     * @return $this
+     */
+    public function setIdMappings(array $idMappings): self
+    {
+        $this->idMappings = $idMappings;
+        return $this;
+    }
+
+    /**
      * @var string|null Vorlaufzeile
      */
     protected $preLine = null;

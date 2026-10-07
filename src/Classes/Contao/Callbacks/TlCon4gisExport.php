@@ -94,7 +94,15 @@ class TlCon4gisExport
         }
 
         if ($row['saveexport']) {
-            $dir = \FilesModel::findByUuid($row['savefolder']);
+            $savefolder = $row['savefolder'] ?? null;
+            if (is_resource($savefolder)) {
+                $savefolder = stream_get_contents($savefolder);
+            }
+            if (!$savefolder) {
+                return false;
+            }
+            $uuid = StringUtil::binToUuid($savefolder) ?: $savefolder;
+            $dir = FilesModel::findByUuid($uuid);
             $projectDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
             if (!$dir || !is_dir($projectDir . '/' . $dir->path)) {
                 return false;
@@ -175,13 +183,12 @@ class TlCon4gisExport
 
     public function saveSimpleArrayValue($value)
     {
-        // select field saves value as serialized array
-        if (is_string($value) && str_contains($value, "a:")) {
+        if (is_string($value) && (str_starts_with($value, "a:") || str_starts_with($value, "s:"))) {
             $value = StringUtil::deserialize($value, true);
         }
 
         if (is_array($value)) {
-            $value = implode(",", $value);
+            $value = implode(",", array_filter($value, fn($v) => $v !== null && $v !== ''));
         }
 
         return $value;
@@ -189,16 +196,23 @@ class TlCon4gisExport
 
     public function loadSimpleArrayValue($value)
     {
-        if (is_string($value) && str_contains($value, ",")) {
-            $value = explode(",", $value);
+        if (is_string($value) && strlen($value) > 0) {
+            if (str_starts_with($value, "a:") || str_starts_with($value, "s:")) {
+                return StringUtil::deserialize($value, true);
+            }
+            return StringUtil::trimsplit(",", $value);
         }
 
-        return $value;
+        if (is_array($value)) {
+            return $value;
+        }
+
+        return [];
     }
 
     public function saveJsonValue($value)
     {
-        if (is_string($value) && str_contains($value, "a:")) {
+        if (is_string($value) && (str_starts_with($value, "a:") || str_starts_with($value, "s:"))) {
             $value = StringUtil::deserialize($value, true);
         }
 
@@ -212,9 +226,16 @@ class TlCon4gisExport
     public function loadJsonValue($value)
     {
         if (is_string($value) && strlen($value) > 0) {
-            $value = json_decode($value, true);
+            if (str_starts_with($value, "a:") || str_starts_with($value, "s:")) {
+                return StringUtil::deserialize($value, true);
+            }
+            return json_decode($value, true);
         }
 
-        return $value;
+        if (is_array($value)) {
+            return $value;
+        }
+
+        return [];
     }
 }

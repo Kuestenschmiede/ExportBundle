@@ -224,6 +224,12 @@ class TlC4gExport extends BaseEntity
     protected $columnLabels = [];
 
     /**
+     * @var array
+     */
+    #[ORM\Column(type: 'json', nullable: true)]
+    protected $idMappings = [];
+
+    /**
      * @var string|null Einzeilige Textzeile, die vor allen anderen Zeilen ausgegeben wird
      */
     #[ORM\Column(type: 'text', nullable: true)]
@@ -301,11 +307,19 @@ class TlC4gExport extends BaseEntity
 
 
     /**
-     * @return Object
+     * @return string|resource|null
      */
     public function getSavefolder()
     {
-        return stream_get_contents($this->savefolder);
+        if (is_resource($this->savefolder)) {
+            $contents = stream_get_contents($this->savefolder);
+            if (is_resource($this->savefolder)) {
+                @rewind($this->savefolder);
+            }
+            return $contents;
+        }
+
+        return $this->savefolder;
     }
 
 
@@ -426,15 +440,35 @@ class TlC4gExport extends BaseEntity
      */
     public function getSrcfields(): array
     {
-        return $this->srcfields;
+        if (is_string($this->srcfields)) {
+            if (str_starts_with($this->srcfields, 'a:') || str_starts_with($this->srcfields, 's:')) {
+                $deserialized = StringUtil::deserialize($this->srcfields, true);
+                return is_array($deserialized) ? $deserialized : [];
+            }
+            return StringUtil::trimsplit(',', $this->srcfields);
+        }
+        if (is_array($this->srcfields)) {
+            if (!empty($this->srcfields)) {
+                $first = reset($this->srcfields);
+                if (is_string($first) && (str_starts_with($first, 'a:') || str_contains($first, ':{'))) {
+                    $joined = implode(',', $this->srcfields);
+                    $deserialized = StringUtil::deserialize($joined, true);
+                    if (is_array($deserialized)) {
+                        return $deserialized;
+                    }
+                }
+            }
+            return $this->srcfields;
+        }
+        return [];
     }
 
     /**
-     * @param array $srcfields
+     * @param array|null $srcfields
      */
-    public function setSrcfields(array $srcfields): void
+    public function setSrcfields(?array $srcfields): void
     {
-        $this->srcfields = $srcfields;
+        $this->srcfields = $srcfields ?? [];
     }
 
     /**
@@ -613,15 +647,35 @@ class TlC4gExport extends BaseEntity
      */
     public function getChildTables(): array
     {
-        return $this->childTables;
+        if (is_string($this->childTables)) {
+            if (str_starts_with($this->childTables, 'a:') || str_starts_with($this->childTables, 's:')) {
+                $deserialized = StringUtil::deserialize($this->childTables, true);
+                return is_array($deserialized) ? $deserialized : [];
+            }
+            return StringUtil::trimsplit(',', $this->childTables);
+        }
+        if (is_array($this->childTables)) {
+            if (!empty($this->childTables)) {
+                $first = reset($this->childTables);
+                if (is_string($first) && (str_starts_with($first, 'a:') || str_contains($first, ':{'))) {
+                    $joined = implode(',', $this->childTables);
+                    $deserialized = StringUtil::deserialize($joined, true);
+                    if (is_array($deserialized)) {
+                        return $deserialized;
+                    }
+                }
+            }
+            return $this->childTables;
+        }
+        return [];
     }
 
     /**
-     * @param array $childTables
+     * @param array|null $childTables
      */
-    public function setChildTables(array $childTables): void
+    public function setChildTables(?array $childTables): void
     {
-        $this->childTables = $childTables;
+        $this->childTables = $childTables ?? [];
     }
 
     /**
@@ -713,7 +767,7 @@ class TlC4gExport extends BaseEntity
      * @return array
      */
     public function getColumnLabels(): array {
-        return $this->columnLabels;
+        return $this->columnLabels ?? [];
     }
 
     /**
@@ -721,6 +775,20 @@ class TlC4gExport extends BaseEntity
      */
     public function setColumnLabels(array $labels): void {
         $this->columnLabels = $labels;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIdMappings(): array {
+        return $this->idMappings ?? [];
+    }
+
+    /**
+     * @param array $mappings
+     */
+    public function setIdMappings(array $mappings): void {
+        $this->idMappings = $mappings;
     }
 
     /**

@@ -12,6 +12,7 @@ namespace con4gis\ExportBundle\Classes\Helper;
 use con4gis\ExportBundle\Classes\Events\ExportRunEvent;
 use Contao\Config;
 use Contao\FilesModel;
+use Contao\StringUtil;
 use Contao\System;
 use Doctrine\ORM\EntityManager;
 
@@ -42,7 +43,6 @@ class GetEventHelper
         $foldername = $this->getPath($exportSettings);
         $event = new ExportRunEvent();
 
-        $this->getPath($exportSettings);
         $event->setFilename($filename);
         $event->setFolderName($foldername);
         $event->setSettings($exportSettings);
@@ -50,8 +50,9 @@ class GetEventHelper
         $event->setWebsitetile(strval(Config::get('websiteTitle')));
         $event->setAdminmail(strval(Config::get('adminEmail')));
         $event->setCharset(strval(Config::get('characterSet')));
-        $event->setCustomFields($exportSettings->getCustomFields());
-        $event->setColumnLabels($exportSettings->getColumnLabels());
+        $event->setCustomFields($exportSettings->getCustomFields() ?? []);
+        $event->setColumnLabels($exportSettings->getColumnLabels() ?? []);
+        $event->setIdMappings($exportSettings->getIdMappings() ?? []);
         $event->setPreLine($exportSettings->getPreLine());
 
         return $event;
@@ -79,11 +80,18 @@ class GetEventHelper
     protected function getPath($exportSettings)
     {
         $savefolder = $exportSettings->getSavefolder();
-        $modleFiles = FilesModel::findByUuid((string) $savefolder);
-        $path = $modleFiles->path;
+        if (is_resource($savefolder)) {
+            $savefolder = stream_get_contents($savefolder);
+        }
+        if (empty($savefolder)) {
+            return '';
+        }
+        $uuid = StringUtil::binToUuid($savefolder) ?: $savefolder;
+        $modleFiles = FilesModel::findByUuid((string) $uuid);
+        $path = $modleFiles ? $modleFiles->path : '';
         $projectDir = System::getContainer()->getParameter('kernel.project_dir');
 
-        return $projectDir . '/' . $path . '/';
+        return $path ? $projectDir . '/' . $path . '/' : '';
     }
 
     /**

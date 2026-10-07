@@ -55,6 +55,11 @@ $GLOBALS['TL_LANG'][$strName]['fieldValue']     = ['Wert','Statischer Wert für 
 $GLOBALS['TL_LANG'][$strName]['columnLabels']   = ['Spaltenüberschriften überschreiben','Spaltenüberschriften aus der Tabelle überschreiben'];
 $GLOBALS['TL_LANG'][$strName]['origField']      = ['Feld','Original-Feldkennzeichnung'];
 $GLOBALS['TL_LANG'][$strName]['newLabel']       = ['Neue Überschrift','Neue Spaltenüberschrift'];
+$GLOBALS['TL_LANG'][$strName]['idMappings']     = ['ID-Mappings','ID-Felder auf Bezeichnungen aus anderen Tabellen mappen'];
+$GLOBALS['TL_LANG'][$strName]['mappingSrcField']    = ['Quellfeld','Feld mit der ID in der Quelltabelle'];
+$GLOBALS['TL_LANG'][$strName]['mappingTargetTable']  = ['Zieltabelle','Tabelle, aus der die Bezeichnung geladen werden soll'];
+$GLOBALS['TL_LANG'][$strName]['mappingTargetKey']    = ['ID-Spalte Zieltabelle','Name der ID-Spalte in der Zieltabelle (Standard: id)'];
+$GLOBALS['TL_LANG'][$strName]['mappingTargetField']  = ['Bezeichnungs-Spalte','Name der Spalte mit dem sprechenden Namen (z. B. caption, name, title)'];
 $GLOBALS['TL_LANG'][$strName]['preLine']        = ['Vorlaufzeile','Text, der als erste Zeile direkt ins CSV geschrieben wird'];
 
 /**

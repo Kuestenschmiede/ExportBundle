@@ -14,6 +14,7 @@ use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\ExportBundle\Classes\Events\ExportLoadDataEvent;
 use Contao\Controller;
 use Contao\Database;
+use Contao\FilesModel;
 use Contao\StringUtil;
 use Contao\System;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,7 +46,31 @@ class ExportLoadDataListener
         $settings = $event->getSettings();
         $table = $settings->getSrctable();
         $srcFields = $settings->getSrcfields();
-        $fields = StringUtil::deserialize($srcFields, true);
+        if (is_string($srcFields)) {
+            if (str_starts_with($srcFields, 'a:') || str_starts_with($srcFields, 's:')) {
+                $fields = StringUtil::deserialize($srcFields, true);
+            } elseif (str_contains($srcFields, ',')) {
+                $fields = StringUtil::trimsplit(',', $srcFields);
+            } else {
+                $fields = [$srcFields];
+            }
+        } elseif (is_array($srcFields)) {
+            if (!empty($srcFields)) {
+                $first = reset($srcFields);
+                if (is_string($first) && (str_starts_with($first, 'a:') || str_contains($first, ':{'))) {
+                    $joined = implode(',', $srcFields);
+                    $deserialized = StringUtil::deserialize($joined, true);
+                    $fields = is_array($deserialized) ? $deserialized : $srcFields;
+                } else {
+                    $fields = $srcFields;
+                }
+            } else {
+                $fields = [];
+            }
+        } else {
+            $fields = [];
+        }
+        $fields = array_values(array_filter((array) $fields, fn($f) => is_string($f) && $f !== ''));
 
         $this->entityManager = System::getContainer()->get('doctrine')->getManager($settings->getSrcdb());
         $connection = $this->entityManager->getConnection();
@@ -329,15 +354,20 @@ class ExportLoadDataListener
                                         $fullRow = $statement->execute($row['id'])->fetchAssoc();
                                         $optionsCallback = $dcaFields[$k]['options_callback'];
                                         $callbackClass = $optionsCallback[0];
-                                        $object = new $callbackClass();
+                                        if (is_object($callbackClass)) {
+                                            $object = $callbackClass;
+                                        } elseif (is_string($callbackClass) && System::getContainer()->has($callbackClass)) {
+                                            $object = System::getContainer()->get($callbackClass);
+                                        } else {
+                                            $object = new $callbackClass();
+                                        }
                                         $method = $optionsCallback[1];
                                         $options = $object->$method($fullRow);
                                     } catch (Throwable $throwable) {
                                         C4gLogModel::addLogEntry('export', $throwable->getMessage());
                                         continue;
                                     }
-                                    if (array_key_exists($value, $options)
-                                    ) {
+                                    if (is_array($options) && array_key_exists($value, $options)) {
                                         $result[$key][$k] = $options[$value];
                                     }
                                 }
@@ -383,7 +413,7 @@ class ExportLoadDataListener
                             $result[$key][$k] = date($GLOBALS['TL_CONFIG']['datimFormat'], $value);
                         } elseif (strpos(strtolower($k), 'file') !== false) {
                             try {
-                                $file = \FilesModel::findByUuid(StringUtil::binToUuid($value));
+                                $file = FilesModel::findByUuid(StringUtil::binToUuid($value));
 
                                 if ($file && $file->path) {
                                     $result[$key][$k] = $file->path;
@@ -392,6 +422,62 @@ class ExportLoadDataListener
                         } elseif (is_array(StringUtil::deserialize($value)) === true && !empty(StringUtil::deserialize($value))) {
                             $result[$key][$k] = implode(', ', array_filter($this->flattenArray(StringUtil::deserialize($value))));
                         }
+                    }
+                }
+            }
+
+            $rawMappings = $settings->getIdMappings();
+            if (!empty($rawMappings) && is_array($rawMappings)) {
+                $database = Database::getInstance();
+                $tables = $database->listTables();
+                foreach ($rawMappings as $mapping) {
+                    $srcField    = $mapping['srcField'] ?? '';
+                    $targetTable = $mapping['targetTable'] ?? '';
+                    $targetKey   = !empty($mapping['targetKey']) ? $mapping['targetKey'] : 'id';
+                    $targetField = $mapping['targetField'] ?? '';
+
+                    if (!$srcField || !$targetTable || !$targetField) {
+                        continue;
+                    }
+
+                    if (!in_array($targetTable, $tables, true)) {
+                        continue;
+                    }
+
+                    $columns = array_column($database->listFields($targetTable), 'name');
+                    if (!in_array($targetKey, $columns, true) || !in_array($targetField, $columns, true)) {
+                        continue;
+                    }
+
+                    // Collect all unique IDs from the result
+                    $ids = [];
+                    foreach ($result as $row) {
+                        if (isset($row[$srcField]) && $row[$srcField] !== '' && $row[$srcField] !== null) {
+                            $ids[] = $row[$srcField];
+                        }
+                    }
+                    $ids = array_unique($ids);
+
+                    if (empty($ids)) {
+                        continue;
+                    }
+
+                    try {
+                        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+                        $stmt = $database->prepare("SELECT `$targetKey`, `$targetField` FROM `$targetTable` WHERE `$targetKey` IN ($placeholders)");
+                        $lookupRows = $stmt->execute(...array_values($ids))->fetchAllAssoc();
+                        $lookupMap = [];
+                        foreach ($lookupRows as $lRow) {
+                            $lookupMap[$lRow[$targetKey]] = $lRow[$targetField];
+                        }
+
+                        foreach ($result as $idx => $row) {
+                            if (isset($row[$srcField]) && isset($lookupMap[$row[$srcField]])) {
+                                $result[$idx][$srcField] = $lookupMap[$row[$srcField]];
+                            }
+                        }
+                    } catch (Throwable $throwable) {
+                        C4gLogModel::addLogEntry('export', $throwable->getMessage());
                     }
                 }
             }

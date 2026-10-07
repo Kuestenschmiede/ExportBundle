@@ -2,10 +2,9 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 10
- * @author con4gis contributors (see "authors.txt")
+ * @author con4gis contributors (see "authors.md")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2026, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ExportBundle\Classes\Contao\Callbacks;
@@ -92,7 +91,8 @@ class TlCon4gisExport
 
         if ($row['saveexport']) {
             $dir = \FilesModel::findByUuid($row['savefolder']);
-            if (!$dir || !is_dir(TL_ROOT . '/' . $dir->path)) {
+            $projectDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
+            if (!$dir || !is_dir($projectDir . '/' . $dir->path)) {
                 return false;
             }
         }
@@ -142,7 +142,10 @@ class TlCon4gisExport
                 $metaData['intervaltorun'] = $intervalcount;
             }
 
-            $qm->addToQueue($event, 1024, $metaData);
+            $priority = defined('\con4gis\QueueBundle\Classes\Queue\QueueManager::PRIORITY_HIGH')
+                ? constant('\con4gis\QueueBundle\Classes\Queue\QueueManager::PRIORITY_HIGH')
+                : 2048;
+            $qm->addToQueue($event, $priority, $metaData);
         }
 
         return $value;

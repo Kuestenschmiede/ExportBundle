@@ -3,10 +3,9 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 10
- * @author con4gis contributors (see "authors.txt")
+ * @author con4gis contributors (see "authors.md")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2026, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -36,13 +35,13 @@ $GLOBALS['TL_DCA'][$strName] = [
 				'label'               => &$GLOBALS['TL_LANG']['MSC']['all'],
 				'href'                => 'act=select',
 				'class'               => 'header_edit_all',
-				'attributes'          => 'onclick="Backend.getScrollOffset();" accesskey="e"'
+				'attributes'          => 'onclick="Backend.getScrollOffset()" accesskey="e"'
     		],
 
             'back' => [
                 'href'                => 'key=back',
                 'class'               => 'header_back',
-                'button_callback'     => ['\con4gis\CoreBundle\Classes\Helper\DcaHelper', 'back'],
+                'button_callback'     => ['\con4gis\CoreBundle\Classes\Helper\DcaHelper','back'],
                 'icon'                => 'back.svg',
                 'label'               => &$GLOBALS['TL_LANG']['MSC']['backBT'],
             ]
@@ -73,21 +72,14 @@ $GLOBALS['TL_DCA'][$strName] = [
                 'label'               => &$GLOBALS['TL_LANG'][$strName]['runexport'],
                 'href'                => 'key=runexport',
                 'icon'                => 'bundles/con4gisexport/images/be-icons/export.svg',
-                'button_callback'     => ['\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbGenerateButton'],
+                'button_callback'     => ['\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport','cbGenerateButton'],
                 'attributes'          => 'onclick="if(!confirm(\'' . key_exists($strName,$GLOBALS['TL_LANG']) && key_exists('exportConfirm',$GLOBALS['TL_LANG'][$strName]) ? $GLOBALS['TL_LANG'][$strName]['exportConfirm'] : '' . '\'))return false;Backend.getScrollOffset()"'
             ]
         ]
     ],
 	'palettes' => [
-		'__selector__'                => ['saveexport', 'sendpermail','useinterval','calculator','sortRows','loadChildTableData'],
-		'default'                     => '{title_legend},title;'.
-            '{save_legend},saveexport;'.
-            '{mail_legend},sendpermail;'.
-            '{srcdb_legend},srcdb;'.
-            '{srctable_legend},srctable,exportheadlines;'.
-            '{srcfields_legend},srcfields,customFields,columnLabels,preLine;'.
-            '{filterstring_legend:hide},filterstring,convertData,calculator,sortRows,removeDuplicatedRows,loadChildTableData;'.
-            '{usequeue_legend},usequeue,useinterval;'
+		'__selector__'                => ['saveexport','sendpermail','useinterval','calculator','sortRows','loadChildTableData'],
+		'default'                     => '{title_legend},title;' . '{save_legend},saveexport;' . '{mail_legend},sendpermail;' . '{srcdb_legend},srcdb;' . '{srctable_legend},srctable,exportheadlines;' . '{srcfields_legend},srcfields,customFields,columnLabels,preLine;' . '{filterstring_legend:hide},filterstring,convertData,calculator,sortRows,removeDuplicatedRows,loadChildTableData;' . '{usequeue_legend},usequeue,useinterval'
     ],
 	'subpalettes' => [
 		'sendpermail'                 => 'mailaddress,sender',
@@ -102,21 +94,21 @@ $GLOBALS['TL_DCA'][$strName] = [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
-            'eval'                    => ['mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50', 'rgxp'=>'alnum', 'nospace'=>false, 'spaceToUnderscore'=>true],
+            'eval'                    => ['mandatory'=>true,'maxlength'=>255,'tl_class'=>'w50','rgxp'=>'alnum','nospace'=>false,'spaceToUnderscore'=>true],
         ],
         'srcdb' => [
             'exclude'                 => true,
             'default'                 => 'default',
             'inputType'               => 'select',
-            'options_callback'        => ['tl_c4g_export', 'getDatabaseOptions'],
-            'eval'                    => ['mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'submitOnChange'=>true, 'includeBlankOption'=>false, 'chosen'=>false],
+            'options_callback'        => ['tl_c4g_export','getDatabaseOptions'],
+            'eval'                    => ['mandatory'=>true,'maxlength'=>255,'tl_class'=>'clr','submitOnChange'=>true,'includeBlankOption'=>false,'chosen'=>false],
         ],
         'srctable' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'select',
-            'options_callback'        => ['tl_c4g_export', 'getTableOptions'],
-            'eval'                    => ['mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'submitOnChange'=>true, 'includeBlankOption'=>true, 'chosen'=>true],
+            'options_callback'        => ['tl_c4g_export','getTableOptions'],
+            'eval'                    => ['mandatory'=>true,'maxlength'=>255,'tl_class'=>'clr','submitOnChange'=>true,'includeBlankOption'=>true,'chosen'=>true],
         ],
         'exportheadlines' => [
             'exclude'                 => true,
@@ -128,44 +120,44 @@ $GLOBALS['TL_DCA'][$strName] = [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkboxWizard',
-            'options_callback'        => ['tl_c4g_export', 'getTableFieldOptions'],
-            'eval'                    => ['mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'clr', 'multiple'=>true],
+            'options_callback'        => ['tl_c4g_export','getTableFieldOptions'],
+            'eval'                    => ['mandatory'=>true,'maxlength'=>255,'tl_class'=>'clr','multiple'=>true],
         ],
         'sendpermail' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'eval'                    => ['tl_class'=>'clr m12', 'submitOnChange'=>true],
+            'eval'                    => ['tl_class'=>'clr m12','submitOnChange'=>true],
         ],
         'mailaddress' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
-            'eval'                    => ['mandatory'=>true, 'rgxp'=>'email', 'maxlength'=>255, 'decodeEntities'=>true, 'tl_class'=>'w50'],
+            'eval'                    => ['mandatory'=>true,'rgxp'=>'email','maxlength'=>255,'decodeEntities'=>true,'tl_class'=>'w50'],
         ],
         'sender' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
-            'eval'                    => ['mandatory'=>true, 'maxlength'=>255, 'tl_class'=>'w50'],
+            'eval'                    => ['mandatory'=>true,'maxlength'=>255,'tl_class'=>'w50'],
         ],
         'saveexport' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'eval'                    => ['tl_class'=>'clr m12', 'submitOnChange'=>true],
+            'eval'                    => ['tl_class'=>'clr m12','submitOnChange'=>true],
         ],
         'savefolder' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'fileTree',
-            'eval'                    => ['fieldType'=>'radio', 'tl_class'=>'clr wizard'],
+            'eval'                    => ['fieldType'=>'radio','tl_class'=>'clr wizard'],
         ],
         'filterstring' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
-            'eval'                    => ['maxlength'=>255],
+            'eval'                    => ['maxlength'=>1024],
         ],
         'convertData' => [
             'exclude'                 => true,
@@ -177,7 +169,7 @@ $GLOBALS['TL_DCA'][$strName] = [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'eval'                    => ['tl_class'=>'clr', 'submitOnChange'=>true],
+            'eval'                    => ['tl_class'=>'clr','submitOnChange'=>true],
         ],
         'calculatorType' => [
             'exclude'           => true,
@@ -191,21 +183,21 @@ $GLOBALS['TL_DCA'][$strName] = [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'select',
-            'options_callback'        => ['tl_c4g_export', 'getTableFieldOptions'],
-            'eval'                    => ['mandatory'=>true, 'tl_class' => 'long clr', 'includeBlankOption'=>true, 'multiple'=>false],
+            'options_callback'        => ['tl_c4g_export','getTableFieldOptions'],
+            'eval'                    => ['mandatory'=>true,'tl_class' => 'long clr','includeBlankOption'=>true,'multiple'=>false],
         ],
         'sortRows' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'eval'                    => ['tl_class'=>'clr', 'submitOnChange'=>true],
+            'eval'                    => ['tl_class'=>'clr','submitOnChange'=>true],
         ],
         'sortField' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'select',
-            'options_callback'        => ['tl_c4g_export', 'getTableFieldOptions'],
-            'eval'                    => ['mandatory'=>true, 'tl_class' => 'long clr', 'includeBlankOption'=>true, 'multiple'=>false],
+            'options_callback'        => ['tl_c4g_export','getTableFieldOptions'],
+            'eval'                    => ['mandatory'=>true,'tl_class' => 'long clr','includeBlankOption'=>true,'multiple'=>false],
         ],
         'removeDuplicatedRows' => [
             'exclude'                 => true,
@@ -217,13 +209,13 @@ $GLOBALS['TL_DCA'][$strName] = [
             'exclude'                 => true,
             'default'                 => '0',
             'inputType'               => 'checkbox',
-            'eval'                    => ['tl_class' => 'clr', 'submitOnChange' => true],
+            'eval'                    => ['tl_class' => 'clr','submitOnChange' => true],
         ],
         'childTables' => [
             'exclude' => true,
             'default' => '',
             'inputType' => 'checkboxWizard',
-            'options_callback' => [\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport::class, 'loadChildTableOptions'],
+            'options_callback' => [\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport::class,'loadChildTableOptions'],
             'eval' => [
                 'multiple' => true
             ]
@@ -232,28 +224,28 @@ $GLOBALS['TL_DCA'][$strName] = [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'save_callback'           => [['\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport', 'cbAddToQueue']],
-            'eval'                    => ['tl_class'=>'w50', 'submitOnChange'=>true],
+            'save_callback'           => [['\con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport','cbAddToQueue']],
+            'eval'                    => ['tl_class'=>'w50','submitOnChange'=>true],
         ],
         'useinterval' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'checkbox',
-            'eval'                    => ['tl_class'=>'w50', 'submitOnChange'=>true],
+            'eval'                    => ['tl_class'=>'w50','submitOnChange'=>true],
         ],
         'intervalkind' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'select',
-            'options'                 => ['hourly', 'daily', 'weekly', 'monthly', 'yearly'],
+            'options'                 => ['hourly','daily','weekly','monthly','yearly'],
             'reference'               => &$GLOBALS['TL_LANG'][$strName]['intervalkind_ref'],
-            'eval'                    => ['tl_class'=>'w50', 'includeBlankOption'=>true, 'chosen'=>true],
+            'eval'                    => ['tl_class'=>'w50','includeBlankOption'=>true,'chosen'=>true],
         ],
         'intervalcount' => [
             'exclude'                 => true,
             'default'                 => '',
             'inputType'               => 'text',
-            'eval'                    => ['tl_class'=>'w50', 'rgxp'=>'natural'],
+            'eval'                    => ['tl_class'=>'w50','rgxp'=>'natural'],
         ],
         'customFields' => [
             'label'     => &$GLOBALS['TL_LANG']['tl_c4g_export']['customFields'],
@@ -265,12 +257,12 @@ $GLOBALS['TL_DCA'][$strName] = [
                     'name' => [
                         'label'     => &$GLOBALS['TL_LANG']['tl_c4g_export']['fieldName'],
                         'inputType' => 'text',
-                        'eval'      => ['maxlength'=>255, 'tl_class'=>'w50'],
+                        'eval'      => ['maxlength'=>255,'tl_class'=>'w50'],
                     ],
                     'value' => [
                         'label'     => &$GLOBALS['TL_LANG']['tl_c4g_export']['fieldValue'],
                         'inputType' => 'text',
-                        'eval'      => ['maxlength'=>255, 'tl_class'=>'w50'],
+                        'eval'      => ['maxlength'=>255,'tl_class'=>'w50'],
                     ],
                 ],
             ],
@@ -287,13 +279,13 @@ $GLOBALS['TL_DCA'][$strName] = [
                         'label'            => &$GLOBALS['TL_LANG']['tl_c4g_export']['origField'],
                         'exclude'          => true,
                         'inputType'        => 'select',
-                        'options_callback' => ['tl_c4g_export', 'getSrcFieldOptionsForLabels'],
-                        'eval'             => ['mandatory'=>false, 'tl_class'=>'w50', 'includeBlankOption'=>true],
+                        'options_callback' => ['tl_c4g_export','getSrcFieldOptionsForLabels'],
+                        'eval'             => ['mandatory'=>false,'tl_class'=>'w50','includeBlankOption'=>true],
                     ],
                     'label' => [
                         'label'     => &$GLOBALS['TL_LANG']['tl_c4g_export']['newLabel'],
                         'inputType' => 'text',
-                        'eval'      => ['maxlength'=>255, 'tl_class'=>'w50'],
+                        'eval'      => ['maxlength'=>255,'tl_class'=>'w50'],
                     ],
                 ],
             ],

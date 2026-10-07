@@ -25,8 +25,8 @@
     "contao/core-bundle": "^4.13 || ^5.3",
     "con4gis/core": "^8.0",
     "con4gis/queue": "^1.6",
-    "doctrine/orm": "^2.8.5",
-    "doctrine/data-fixtures": "^1.4.4",
+    "doctrine/orm": "^2.8 || ^3.6",
+    "doctrine/data-fixtures": "^1.4.4 || ^2.0",
     "doctrine/persistence": "^2|^3"
   },
   "conflict": {

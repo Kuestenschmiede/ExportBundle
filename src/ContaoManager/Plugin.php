@@ -2,13 +2,13 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 10
- * @author con4gis contributors (see "authors.txt")
+ * @author con4gis contributors (see "authors.md")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2026, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ExportBundle\ContaoManager;
+use Symfony\Component\Routing\RouteCollection;
 
 use con4gis\ApiBundle\Con4gisApiBundle;
 use con4gis\CoreBundle\con4gisCoreBundle;
@@ -31,7 +31,7 @@ class Plugin implements RoutingPluginInterface, BundlePluginInterface, ConfigPlu
     /**
      * {@inheritdoc}
      */
-    public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel)
+    public function getRouteCollection(LoaderResolverInterface $resolver, KernelInterface $kernel): ?RouteCollection
     {
         return $resolver
             ->resolve(__DIR__.'/../Resources/config/routing.yml')
@@ -46,7 +46,7 @@ class Plugin implements RoutingPluginInterface, BundlePluginInterface, ConfigPlu
      *
      * @return ConfigInterface[]
      */
-    public function getBundles(ParserInterface $parser)
+    public function getBundles(ParserInterface $parser): array
     {
         return [
             BundleConfig::create(con4gisExportBundle::class)

@@ -16,7 +16,7 @@
 
 echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
     <div id="tl_buttons">
-        <a href="<?php echo System::getContainer()->get('router')->generate('contao_backend'); if (Input::get('calendar')) { echo '?do=calendar&table=tl_calendar_events&id='.Input::get('calendar'); } else { echo '?do=c4g_export'; };?>" class="header_back" title="" accesskey="b" onclick="Backend.getScrollOffset()">Zurück</a>
+        <a href="<?php echo System::getContainer()->get('router')->generate('contao_backend'); if (\Contao\Input::get('calendar')) { echo '?do=calendar&table=tl_calendar_events&id='.\Contao\Input::get('calendar'); } else { echo '?do=c4g_export'; };?>" class="header_back" title="" accesskey="b" onclick="Backend.getScrollOffset()">Zurück</a>
     </div>
 
     <div class="inner">

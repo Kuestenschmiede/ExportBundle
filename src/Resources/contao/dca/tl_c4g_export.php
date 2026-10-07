@@ -9,6 +9,7 @@
  * @link https://www.con4gis.org
  */
 
+use con4gis\ExportBundle\Classes\Contao\Callbacks\TlCon4gisExport;
 use Contao\DC_Table;
 
 $strName = 'tl_c4g_export';
@@ -219,6 +220,7 @@ $GLOBALS['TL_DCA'][$strName] = [
             'eval' => [
                 'multiple' => true
             ]
+
         ],
         'usequeue' => [
             'exclude'                 => true,
@@ -266,6 +268,8 @@ $GLOBALS['TL_DCA'][$strName] = [
                     ],
                 ],
             ],
+            'save_callback' => [[TlCon4gisExport::class, 'saveJsonValue']],
+            'load_callback' => [[TlCon4gisExport::class, 'loadJsonValue']],
             'sql'       => "blob NULL",
         ],
         'columnLabels' => [
@@ -289,6 +293,8 @@ $GLOBALS['TL_DCA'][$strName] = [
                     ],
                 ],
             ],
+            'save_callback' => [[TlCon4gisExport::class, 'saveJsonValue']],
+            'load_callback' => [[TlCon4gisExport::class, 'loadJsonValue']],
             'sql'       => "blob NULL",
         ],
         'preLine' => [
@@ -307,7 +313,7 @@ $GLOBALS['TL_DCA'][$strName] = [
 
 class tl_c4g_export extends \Contao\Backend
 {
-    public function getDatabaseOptions(DataContainer $dc) {
+    public function getDatabaseOptions(\Contao\DataContainer $dc) {
         $options = ['default' => &$GLOBALS['TL_LANG']['tl_c4g_export']['contaodb']];
         foreach ($GLOBALS['con4gis']['export']['databases'] as $key => $value) {
             $options[$key] = $value;
@@ -315,7 +321,7 @@ class tl_c4g_export extends \Contao\Backend
         return $options;
     }
 
-    public function getTableOptions(DataContainer $dc) {
+    public function getTableOptions(\Contao\DataContainer $dc) {
         if ($dc->activeRecord->srcdb === 'default') {
             $tables = $this->getContainer()->get('doctrine')->getManager('default')->getConnection()->getSchemaManager()->listTables();
             $tablesFormatted = [];
@@ -336,7 +342,7 @@ class tl_c4g_export extends \Contao\Backend
         }
     }
 
-    public function getTableFieldOptions(DataContainer $dc) {
+    public function getTableFieldOptions(\Contao\DataContainer $dc) {
         if ($dc->activeRecord->srcdb === 'default') {
             if ($dc->activeRecord->srctable !== '' && $dc->activeRecord->srctable !== null) {
                 $columns = $this->getContainer()->get('doctrine')->getManager('default')->getConnection()->getSchemaManager()->listTableColumns($dc->activeRecord->srctable);
@@ -379,8 +385,7 @@ class tl_c4g_export extends \Contao\Backend
                 ->srcfields;
         }
 
-        $fields = \Contao\System::importStatic('Contao\StringUtil')
-            ->deserialize($raw, true);
+        $fields = explode(",", $raw);
 
         $opts = [];
         foreach ($fields as $f) {

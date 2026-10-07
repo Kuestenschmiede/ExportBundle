@@ -13,10 +13,12 @@ use con4gis\QueueBundle\Classes\Queue\QueueManager;
 use Contao\Controller;
 use Contao\Database;
 use Contao\DataContainer;
+use Contao\FilesModel;
 use Contao\Image;
 use con4gis\ExportBundle\Classes\Helper\GetEventHelper;
 use Contao\Input;
 use Contao\StringUtil;
+use Contao\System;
 
 /**
  * Class TlCon4gisExport
@@ -71,6 +73,8 @@ class TlCon4gisExport
      */
     protected function testExport($row)
     {
+        $rootDir = System::getContainer()->getParameter("kernel.project_dir");
+
         if (!isset($row['srctable']) ||
             !isset($row['srcfields']) ||
             !isset($row['saveexport']) ||
@@ -101,7 +105,7 @@ class TlCon4gisExport
             return false;
         }
 
-        $fields = deserialize($row['srcfields'], true);
+        $fields = StringUtil::deserialize($row['srcfields'], true);
 
         if (!count($fields)) {
             return false;
@@ -167,5 +171,50 @@ class TlCon4gisExport
             }
         }
         return $options;
+    }
+
+    public function saveSimpleArrayValue($value)
+    {
+        // select field saves value as serialized array
+        if (is_string($value) && str_contains($value, "a:")) {
+            $value = StringUtil::deserialize($value, true);
+        }
+
+        if (is_array($value)) {
+            $value = implode(",", $value);
+        }
+
+        return $value;
+    }
+
+    public function loadSimpleArrayValue($value)
+    {
+        if (is_string($value) && str_contains($value, ",")) {
+            $value = explode(",", $value);
+        }
+
+        return $value;
+    }
+
+    public function saveJsonValue($value)
+    {
+        if (is_string($value) && str_contains($value, "a:")) {
+            $value = StringUtil::deserialize($value, true);
+        }
+
+        if (is_array($value)) {
+            $value = json_encode($value);
+        }
+
+        return $value;
+    }
+
+    public function loadJsonValue($value)
+    {
+        if (is_string($value) && strlen($value) > 0) {
+            $value = json_decode($value, true);
+        }
+
+        return $value;
     }
 }

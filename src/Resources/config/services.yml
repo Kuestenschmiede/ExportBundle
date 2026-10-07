@@ -53,3 +53,12 @@ services:
         class: con4gis\ExportBundle\Classes\Listener\ExportMailDataListener
         tags:
             - { name: kernel.event_listener, event: con4gis.export.mail.data, method: onExportMailSendData }
+
+    ## migrations
+
+    con4gis\ExportBundle\Migration\UpdateArraysMigration:
+        arguments:
+            - "@database_connection"
+            - "@logger"
+        tags:
+            - { name: contao.migration, priority: 0 }
